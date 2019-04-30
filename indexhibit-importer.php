@@ -17,22 +17,6 @@ if ( !defined( 'WP_LOAD_IMPORTERS' ) ) {
  * Add These Functions to make our lives easier
  */
 
-if ( !function_exists( 'get_comment_count' ) ) {
-	/**
-	 * Get the comment count for posts.
-	 *
-	 * @package WordPress
-	 * @subpackage Indexhibit_Import
-	 *
-	 * @param int $post_ID Post ID
-	 * @return int
-	 */
-	function get_comment_count( $post_ID ) {
-		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT count(*) FROM $wpdb->comments WHERE comment_post_ID = %d", $post_ID ) );
-	}
-}
-
 /**
  * Convert from dotclear charset to utf8 if required
  *
@@ -127,7 +111,6 @@ class Indexhibit_Import extends WP_Importer {
 		global $wpdb;
 		$count = 0;
 		$dcposts2wpposts = array();
-		$cats = array();
 
 		// Do the Magic
 		if ( is_array( $posts ) ) {
@@ -137,7 +120,10 @@ class Indexhibit_Import extends WP_Importer {
 				extract( $post );
 
 				// Set Indexhibit-to-WordPress status translation
-				$stattrans = array( 0 => 'draft', 1 => 'publish' );
+				$stattrans = array(
+                    0 => 'draft',
+                    1 => 'publish'
+                );
 
 				// Can we do this more efficiently?
 				$uinfo = ( get_userdatabylogin( $user_id ) ) ? get_userdatabylogin( $user_id ) : 1;
@@ -187,20 +173,8 @@ class Indexhibit_Import extends WP_Importer {
                         return $ret_id;
                     }
 				}
-				$dcposts2wpposts[$post_id] = $ret_id;
+				$dcposts2wpposts[$id] = $ret_id;
 
-				// Make Post-to-Category associations
-				$cats = array();
-				$category1 = get_category_by_slug( $post_cat_name );
-				$category1 = $category1->term_id;
-
-				if ( $cat1 = $category1 ) {
-                    $cats[1] = $cat1;
-                }
-
-				if ( !empty( $cats ) ) {
-                    wp_set_post_categories( $ret_id, $cats );
-                }
 			}
 		}
 		// Store ID translation for later use
