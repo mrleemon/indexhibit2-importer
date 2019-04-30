@@ -2,7 +2,7 @@
 /*
 Plugin Name: Indexhibit Importer
 Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
-Description: Import categories, users, posts, comments, and links from an Indexhibit site.
+Description: Import posts from an Indexhibit site.
 Author: leemon
 Author URI: http://wordpress.org/
 Version: 0.2
@@ -80,6 +80,10 @@ if ( !class_exists( 'WP_Importer' ) ) {
 if ( class_exists( 'WP_Importer' ) ) {
 class Indexhibit_Import extends WP_Importer {
 
+    function __construct() {
+		// Nothing.
+	}
+
 	function header() {
 		echo '<div class="wrap">';
 		screen_icon();
@@ -99,29 +103,6 @@ class Indexhibit_Import extends WP_Importer {
 		$this->db_form();
 		echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Posts', 'indexhibit-importer' ) . '" /></p>';
 		echo '</form></div>';
-	}
-
-	function get_dc_cats() {
-		global $wpdb;
-		// General Housekeeping
-		$dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
-		set_magic_quotes_runtime( 0 );
-		$dbprefix = get_option( 'dcdbprefix' );
-
-		// Get Categories
-		return $dcdb->get_results( 'SELECT * FROM '.$dbprefix.'categorie', ARRAY_A );
-	}
-
-	function get_dc_users()	{
-		global $wpdb;
-		// General Housekeeping
-		$dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
-		set_magic_quotes_runtime( 0 );
-		$dbprefix = get_option( 'dcdbprefix' );
-
-		// Get Users
-
-		return $dcdb->get_results( 'SELECT * FROM '.$dbprefix.'user', ARRAY_A );
 	}
 
 	function get_dc_posts()	{
@@ -359,14 +340,11 @@ class Indexhibit_Import extends WP_Importer {
 		$this->footer();
 	}
 
-	function __construct() {
-		// Nothing.
-	}
 }
 
 $dc_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import categories, users, posts, comments, and links from an Indexhibit site.', 'indexhibit-importer' ), array ( $dc_import, 'dispatch' ) );
+register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts an Indexhibit site.', 'indexhibit-importer' ), array ( $dc_import, 'dispatch' ) );
 
 } // class_exists( 'WP_Importer' )
 
