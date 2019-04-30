@@ -97,7 +97,7 @@ class Indexhibit_Import extends WP_Importer {
 		echo '<form action="admin.php?import=indexhibit&amp;step=1" method="post">';
 		wp_nonce_field( 'import-indexhibit' );
 		$this->db_form();
-		echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Categories', 'indexhibit-importer' ) . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Posts', 'indexhibit-importer' ) . '" /></p>';
 		echo '</form></div>';
 	}
 
@@ -140,82 +140,6 @@ class Indexhibit_Import extends WP_Importer {
 
 	}
 
-	function users2wp( $users = '' ) {
-		// General Housekeeping
-		global $wpdb;
-		$count = 0;
-		$dcid2wpid = array();
-
-		// Midnight Mojo
-		if ( is_array( $users ) ) {
-			echo '<p>'.__( 'Importing Users...', 'indexhibit-importer' ).'<br /><br /></p>';
-			foreach ( $users as $user ) {
-				$count++;
-				extract( $user );
-
-				// Make Nice Variables
-				$name = $wpdb->escape( csc( $name ) );
-				$RealName = $wpdb->escape( csc( $user_pseudo ) );
-
-				if ( $uinfo = get_userdatabylogin( $name ) ) {
-
-					$ret_id = wp_insert_user( array(
-								'ID'		    => $uinfo->ID,
-								'user_login'	=> $user_id,
-								'user_nicename'	=> $Realname,
-								'user_email'	=> $user_email,
-								'user_url'	    => 'http://',
-								'display_name'	=> $Realname)
-								);
-				} else {
-					$ret_id = wp_insert_user(array(
-								'user_login'	=> $user_id,
-								'user_nicename'	=> csc ( $user_pseudo ),
-								'user_email'	=> $user_email,
-								'user_url'	    => 'http://',
-								'display_name'	=> $Realname)
-								);
-				}
-				$dcid2wpid[$user_id] = $ret_id;
-
-				// Set Indexhibit-to-WordPress permissions translation
-
-				// Update Usermeta Data
-				$user = new WP_User( $ret_id );
-				$wp_perms = $user_level + 1;
-				if ( 10 == $wp_perms ) {
-                    $user->set_role( 'administrator' );
-                } else if ( 9  == $wp_perms ) {
-                    $user->set_role( 'editor' );
-                } else if ( 5  <= $wp_perms ) {
-                    $user->set_role( 'editor' );
-                } else if ( 4  <= $wp_perms ) {
-                    $user->set_role( 'author' );
-                } else if ( 3  <= $wp_perms ) {
-                    $user->set_role( 'contributor' );
-                } else if ( 2  <= $wp_perms ) {
-                    $user->set_role( 'contributor' );
-                } else {
-                    $user->set_role( 'subscriber' );
-                }
-
-				update_user_meta( $ret_id, 'wp_user_level', $wp_perms );
-				update_user_meta( $ret_id, 'rich_editing', 'false' );
-				update_user_meta( $ret_id, 'first_name', csc( $user_prenom ) );
-				update_user_meta( $ret_id, 'last_name', csc( $user_nom ) );
-			}// End foreach( $users as $user )
-
-			// Store id translation array for future use
-			add_option( 'dcid2wpid', $dcid2wpid );
-
-			echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> users imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
-			return true;
-		}// End if(is_array( $users )
-
-		echo __( 'No Users to Import!', 'indexhibit-importer' );
-		return false;
-
-	}// End function user2wp()
 
 	function posts2wp( $posts = '' ) {
 		// General Housekeeping
@@ -305,17 +229,6 @@ class Indexhibit_Import extends WP_Importer {
 		return true;
 	}
 
-	function import_users() {
-		// User Import
-		$users = $this->get_dc_users();
-		$this->users2wp( $users );
-
-		echo '<form action="admin.php?import=indexhibit&amp;step=3" method="post">';
-		wp_nonce_field( 'import-indexhibit' );
-		printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Import Posts', 'indexhibit-importer' ) );
-		echo '</form>';
-	}
-
 	function import_posts() {
 		// Post Import
 		$posts = $this->get_dc_posts();
@@ -324,9 +237,9 @@ class Indexhibit_Import extends WP_Importer {
             return $result;
         }
 
-		echo '<form action="admin.php?import=indexhibit&amp;step=4" method="post">';
+		echo '<form action="admin.php?import=indexhibit&amp;step=2" method="post">';
 		wp_nonce_field( 'import-indexhibit' );
-		printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Import Comments', 'indexhibit-importer' ) );
+		printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit-importer' ) );
 		echo '</form>';
 	}
 
@@ -433,18 +346,12 @@ class Indexhibit_Import extends WP_Importer {
 				$this->greet();
 				break;
 			case 1 :
-				$this->import_categories();
-				break;
-			case 2 :
-				$this->import_users();
-				break;
-			case 3 :
 				$result = $this->import_posts();
 				if ( is_wp_error( $result ) ) {
                     echo $result->get_error_message();
                 }
 				break;
-			case 6 :
+			case 2 :
 				$this->cleanup_dcimport();
 				break;
 		}
