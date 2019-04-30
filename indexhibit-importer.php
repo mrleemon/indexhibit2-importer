@@ -131,54 +131,13 @@ class Indexhibit_Import extends WP_Importer {
 		$dbprefix = get_option( 'dcdbprefix' );
 
 		// Get Posts
-		return $dcdb->get_results( 'SELECT ' . $dbprefix . 'post.*, ' . $dbprefix . 'categorie.cat_libelle_url AS post_cat_name
+		/* return $dcdb->get_results( 'SELECT ' . $dbprefix . 'post.*, ' . $dbprefix . 'categorie.cat_libelle_url AS post_cat_name
 						FROM ' . $dbprefix . 'post INNER JOIN ' . $dbprefix . 'categorie
-						ON ' . $dbprefix . 'post.cat_id = ' . $dbprefix . 'categorie.cat_id', ARRAY_A );
-	}
+                        ON ' . $dbprefix . 'post.cat_id = ' . $dbprefix . 'categorie.cat_id', ARRAY_A ); */
 
-	function get_dc_comments() {
-		global $wpdb;
-		// General Housekeeping
-		$dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
-		set_magic_quotes_runtime( 0 );
-		$dbprefix = get_option( 'dcdbprefix' );
+        // Get Posts
+		return $dcdb->get_results( 'SELECT ' . $dbprefix . 'objects.* FROM ' . $dbprefix . 'objects', ARRAY_A );
 
-		// Get Comments
-		return $dcdb->get_results( 'SELECT * FROM ' . $dbprefix . 'comment', ARRAY_A );
-	}
-
-	function cat2wp( $categories = '' ) {
-		// General Housekeeping
-		global $wpdb;
-		$count = 0;
-		$dccat2wpcat = array();
-		// Do the Magic
-		if ( is_array( $categories ) ) {
-			echo '<p>' . __( 'Importing Categories...', 'indexhibit-importer' ) . '<br /><br /></p>';
-			foreach ( $categories as $category ) {
-				$count++;
-				extract( $category );
-
-				// Make Nice Variables
-				$name = $wpdb->escape( $cat_libelle_url );
-				$title = $wpdb->escape( csc( $cat_libelle ) );
-				$desc = $wpdb->escape( csc( $cat_desc ) );
-
-				if ( $cinfo = category_exists( $name ) ) {
-					$ret_id = wp_insert_category( array( 'cat_ID' => $cinfo, 'category_nicename' => $name, 'cat_name' => $title, 'category_description' => $desc ) );
-				} else {
-					$ret_id = wp_insert_category( array( 'category_nicename' => $name, 'cat_name' => $title, 'category_description' => $desc ) );
-				}
-				$dccat2wpcat[$id] = $ret_id;
-			}
-
-			// Store category translation for future use
-			add_option( 'dccat2wpcat', $dccat2wpcat );
-			echo '<p>' . sprintf( _n( 'Done! <strong>%1$s</strong> category imported.', 'Done! <strong>%1$s</strong> categories imported.', $count, 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
-			return true;
-		}
-		echo __( 'No Categories to Import!', 'indexhibit-importer' );
-		return false;
 	}
 
 	function users2wp( $users = '' ) {
@@ -274,60 +233,50 @@ class Indexhibit_Import extends WP_Importer {
 
 				// Set Indexhibit-to-WordPress status translation
 				$stattrans = array( 0 => 'draft', 1 => 'publish' );
-				$comment_status_map = array ( 0 => 'closed', 1 => 'open' );
 
 				// Can we do this more efficiently?
 				$uinfo = ( get_userdatabylogin( $user_id ) ) ? get_userdatabylogin( $user_id ) : 1;
 				$authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
 
-				$Title = $wpdb->escape( csc( $post_titre ) );
-				$post_content = textconv ( $post_content );
-				$post_excerpt = "";
-				if ( $post_chapo != "" ) {
-					$post_excerpt = textconv ( $post_chapo );
-					$post_content = $post_excerpt . "\n<!--more-->\n" . $post_content;
-				}
-				$post_excerpt = $wpdb->escape( $post_excerpt );
+                $post_author = get_current_user_id();
+				$post_title = $wpdb->escape( csc( $title ) );
+				$post_content = textconv ( $content );
 				$post_content = $wpdb->escape( $post_content );
-				$post_status = $stattrans[$post_pub];
+				$post_status = $stattrans[$status];
 
 				// Import Post data into WordPress
 
-				if ( $pinfo = post_exists( $Title, $post_content ) ) {
+				if ( $pinfo = post_exists( $post_title, $post_content ) ) {
 					$ret_id = wp_insert_post( array(
 							'ID'			    => $pinfo,
-							'post_author'		=> $authorid,
-							'post_date'		    => $post_dt,
-							'post_date_gmt'		=> $post_dt,
-							'post_modified'		=> $post_upddt,
-							'post_modified_gmt'	=> $post_upddt,
-							'post_title'		=> $Title,
+							'post_author'		=> $post_author,
+							'post_date'		    => $pdate,
+							'post_date_gmt'		=> $pdate,
+							'post_modified'		=> $udate,
+							'post_modified_gmt'	=> $udate,
+							'post_title'		=> $post_title,
 							'post_content'		=> $post_content,
-							'post_excerpt'		=> $post_excerpt,
 							'post_status'		=> $post_status,
 							'post_name'		    => $post_titre_url,
-							'comment_status'	=> $comment_status_map[$post_open_comment],
-							'ping_status'		=> $comment_status_map[$post_open_tb],
-							'comment_count'		=> $post_nb_comment + $post_nb_trackback)
+							'comment_status'	=> 'closed',
+							'ping_status'		=> 'closed' )
 							);
 					if ( is_wp_error( $ret_id ) ) {
 						return $ret_id;
                     }
 				} else {
 					$ret_id = wp_insert_post( array(
-							'post_author'		=> $authorid,
-							'post_date'		    => $post_dt,
-							'post_date_gmt'		=> $post_dt,
-							'post_modified'		=> $post_modified_gmt,
-							'post_modified_gmt'	=> $post_modified_gmt,
-							'post_title'		=> $Title,
+							'post_author'		=> $post_author,
+							'post_date'		    => $pdate,
+							'post_date_gmt'		=> $pdate,
+							'post_modified'		=> $udate,
+							'post_modified_gmt'	=> $udate,
+							'post_title'		=> $post_title,
 							'post_content'		=> $post_content,
-							'post_excerpt'		=> $post_excerpt,
 							'post_status'		=> $post_status,
 							'post_name'		    => $post_titre_url,
-							'comment_status'	=> $comment_status_map[$post_open_comment],
-							'ping_status'		=> $comment_status_map[$post_open_tb],
-							'comment_count'		=> $post_nb_comment + $post_nb_trackback)
+							'comment_status'	=> 'closed',
+							'ping_status'		=> 'closed' )
 							);
 					if ( is_wp_error( $ret_id ) ) {
                         return $ret_id;
@@ -354,19 +303,6 @@ class Indexhibit_Import extends WP_Importer {
 
 		echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> posts imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
 		return true;
-	}
-
-	function import_categories() {
-		// Category Import
-		$cats = $this->get_dc_cats();
-		$this->cat2wp( $cats );
-		add_option( 'dc_cats', $cats );
-
-		echo '<form action="admin.php?import=indexhibit&amp;step=2" method="post">';
-		wp_nonce_field( 'import-indexhibit' );
-		printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Import Users', 'indexhibit-importer' ) );
-		echo '</form>';
-
 	}
 
 	function import_users() {
@@ -398,7 +334,6 @@ class Indexhibit_Import extends WP_Importer {
 		delete_option( 'dcdbprefix' );
 		delete_option( 'dc_cats' );
 		delete_option( 'dcid2wpid' );
-		delete_option( 'dccat2wpcat' );
 		delete_option( 'dcposts2wpposts' );
 		delete_option( 'dccm2wpcm' );
 		delete_option( 'dcuser' );
