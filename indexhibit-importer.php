@@ -101,7 +101,7 @@ class Indexhibit_Import extends WP_Importer {
                         ON ' . $dbprefix . 'post.cat_id = ' . $dbprefix . 'categorie.cat_id', ARRAY_A ); */
 
         // Get posts
-        return $dcdb->get_results( 'SELECT ' . $dbprefix . 'objects.* FROM ' . $dbprefix . 'objects', ARRAY_A );
+        return $dcdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
 
     }
 
@@ -112,7 +112,7 @@ class Indexhibit_Import extends WP_Importer {
         $dbprefix = get_option( 'dcdbprefix' );
 
         // Get media from a specific post
-        return $dcdb->get_results( 'SELECT ' . $dbprefix . 'media.* FROM ' . $dbprefix . 'media WHERE media_ref_id = ' . $post_id . ' ORDER BY media_order ASC', ARRAY_A );
+        return $dcdb->get_results( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = " . $post_id . " AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", ARRAY_A );
 
     }
 
@@ -209,6 +209,8 @@ class Indexhibit_Import extends WP_Importer {
             foreach ( $images as $image ) {
                 $count++;
                 extract( $image );
+                $url = $media_file;
+                process_attachment( $post, $url );
             }
         }
 
@@ -287,12 +289,8 @@ class Indexhibit_Import extends WP_Importer {
     function pre_process_attachment( $post, $url ) {
         global $wpdb;
         $imported = $wpdb->get_results(
-            $wpdb->prepare(
-                "
-                SELECT ID, post_date_gmt, guid
-                FROM $wpdb->posts
-                WHERE post_type = 'attachment'
-                    AND post_title = %s
+            $wpdb->prepare( "SELECT ID, post_date_gmt, guid
+                FROM $wpdb->posts WHERE post_type = 'attachment' AND post_title = %s
                 ",
                 $post['post_title']
             )
