@@ -379,14 +379,49 @@ class Indexhibit_Import extends WP_Importer {
      * db_form
      */
     public function db_form() {
-        echo '<table class="form-table">';
-        printf( '<tr><th scope="row"><label for="ixurl">%s</label></th><td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td></tr>', __( 'Indexhibit 2 Site Address', 'indexhibit-importer' ) );
-        printf( '<tr><th scope="row"><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" class="regular-text" required /></td></tr>', __( 'Indexhibit 2 Database User', 'indexhibit-importer' ) );
-        printf( '<tr><th scope="row"><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" class="regular-text" required /></td></tr>', __( 'Indexhibit 2 Database Name', 'indexhibit-importer' ) );
-        printf( '<tr><th scope="row"><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" class="regular-text" required /></td></tr>', __( 'Indexhibit 2 Database Password', 'indexhibit-importer' ) );
-        printf( '<tr><th scope="row"><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" /></td></tr>', __( 'Indexhibit 2 Database Host', 'indexhibit-importer' ) );
-        printf( '<tr><th scope="row"><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" /></td></tr>', __( 'Indexhibit 2 Table Prefix', 'indexhibit-importer' ) );
-        echo '</table>';
+    ?>
+        <table class="form-table">
+        <tr>
+            <th scope="row"><label for="ixurl"><?php _e( 'Indexhibit 2 Site Address', 'indexhibit-importer' ); ?></label></th>
+            <td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbname" id="dbname" class="regular-text" required />
+            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['db'] value", 'indexhibit-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbuser"><?php _e( 'Indexhibit 2 Database User', 'indexhibit-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbuser" id="dbuser" class="regular-text" required />
+            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['user'] value", 'indexhibit-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit-importer' ); ?></label></th>
+            <td>
+            <input type="password" name="dbpass" id="dbpass" class="regular-text" required />
+            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['pass'] value", 'indexhibit-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" />
+            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['host'] value", 'indexhibit-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
+            <p class="description" id="dbuser-description"><?php _e( "The define('PX', 'xxxx') value", 'indexhibit-importer' ); ?></p>
+            </td>
+        </tr>
+        </table>
+    <?php
     }
 
     /**

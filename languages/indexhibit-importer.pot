@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 21:48+0200\n"
+"POT-Creation-Date: 2019-05-01 22:12+0200\n"
 "PO-Revision-Date: 2019-05-01 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -145,36 +145,56 @@ msgid ""
 "That&#8217;s it! What are you waiting for? Go <a href=\"%1$s\">log in</a>!"
 msgstr ""
 
-#: indexhibit2-importer.php:383
+#: indexhibit2-importer.php:385
 msgid "Indexhibit 2 Site Address"
 msgstr ""
 
-#: indexhibit2-importer.php:384
-msgid "Indexhibit 2 Database User"
-msgstr ""
-
-#: indexhibit2-importer.php:385
+#: indexhibit2-importer.php:389
 msgid "Indexhibit 2 Database Name"
 msgstr ""
 
-#: indexhibit2-importer.php:386
+#: indexhibit2-importer.php:392
+msgid "The &dollar;indx['db'] value"
+msgstr ""
+
+#: indexhibit2-importer.php:396
+msgid "Indexhibit 2 Database User"
+msgstr ""
+
+#: indexhibit2-importer.php:399
+msgid "The &dollar;indx['user'] value"
+msgstr ""
+
+#: indexhibit2-importer.php:403
 msgid "Indexhibit 2 Database Password"
 msgstr ""
 
-#: indexhibit2-importer.php:387
+#: indexhibit2-importer.php:406
+msgid "The &dollar;indx['pass'] value"
+msgstr ""
+
+#: indexhibit2-importer.php:410
 msgid "Indexhibit 2 Database Host"
 msgstr ""
 
-#: indexhibit2-importer.php:388
+#: indexhibit2-importer.php:413
+msgid "The &dollar;indx['host'] value"
+msgstr ""
+
+#: indexhibit2-importer.php:417
 msgid "Indexhibit 2 Table Prefix"
 msgstr ""
 
-#: indexhibit2-importer.php:469
+#: indexhibit2-importer.php:420
+msgid "The define('PX', 'xxxx') value"
+msgstr ""
+
+#: indexhibit2-importer.php:504
 msgid "Indexhibit 2"
 msgstr ""
 
 #. Description of the plugin/theme
-#: indexhibit2-importer.php:469
+#: indexhibit2-importer.php:504
 msgid "Import exhibits and images from an Indexhibit 2 site."
 msgstr ""
 
