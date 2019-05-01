@@ -56,14 +56,20 @@ class Indexhibit_Import extends WP_Importer {
      * greet
      */
     public function greet() {
-        echo '<div class="narrow"><p>' . __( 'This importer allows you to import the contents from an Indexhibit 2 database into your WordPress site.', 'indexhibit-importer' ) . '</p>';
-        echo '<p>' . __( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ) . '</p>';
-        echo '<p>' . __( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ) . '</p>';
-        echo '<form action="admin.php?import=indexhibit2&amp;step=1" method="post">';
+    ?>
+        <div class="narrow">
+            <p><?php _e( 'This importer allows you to import the contents from an Indexhibit 2 database into your WordPress site.', 'indexhibit-importer' ); ?></p>
+            <p><?php _e( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ); ?></p>
+            <p><?php _e( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ); ?></p>
+            <form action="admin.php?import=indexhibit2&amp;step=1" method="post">
+    <?php
         wp_nonce_field( 'import-indexhibit' );
         $this->db_form();
-        echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Contents', 'indexhibit-importer' ) . '" /></p>';
-        echo '</form></div>';
+    ?>
+            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import Contents', 'indexhibit-importer' ); ?>" /></p>';
+            </form>
+        </div>
+    <?php
     }
 
     /**
@@ -364,15 +370,17 @@ class Indexhibit_Import extends WP_Importer {
      * tips
      */
     public function tips() {
-        echo '<p>'.__( 'Welcome to WordPress. We hope that you will find this platform incredibly rewarding! As a new WordPress user coming from Indexhibit 2, there are some things that we would like to point out. Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer' ).'</p>';
-        echo '<h3>'.__( 'WordPress Resources', 'indexhibit-importer' ).'</h3>';
-        echo '<p>'.__( 'Finally, there are numerous WordPress resources around the internet. Some of them are:', 'indexhibit-importer' ).'</p>';
-        echo '<ul>';
-        echo '<li>'.__( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit-importer' ).'</li>';
-        echo '<li>'.__( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit-importer' ).'</li>';
-        echo '<li>'.__( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit-importer' ).'</li>';
-        echo '</ul>';
-        echo '<p>'.sprintf(__( 'That&#8217;s it! What are you waiting for? Go <a href="%1$s">log in</a>!', 'indexhibit-importer' ), '../wp-login.php' ).'</p>';
+    ?>
+        <p><?php _e( 'Welcome to WordPress. We hope that you will find this platform incredibly rewarding! As a new WordPress user coming from Indexhibit 2, there are some things that we would like to point out. Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer' ); ?></p>
+        <h3><?php _e( 'WordPress Resources', 'indexhibit-importer' ); ?></h3>
+        <p><?php _e( 'Finally, there are numerous WordPress resources around the internet. Some of them are:', 'indexhibit-importer' ); ?></p>
+        <ul>
+        <li><?php _e( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit-importer' ); ?></li>
+        <li><?php _e( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit-importer' ); ?></li>
+        <li><?php _e( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit-importer' ); ?></li>
+        </ul>';
+        <p><?php _e( 'That&#8217;s it! What are you waiting for? Go <a href="../wp-login.php">log in</a>!', 'indexhibit-importer' ); ?></p>
+    <?php
     }
 
     /**
