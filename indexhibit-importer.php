@@ -5,6 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
 Description: Import posts and images from an Indexhibit 2 site.
 Author: leemon
 Author URI: http://wordpress.org/
+Text Domain: indexhibit-importer
 Version: 0.1
 License: GPL v2
 */
@@ -44,8 +45,8 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function header() {
         echo '<div class="wrap">';
-        echo '<h2>' . __( 'Import Indexhibit', 'indexhibit-importer' ) . '</h2>';
-        echo '<p>' . __( 'Steps may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ) . '</p>';
+        echo '<h2>' . __( 'Import Indexhibit 2', 'indexhibit-importer' ) . '</h2>';
+        echo '<p>' . __( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ) . '</p>';
     }
 
     /**
@@ -59,8 +60,8 @@ class Indexhibit_Import extends WP_Importer {
      * greet
      */
     public function greet() {
-        echo '<div class="narrow"><p>' . __( 'Howdy! This importer allows you to extract posts from an Indexhibit 2 database into your WordPress site.  Mileage may vary.', 'indexhibit-importer' ) . '</p>';
-        echo '<p>' . __( 'Your Indexhibit Configuration settings are as follows:', 'indexhibit-importer' ) . '</p>';
+        echo '<div class="narrow"><p>' . __( 'This importer allows you to extract posts from an Indexhibit 2 database into your WordPress site.  Mileage may vary.', 'indexhibit-importer' ) . '</p>';
+        echo '<p>' . __( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ) . '</p>';
         echo '<form action="admin.php?import=indexhibit&amp;step=1" method="post">';
         wp_nonce_field( 'import-indexhibit' );
         $this->db_form();
@@ -77,7 +78,6 @@ class Indexhibit_Import extends WP_Importer {
 
         // Get posts
         return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
-
     }
 
     /**
@@ -91,7 +91,6 @@ class Indexhibit_Import extends WP_Importer {
         return $ixdb->get_results( 
             $ixdb->prepare( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
             ARRAY_A );
-
     }
 
     /**
@@ -103,21 +102,21 @@ class Indexhibit_Import extends WP_Importer {
         $ixposts2wpposts = array();
 
         if ( is_array( $posts ) ) {
-            echo '<p>' . __( 'Importing Posts...', 'indexhibit-importer' ) . '<br /><br /></p>';
+            echo '<p>' . __( 'Importing posts...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $posts as $post ) {
                 $count++;
-
-                // Set Indexhibit-to-WordPress status translation
-                $stattrans = array(
-                    0 => 'draft',
-                    1 => 'publish'
-                );
 
                 $post_author = get_current_user_id();
                 $post_title = $post['title'];
                 $post_content = $post['content'];
                 $post_date = $post['pdate'];
                 $post_modified = $post['udate'];
+
+                // Set Indexhibit-to-WordPress status translation
+                $stattrans = array(
+                    0 => 'draft',
+                    1 => 'publish'
+                );
                 $post_status = $stattrans[$post['status']];
 
                 // Import post data into WordPress
@@ -182,7 +181,7 @@ class Indexhibit_Import extends WP_Importer {
         $count = 0;
 
         if ( is_array( $images ) ) {
-            echo '<p>' . sprintf( __( 'Importing Media from post %d...', 'indexhibit-importer' ), $post_id ) . '<br /><br /></p>';
+            echo '<p>' . sprintf( __( 'Importing media from post %d...', 'indexhibit-importer' ), $post_id ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
                 $process = $this->process_attachment( $image, $post_id );
@@ -372,19 +371,13 @@ class Indexhibit_Import extends WP_Importer {
      * tips
      */
     public function tips() {
-        echo '<p>'.__( 'Welcome to WordPress.  We hope ( and expect! ) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Indexhibit, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer' ).'</p>';
-        echo '<h3>'.__( 'Users', 'indexhibit-importer' ).'</h3>';
-        echo '<p>'.sprintf(__( 'You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn&#8217;t have that login in Indexhibit, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and Indexhibit uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="%1$s">Log in</a> and change it.', 'indexhibit-importer' ), '/wp-login.php' ).'</p>';
-        echo '<h3>'.__( 'Preserving Authors', 'indexhibit-importer' ).'</h3>';
-        echo '<p>'.__( 'Secondly, we have attempted to preserve post authors.  If you are the only author or contributor to your blog, then you are safe.  In most cases, we are successful in this preservation endeavor.  However, if we cannot ascertain the name of the writer due to discrepancies between database tables, we assign it to you, the administrative user.', 'indexhibit-importer' ).'</p>';
-        echo '<h3>'.__( 'Textile', 'indexhibit-importer' ).'</h3>';
-        echo '<p>'.__( 'Also, since you&#8217;re coming from Indexhibit, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/category/development/wordpress/textile/">Textile for WordPress</a>.  Trust me&#8230; You&#8217;ll want it.', 'indexhibit-importer' ).'</p>';
+        echo '<p>'.__( 'Welcome to WordPress. We hope that you will find this platform incredibly rewarding! As a new WordPress user coming from Indexhibit 2, there are some things that we would like to point out. Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer' ).'</p>';
         echo '<h3>'.__( 'WordPress Resources', 'indexhibit-importer' ).'</h3>';
-        echo '<p>'.__( 'Finally, there are numerous WordPress resources around the internet.  Some of them are:', 'indexhibit-importer' ).'</p>';
+        echo '<p>'.__( 'Finally, there are numerous WordPress resources around the internet. Some of them are:', 'indexhibit-importer' ).'</p>';
         echo '<ul>';
         echo '<li>'.__( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit-importer' ).'</li>';
         echo '<li>'.__( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit-importer' ).'</li>';
-        echo '<li>'.__( '<a href="http://codex.wordpress.org/">The Codex ( In other words, the WordPress Bible )</a>', 'indexhibit-importer' ).'</li>';
+        echo '<li>'.__( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit-importer' ).'</li>';
         echo '</ul>';
         echo '<p>'.sprintf(__( 'That&#8217;s it! What are you waiting for? Go <a href="%1$s">log in</a>!', 'indexhibit-importer' ), '../wp-login.php' ).'</p>';
     }
@@ -394,11 +387,12 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function db_form() {
         echo '<table class="form-table">';
-        printf( '<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __( 'Indexhibit Database User:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __( 'Indexhibit Database Name:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __( 'Indexhibit Database Password:', 'indexhibit-importer' ) );        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="ix_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="ixurl">%s</label></th><td><input type="text" name="ixurl" id="ixurl" value=""/></td></tr>', __( 'Indexhibit URL:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="ixurl">%s</label></th><td><input type="url" name="ixurl" id="ixurl" required placeholder="http://" /></td></tr>', __( 'Indexhibit 2 Site Address:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" required /></td></tr>', __( 'Indexhibit 2 Database User:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" required /></td></tr>', __( 'Indexhibit 2 Database Name:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" required /></td></tr>', __( 'Indexhibit 2 Database Password:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" required placeholder="localhost" /></td></tr>', __( 'Indexhibit 2 Database Host:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" required placeholder="ix_" /></td></tr>', __( 'Indexhibit 2 Table Prefix:', 'indexhibit-importer' ) );
         echo '</table>';
     }
 
@@ -479,7 +473,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit', __( 'Indexhibit 2', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 
