@@ -2,10 +2,10 @@
 /*
 Plugin Name: Indexhibit Importer
 Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
-Description: Import posts from an Indexhibit site.
+Description: Import posts and images from an Indexhibit site.
 Author: leemon
 Author URI: http://wordpress.org/
-Version: 0.2
+Version: 0.1
 License: GPL v2
 */
 
@@ -216,14 +216,7 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
-                $media_url = '/files/gimgs/' . $image['media_file'];
-                
-                $post['post_title'] = $image['media_title'];
-                $post['post_content'] = $image['media_caption'];
-                $post['post_date'] = $image['media_udate'];
-                $post['post_date_gmt'] = $image['media_udate'];
-                $post['post_parent'] = $post_id;
-                process_attachment( $post, $media_url );
+                process_attachment( $image );
             }
         }
 
@@ -251,8 +244,16 @@ class Indexhibit_Import extends WP_Importer {
     /**
      * process_attachment
      */
-    public function process_attachment( $post, $media_url ) {
-        
+    public function process_attachment( $image ) {
+
+        $media_url = '/files/gimgs/' . $image['media_file'];
+                
+        $post['post_title'] = $image['media_title'];
+        $post['post_content'] = $image['media_caption'];
+        $post['post_date'] = $image['media_udate'];
+        $post['post_date_gmt'] = $image['media_udate'];
+        $post['post_parent'] = $post_id;
+
         $pre_process = pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
             return array(
@@ -290,8 +291,6 @@ class Indexhibit_Import extends WP_Importer {
             );
         }
         $post['guid'] = $upload['url'];
-        // Set parent.
-        $post['post_parent'] = //get_current_user_id();
         // Set author.
         $post['post_author'] = get_current_user_id();
         // as per wp-admin/includes/upload.php
@@ -367,11 +366,11 @@ class Indexhibit_Import extends WP_Importer {
     }
 
     /**
-     * cleanup_iximport
+     * cleanup_import
      */
-    public function cleanup_iximport() {
-        delete_option( 'ixdbprefix' );
+    public function cleanup_import() {
         delete_option( 'ixposts2wpposts' );
+        delete_option( 'ixdbprefix' );
         delete_option( 'ixuser' );
         delete_option( 'ixpass' );
         delete_option( 'ixname' );
@@ -483,7 +482,7 @@ class Indexhibit_Import extends WP_Importer {
                 }
                 break;
             case 2 :
-                $this->cleanup_iximport();
+                $this->cleanup_import();
                 break;
         }
 
@@ -494,7 +493,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts an Indexhibit site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 
