@@ -232,8 +232,6 @@ class Indexhibit_Import extends WP_Importer {
         $ixurl = get_option( 'ixurl' );
         $media_url = trailingslashit( $ixurl ) . '/files/gimgs/' . $image['media_file'];
 
-        echo $media_url;
-
         $pre_process = $this->pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
             return array(
@@ -382,7 +380,7 @@ class Indexhibit_Import extends WP_Importer {
         <li><?php _e( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit2-importer' ); ?></li>
         <li><?php _e( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit2-importer' ); ?></li>
         <li><?php _e( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit2-importer' ); ?></li>
-        </ul>';
+        </ul>
         <p><?php _e( 'That&#8217;s it! What are you waiting for? Go <a href="../wp-login.php">log in</a>!', 'indexhibit2-importer' ); ?></p>
     <?php
     }
