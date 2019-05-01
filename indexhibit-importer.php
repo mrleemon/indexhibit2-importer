@@ -64,10 +64,16 @@ if ( !class_exists( 'WP_Importer' ) ) {
 if ( class_exists( 'WP_Importer' ) ) {
 class Indexhibit_Import extends WP_Importer {
 
+    /**
+     * Constructor
+     */
     function __construct() {
         // Nothing.
     }
 
+    /**
+     * header
+     */
     function header() {
         echo '<div class="wrap">';
         screen_icon();
@@ -75,10 +81,16 @@ class Indexhibit_Import extends WP_Importer {
         echo '<p>' . __( 'Steps may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ) . '</p>';
     }
 
+    /**
+     * footer
+     */
     function footer() {
         echo '</div>';
     }
 
+    /**
+     * greet
+     */
     function greet() {
         echo '<div class="narrow"><p>' . __( 'Howdy! This importer allows you to extract posts from an Indexhibit database into your WordPress site.  Mileage may vary.', 'indexhibit-importer' ) . '</p>';
         echo '<p>' . __( 'Your Indexhibit Configuration settings are as follows:', 'indexhibit-importer' ) . '</p>';
@@ -89,6 +101,9 @@ class Indexhibit_Import extends WP_Importer {
         echo '</form></div>';
     }
 
+    /**
+     * get_ix_posts
+     */
     function get_ix_posts() {
         // General Housekeeping
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
@@ -105,6 +120,9 @@ class Indexhibit_Import extends WP_Importer {
 
     }
 
+    /**
+     * get_ix_media
+     */
     function get_ix_media( $post_id ) {
         // General Housekeeping
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
@@ -116,6 +134,9 @@ class Indexhibit_Import extends WP_Importer {
 
     }
 
+    /**
+     * posts2wp
+     */
     function posts2wp( $posts = '' ) {
         // General Housekeeping
         global $wpdb;
@@ -200,7 +221,10 @@ class Indexhibit_Import extends WP_Importer {
         return true;
     }
 
-    function media2wp( $images = '', $post_id ) {
+    /**
+     * media2wp
+     */
+     function media2wp( $images = '', $post_id ) {
         // General Housekeeping
         global $wpdb;
         $count = 0;
@@ -221,6 +245,9 @@ class Indexhibit_Import extends WP_Importer {
 
     }
 
+    /**
+     * import_posts
+     */
     function import_posts() {
         // Post Import
         $posts = $this->get_ix_posts();
@@ -235,6 +262,9 @@ class Indexhibit_Import extends WP_Importer {
         echo '</form>';
     }
     
+    /**
+     * process_attachment
+     */
     function process_attachment( $post, $media_url ) {
         
         $pre_process = pre_process_attachment( $post, $media_url );
@@ -290,6 +320,9 @@ class Indexhibit_Import extends WP_Importer {
         );
     }
 
+    /**
+     * pre_process_attachment
+     */
     function pre_process_attachment( $post, $url ) {
         global $wpdb;
         $imported = $wpdb->get_results(
@@ -314,6 +347,9 @@ class Indexhibit_Import extends WP_Importer {
         return false;
     }
     
+    /**
+     * fetch_remote_file
+     */
     function fetch_remote_file( $url, $post ) {
         // extract the file name and extension from the url
         $file_name = basename( $url );
@@ -346,6 +382,9 @@ class Indexhibit_Import extends WP_Importer {
         return $upload;
     }
 
+    /**
+     * cleanup_iximport
+     */
     function cleanup_iximport() {
         delete_option( 'ixdbprefix' );
         delete_option( 'ix_cats' );
@@ -361,6 +400,9 @@ class Indexhibit_Import extends WP_Importer {
         $this->tips();
     }
 
+    /**
+     * tips
+     */
     function tips() {
         echo '<p>'.__('Welcome to WordPress.  We hope ( and expect! ) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Indexhibit, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer').'</p>';
         echo '<h3>'.__( 'Users', 'indexhibit-importer' ).'</h3>';
@@ -379,6 +421,9 @@ class Indexhibit_Import extends WP_Importer {
         echo '<p>'.sprintf(__( 'That&#8217;s it! What are you waiting for? Go <a href="%1$s">log in</a>!', 'indexhibit-importer' ), '../wp-login.php').'</p>';
     }
 
+    /**
+     * db_form
+     */
     function db_form() {
         echo '<table class="form-table">';
         printf( '<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __( 'Indexhibit Database User:', 'indexhibit-importer' ) );
@@ -390,6 +435,9 @@ class Indexhibit_Import extends WP_Importer {
         echo '</table>';
     }
 
+    /**
+     * dispatch
+     */
     function dispatch() {
 
         if ( empty ( $_GET['step'] ) ) {
@@ -468,8 +516,11 @@ $ix_import = new Indexhibit_Import();
 
 register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts an Indexhibit site.', 'indexhibit-importer' ), array ( $ix_import, 'dispatch' ) );
 
-} // class_exists( 'WP_Importer' )
+}
 
+/**
+ * indexhibit_importer_init
+ */
 function indexhibit_importer_init() {
     load_plugin_textdomain( 'indexhibit-importer', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
