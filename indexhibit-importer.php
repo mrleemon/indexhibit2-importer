@@ -153,10 +153,6 @@ class Indexhibit_Import extends WP_Importer {
                     1 => 'publish'
                 );
 
-                // Can we do this more efficiently?
-                //$uinfo = ( get_userdatabylogin( $user_id ) ) ? get_userdatabylogin( $user_id ) : 1;
-                //$authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
-
                 $post_author = get_current_user_id();
                 $post_title = $wpdb->escape( $post['title'] );
                 $post_content = $post['content'];
