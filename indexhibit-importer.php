@@ -30,7 +30,7 @@ function csc( $s ) {
     if ( seems_utf8( $s ) ) {
         return $s;
     } else {
-        return iconv( get_option ( "dccharset" ), "UTF-8", $s );
+        return iconv( get_option ( "ixcharset" ), "UTF-8", $s );
     }
 }
 
@@ -89,30 +89,30 @@ class Indexhibit_Import extends WP_Importer {
         echo '</form></div>';
     }
 
-    function get_dc_posts() {
+    function get_ix_posts() {
         // General Housekeeping
-        $dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
+        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         //set_magic_quotes_runtime( 0 );
-        $dbprefix = get_option( 'dcdbprefix' );
+        $dbprefix = get_option( 'ixdbprefix' );
 
         // Get Posts
-        /* return $dcdb->get_results( 'SELECT ' . $dbprefix . 'post.*, ' . $dbprefix . 'categorie.cat_libelle_url AS post_cat_name
+        /* return $ixdb->get_results( 'SELECT ' . $dbprefix . 'post.*, ' . $dbprefix . 'categorie.cat_libelle_url AS post_cat_name
                         FROM ' . $dbprefix . 'post INNER JOIN ' . $dbprefix . 'categorie
                         ON ' . $dbprefix . 'post.cat_id = ' . $dbprefix . 'categorie.cat_id', ARRAY_A ); */
 
         // Get posts
-        return $dcdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
+        return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
 
     }
 
-    function get_media( $post_id ) {
+    function get_ix_media( $post_id ) {
         // General Housekeeping
-        $dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
+        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         //set_magic_quotes_runtime( 0 );
-        $dbprefix = get_option( 'dcdbprefix' );
+        $dbprefix = get_option( 'ixdbprefix' );
 
         // Get media from a specific post
-        return $dcdb->get_results( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = " . $post_id . " AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", ARRAY_A );
+        return $ixdb->get_results( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = " . $post_id . " AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", ARRAY_A );
 
     }
 
@@ -120,7 +120,7 @@ class Indexhibit_Import extends WP_Importer {
         // General Housekeeping
         global $wpdb;
         $count = 0;
-        $dcposts2wpposts = array();
+        $ixposts2wpposts = array();
 
         // Do the Magic
         if ( is_array( $posts ) ) {
@@ -183,9 +183,9 @@ class Indexhibit_Import extends WP_Importer {
                         return $ret_id;
                     }
                 }
-                $dcposts2wpposts[$post['id']] = $ret_id;
+                $ixposts2wpposts[$post['id']] = $ret_id;
 
-                $media = $this->get_media( $post['id'] );
+                $media = $this->get_ix_media( $post['id'] );
                 $result = $this->media2wp( $media, $ret_id );
                 if ( is_wp_error( $result ) ) {
                     return $result;
@@ -194,7 +194,7 @@ class Indexhibit_Import extends WP_Importer {
             }
         }
         // Store ID translation for later use
-        add_option( 'dcposts2wpposts', $dcposts2wpposts );
+        add_option( 'ixposts2wpposts', $ixposts2wpposts );
 
         echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> posts imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
         return true;
@@ -223,7 +223,7 @@ class Indexhibit_Import extends WP_Importer {
 
     function import_posts() {
         // Post Import
-        $posts = $this->get_dc_posts();
+        $posts = $this->get_ix_posts();
         $result = $this->posts2wp( $posts );
         if ( is_wp_error( $result ) ) {
             return $result;
@@ -346,17 +346,17 @@ class Indexhibit_Import extends WP_Importer {
         return $upload;
     }
 
-    function cleanup_dcimport() {
-        delete_option( 'dcdbprefix' );
-        delete_option( 'dc_cats' );
-        delete_option( 'dcid2wpid' );
-        delete_option( 'dcposts2wpposts' );
-        delete_option( 'dccm2wpcm' );
-        delete_option( 'dcuser' );
-        delete_option( 'dcpass' );
-        delete_option( 'dcname' );
-        delete_option( 'dchost' );
-        delete_option( 'dccharset' );
+    function cleanup_iximport() {
+        delete_option( 'ixdbprefix' );
+        delete_option( 'ix_cats' );
+        delete_option( 'ixid2wpid' );
+        delete_option( 'ixposts2wpposts' );
+        delete_option( 'ixcm2wpcm' );
+        delete_option( 'ixuser' );
+        delete_option( 'ixpass' );
+        delete_option( 'ixname' );
+        delete_option( 'ixhost' );
+        delete_option( 'ixcharset' );
         do_action( 'import_done', 'indexhibit' );
         $this->tips();
     }
@@ -385,8 +385,8 @@ class Indexhibit_Import extends WP_Importer {
         printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __( 'Indexhibit Database Password:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __( 'Indexhibit Database Name:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="dc_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dccharset">%s</label></th><td><input type="text" name="dccharset" id="dccharset" value="ISO-8859-15"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="ix_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="ixcharset">%s</label></th><td><input type="text" name="ixcharset" id="ixcharset" value="ISO-8859-15"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
         echo '</table>';
     }
 
@@ -403,41 +403,41 @@ class Indexhibit_Import extends WP_Importer {
             check_admin_referer( 'import-indexhibit' );
 
             if ( $_POST['dbuser'] ) {
-                if ( get_option( 'dcuser' ) ) {
-                    delete_option( 'dcuser' );
+                if ( get_option( 'ixuser' ) ) {
+                    delete_option( 'ixuser' );
                 }
-                add_option( 'dcuser', sanitize_user( $_POST['dbuser'], true ) );
+                add_option( 'ixuser', sanitize_user( $_POST['dbuser'], true ) );
             }
             if ( $_POST['dbpass'] ) {
-                if ( get_option( 'dcpass' ) ) {
-                    delete_option( 'dcpass' );
+                if ( get_option( 'ixpass' ) ) {
+                    delete_option( 'ixpass' );
                 }
-                add_option( 'dcpass', sanitize_user( $_POST['dbpass'], true ) );
+                add_option( 'ixpass', sanitize_user( $_POST['dbpass'], true ) );
             }
 
             if ( $_POST['dbname'] ) {
-                if ( get_option( 'dcname' ) ) {
-                    delete_option( 'dcname' );
+                if ( get_option( 'ixname' ) ) {
+                    delete_option( 'ixname' );
                 }
-                add_option( 'dcname', sanitize_user( $_POST['dbname'], true ) );
+                add_option( 'ixname', sanitize_user( $_POST['dbname'], true ) );
             }
             if ( $_POST['dbhost'] ) {
-                if ( get_option( 'dchost' ) ) {
-                    delete_option( 'dchost' );
+                if ( get_option( 'ixhost' ) ) {
+                    delete_option( 'ixhost' );
                 }
-                add_option( 'dchost', sanitize_user( $_POST['dbhost'], true ) );
+                add_option( 'ixhost', sanitize_user( $_POST['dbhost'], true ) );
             }
-            if ( $_POST['dccharset'] ) {
-                if ( get_option( 'dccharset' ) ) {
-                    delete_option( 'dccharset' );
+            if ( $_POST['ixcharset'] ) {
+                if ( get_option( 'ixcharset' ) ) {
+                    delete_option( 'ixcharset' );
                 }
-                add_option( 'dccharset', sanitize_user( $_POST['dccharset'], true ) );
+                add_option( 'ixcharset', sanitize_user( $_POST['ixcharset'], true ) );
             }
             if ( $_POST['dbprefix'] ) {
-                if ( get_option( 'dcdbprefix' ) ) {
-                    delete_option( 'dcdbprefix' );
+                if ( get_option( 'ixdbprefix' ) ) {
+                    delete_option( 'ixdbprefix' );
                 }
-                add_option( 'dcdbprefix', sanitize_user( $_POST['dbprefix'], true ) );
+                add_option( 'ixdbprefix', sanitize_user( $_POST['dbprefix'], true ) );
             }
 
 
@@ -455,7 +455,7 @@ class Indexhibit_Import extends WP_Importer {
                 }
                 break;
             case 2 :
-                $this->cleanup_dcimport();
+                $this->cleanup_iximport();
                 break;
         }
 
@@ -464,9 +464,9 @@ class Indexhibit_Import extends WP_Importer {
 
 }
 
-$dc_import = new Indexhibit_Import();
+$ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts an Indexhibit site.', 'indexhibit-importer' ), array ( $dc_import, 'dispatch' ) );
+register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts an Indexhibit site.', 'indexhibit-importer' ), array ( $ix_import, 'dispatch' ) );
 
 } // class_exists( 'WP_Importer' )
 
