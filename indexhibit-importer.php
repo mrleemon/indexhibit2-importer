@@ -386,10 +386,7 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function cleanup_iximport() {
         delete_option( 'ixdbprefix' );
-        delete_option( 'ix_cats' );
-        delete_option( 'ixid2wpid' );
         delete_option( 'ixposts2wpposts' );
-        delete_option( 'ixcm2wpcm' );
         delete_option( 'ixuser' );
         delete_option( 'ixpass' );
         delete_option( 'ixname' );
