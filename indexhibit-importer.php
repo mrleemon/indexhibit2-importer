@@ -164,6 +164,7 @@ class Indexhibit_Import extends WP_Importer {
                             'post_title'        => $post_title,
                             'post_content'      => $post_content,
                             'post_status'       => $post_status,
+                            'post_type'         => 'page',
                             'comment_status'    => 'closed',
                             'ping_status'       => 'closed' )
                             );
@@ -180,6 +181,7 @@ class Indexhibit_Import extends WP_Importer {
                             'post_title'        => $post_title,
                             'post_content'      => $post_content,
                             'post_status'       => $post_status,
+                            'post_type'         => 'page',
                             'comment_status'    => 'closed',
                             'ping_status'       => 'closed' )
                             );
@@ -212,7 +214,7 @@ class Indexhibit_Import extends WP_Importer {
         $count = 0;
 
         if ( is_array( $images ) ) {
-            echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
+            echo '<p>' . sprintf( __( 'Importing Media from post %d...', 'indexhibit-importer' ), $post_id ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
                 $process = $this->process_attachment( $image, $post_id );
@@ -253,7 +255,10 @@ class Indexhibit_Import extends WP_Importer {
             'post_parent'   => $parent,
         );
 
-        $media_url = '/files/gimgs/' . $image['media_file'];
+        $ixurl = get_option( 'ixurl' );
+        $media_url = $ixurl . '/files/gimgs/' . $image['media_file'];
+
+        echo $media_url;
 
         $pre_process = $this->pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
@@ -390,6 +395,7 @@ class Indexhibit_Import extends WP_Importer {
         delete_option( 'ixpass' );
         delete_option( 'ixname' );
         delete_option( 'ixhost' );
+        delete_option( 'ixurl' );
         delete_option( 'ixcharset' );
         do_action( 'import_done', 'indexhibit' );
         $this->tips();
@@ -425,6 +431,7 @@ class Indexhibit_Import extends WP_Importer {
         printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __( 'Indexhibit Database Name:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __( 'Indexhibit Database Password:', 'indexhibit-importer' ) );        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="ix_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="ixurl">%s</label></th><td><input type="text" name="ixurl" id="ixurl" value=""/></td></tr>', __( 'Indexhibit URL:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="ixcharset">%s</label></th><td><input type="text" name="ixcharset" id="ixcharset" value="utf-8"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
         echo '</table>';
     }
@@ -469,6 +476,12 @@ class Indexhibit_Import extends WP_Importer {
                 }
                 add_option( 'ixhost', sanitize_text_field( $_POST['dbhost'] ) );
             }
+            if ( $_POST['ixurl'] ) {
+                if ( get_option( 'ixurl' ) ) {
+                    delete_option( 'ixurl' );
+                }
+                add_option( 'ixurl', sanitize_text_field( $_POST['ixurl'] ) );
+            }
             if ( $_POST['ixcharset'] ) {
                 if ( get_option( 'ixcharset' ) ) {
                     delete_option( 'ixcharset' );
@@ -502,7 +515,6 @@ class Indexhibit_Import extends WP_Importer {
 
         $this->footer();
     }
-
 }
 
 $ix_import = new Indexhibit_Import();
