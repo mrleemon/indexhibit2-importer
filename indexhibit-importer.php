@@ -216,7 +216,7 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
-                process_attachment( $image );
+                $process = process_attachment( $image, $post_id );
             }
         }
 
@@ -244,7 +244,7 @@ class Indexhibit_Import extends WP_Importer {
     /**
      * process_attachment
      */
-    public function process_attachment( $image ) {
+    public function process_attachment( $image, $parent ) {
 
         $media_url = '/files/gimgs/' . $image['media_file'];
                 
@@ -252,7 +252,7 @@ class Indexhibit_Import extends WP_Importer {
         $post['post_content'] = $image['media_caption'];
         $post['post_date'] = $image['media_udate'];
         $post['post_date_gmt'] = $image['media_udate'];
-        $post['post_parent'] = $post_id;
+        $post['post_parent'] = $parent;
 
         $pre_process = pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
