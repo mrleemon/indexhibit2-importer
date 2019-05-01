@@ -196,6 +196,127 @@ class Indexhibit_Import extends WP_Importer {
 		wp_nonce_field( 'import-indexhibit' );
 		printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit-importer' ) );
 		echo '</form>';
+    }
+    
+    function process_attachment( $post, $url ) {
+		
+		$pre_process = pre_process_attachment( $post, $url );
+		if( is_wp_error( $pre_process ) )
+			return array(
+				'fatal' => false,
+				'type' => 'error',
+				'code' => $pre_process->get_error_code(),
+				'message' => $pre_process->get_error_message(),
+				'text' => sprintf( __( '%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)', 'attachment-importer' ), $post['post_title'], $pre_process->get_error_code(), $pre_process->get_error_message() )
+			);
+		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
+		if ( preg_match( '|^/[\w\W]+$|', $url ) )
+			$url = rtrim( $this->base_url, '/' ) . $url;
+		$upload = fetch_remote_file( $url, $post );
+		if ( is_wp_error( $upload ) )
+			return array(
+				'fatal' => ( $upload->get_error_code() == 'upload_dir_error' && $upload->get_error_message() != 'Invalid file type' ? true : false ),
+				'type' => 'error',
+				'code' => $upload->get_error_code(),
+				'message' => $upload->get_error_message(),
+				'text' => sprintf( __( '%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)', 'attachment-importer' ), $post['post_title'], $upload->get_error_code(), $upload->get_error_message() )
+			);
+		if ( $info = wp_check_filetype( $upload['file'] ) )
+			$post['post_mime_type'] = $info['type'];
+		else {
+			$upload = new WP_Error( 'attachment_processing_error', __('Invalid file type', 'attachment-importer') );
+			return array(
+				'fatal' => false,
+				'type' => 'error',
+				'code' => $upload->get_error_code(),
+				'message' => $upload->get_error_message(),
+				'text' => sprintf( __( '%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)', 'attachment-importer' ), $post['post_title'], $upload->get_error_code(), $upload->get_error_message() )
+			);
+		}
+		$post['guid'] = $upload['url'];
+		// Set author per user options.
+		switch( $post['attribute_author1'] ){
+			case 1: // Attribute to current user.
+				$post['post_author'] = (int) wp_get_current_user()->ID;
+				break;
+			case 2: // Attribute to user in import file.
+				if( !username_exists( $post['post_author'] ) )
+					wp_create_user( $post['post_author'], wp_generate_password() );
+				$post['post_author'] = (int) username_exists( $post['post_author'] );
+				break;
+			case 3: // Attribute to selected user.
+				$post['post_author'] = (int) $post['attribute_author2'];
+				break;
+		}
+		// as per wp-admin/includes/upload.php
+		$post_id = wp_insert_attachment( $post, $upload['file'] );
+		wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
+		// remap image URL's
+		backfill_attachment_urls( $url, $upload['url'] );
+		return array(
+			'fatal' => false,
+			'type' => 'updated',
+			'text' => sprintf( __( '%s was uploaded successfully', 'attachment-importer' ), $post['post_title'] )
+		);
+	}
+
+    function pre_process_attachment( $post, $url ) {
+		global $wpdb;
+		$imported = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT ID, post_date_gmt, guid
+				FROM $wpdb->posts
+				WHERE post_type = 'attachment'
+					AND post_title = %s
+				",
+				$post['post_title']
+			)
+		);
+		if( $imported ){
+			foreach( $imported as $attachment ){
+				if( basename( $url ) == basename( $attachment->guid ) ){
+					if( $post['post_date_gmt'] == $attachment->post_date_gmt ){
+						$headers = wp_get_http( $url );
+						if( filesize( get_attached_file( $attachment->ID ) ) == $headers['content-length'] ){
+							return new WP_Error( 'duplicate_file_notice', __( 'File already exists', 'attachment-importer' ) );
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	function fetch_remote_file( $url, $post ) {
+		// extract the file name and extension from the url
+		$file_name = basename( $url );
+		// get placeholder file in the upload dir with a unique, sanitized filename
+		$upload = wp_upload_bits( $file_name, 0, '', $post['post_date'] );
+		if ( $upload['error'] )
+			return new WP_Error( 'upload_dir_error', $upload['error'] );
+		// fetch the remote url and write it to the placeholder file
+		$headers = wp_get_http( $url, $upload['file'] );
+		// request failed
+		if ( ! $headers ) {
+			@unlink( $upload['file'] );
+			return new WP_Error( 'import_file_error', __('Remote server did not respond', 'attachment-importer') );
+		}
+		// make sure the fetch was successful
+		if ( $headers['response'] != '200' ) {
+			@unlink( $upload['file'] );
+			return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'attachment-importer'), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );
+		}
+		$filesize = filesize( $upload['file'] );
+		if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {
+			@unlink( $upload['file'] );
+			return new WP_Error( 'import_file_error', __('Remote file is incorrect size', 'attachment-importer') );
+		}
+		if ( 0 == $filesize ) {
+			@unlink( $upload['file'] );
+			return new WP_Error( 'import_file_error', __('Zero size file downloaded', 'attachment-importer') );
+		}
+		return $upload;
 	}
 
 	function cleanup_dcimport() {
