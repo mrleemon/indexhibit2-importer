@@ -229,6 +229,12 @@ class Indexhibit_Import extends WP_Importer {
                 $count++;
                 //extract( $image );
                 $media_url = '/files/gimgs/' . $image['media_file'];
+                
+                $post['post_title'] = $image['media_title'];
+                $post['post_content'] = $image['media_caption'];
+                $post['post_date'] = $image['media_udate'];
+                $post['post_date_gmt'] = $image['media_udate'];
+                $post['post_parent'] = $post_id;
                 process_attachment( $post, $media_url );
             }
         }
