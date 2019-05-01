@@ -122,7 +122,9 @@ class Indexhibit_Import extends WP_Importer {
         $dbprefix = get_option( 'ixdbprefix' );
 
         // Get media from a specific post
-        return $ixdb->get_results( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = " . $post_id . " AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", ARRAY_A );
+        return $ixdb->get_results( 
+            $ixdb->prepare( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
+            ARRAY_A );
 
     }
 
