@@ -89,10 +89,10 @@ class Indexhibit_Import extends WP_Importer {
         echo '</form></div>';
     }
 
-    function get_dc_posts()    {
+    function get_dc_posts() {
         // General Housekeeping
         $dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
-        set_magic_quotes_runtime( 0 );
+        //set_magic_quotes_runtime( 0 );
         $dbprefix = get_option( 'dcdbprefix' );
 
         // Get Posts
@@ -100,11 +100,21 @@ class Indexhibit_Import extends WP_Importer {
                         FROM ' . $dbprefix . 'post INNER JOIN ' . $dbprefix . 'categorie
                         ON ' . $dbprefix . 'post.cat_id = ' . $dbprefix . 'categorie.cat_id', ARRAY_A ); */
 
-        // Get Posts
+        // Get posts
         return $dcdb->get_results( 'SELECT ' . $dbprefix . 'objects.* FROM ' . $dbprefix . 'objects', ARRAY_A );
 
     }
 
+    function get_media( $post_id ) {
+        // General Housekeeping
+        $dcdb = new wpdb( get_option( 'dcuser' ), get_option( 'dcpass' ), get_option( 'dcname' ), get_option( 'dchost' ) );
+        //set_magic_quotes_runtime( 0 );
+        $dbprefix = get_option( 'dcdbprefix' );
+
+        // Get media from a specific post
+        return $dcdb->get_results( 'SELECT ' . $dbprefix . 'media.* FROM ' . $dbprefix . 'media WHERE media_ref_id = ' . $post_id . ' ORDER BY media_order ASC', ARRAY_A );
+
+    }
 
     function posts2wp( $posts = '' ) {
         // General Housekeeping
@@ -131,7 +141,7 @@ class Indexhibit_Import extends WP_Importer {
 
                 $post_author = get_current_user_id();
                 $post_title = $wpdb->escape( csc( $title ) );
-                $post_content = textconv ( $content );
+                $post_content = textconv( $content );
                 $post_content = $wpdb->escape( $post_content );
                 $post_status = $stattrans[$status];
 
@@ -140,40 +150,44 @@ class Indexhibit_Import extends WP_Importer {
                 if ( $pinfo = post_exists( $post_title, $post_content ) ) {
                     $ret_id = wp_insert_post( array(
                             'ID'                => $pinfo,
-                            'post_author'        => $post_author,
-                            'post_date'            => $pdate,
-                            'post_date_gmt'        => $pdate,
-                            'post_modified'        => $udate,
-                            'post_modified_gmt'    => $udate,
+                            'post_author'       => $post_author,
+                            'post_date'         => $pdate,
+                            'post_date_gmt'     => $pdate,
+                            'post_modified'     => $udate,
+                            'post_modified_gmt' => $udate,
                             'post_title'        => $post_title,
-                            'post_content'        => $post_content,
-                            'post_status'        => $post_status,
-                            'post_name'            => $post_titre_url,
+                            'post_content'      => $post_content,
+                            'post_status'       => $post_status,
                             'comment_status'    => 'closed',
-                            'ping_status'        => 'closed' )
+                            'ping_status'       => 'closed' )
                             );
                     if ( is_wp_error( $ret_id ) ) {
                         return $ret_id;
                     }
                 } else {
                     $ret_id = wp_insert_post( array(
-                            'post_author'        => $post_author,
-                            'post_date'            => $pdate,
-                            'post_date_gmt'        => $pdate,
-                            'post_modified'        => $udate,
-                            'post_modified_gmt'    => $udate,
+                            'post_author'       => $post_author,
+                            'post_date'         => $pdate,
+                            'post_date_gmt'     => $pdate,
+                            'post_modified'     => $udate,
+                            'post_modified_gmt' => $udate,
                             'post_title'        => $post_title,
-                            'post_content'        => $post_content,
-                            'post_status'        => $post_status,
-                            'post_name'            => $post_titre_url,
+                            'post_content'      => $post_content,
+                            'post_status'       => $post_status,
                             'comment_status'    => 'closed',
-                            'ping_status'        => 'closed' )
+                            'ping_status'       => 'closed' )
                             );
                     if ( is_wp_error( $ret_id ) ) {
                         return $ret_id;
                     }
                 }
                 $dcposts2wpposts[$id] = $ret_id;
+
+                $media = $this->get_media( $id );
+                $result = $this->media2wp( $media, $ret_id );
+                if ( is_wp_error( $result ) ) {
+                    return $result;
+                }
 
             }
         }
@@ -182,6 +196,25 @@ class Indexhibit_Import extends WP_Importer {
 
         echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> posts imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
         return true;
+    }
+
+    function media2wp( $images = '', $post_id ) {
+        // General Housekeeping
+        global $wpdb;
+        $count = 0;
+
+        // Do the Magic
+        if ( is_array( $images ) ) {
+            echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
+            foreach ( $images as $image ) {
+                $count++;
+                extract( $image );
+            }
+        }
+
+        //echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> posts imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
+        return true;
+
     }
 
     function import_posts() {
@@ -237,20 +270,8 @@ class Indexhibit_Import extends WP_Importer {
             );
         }
         $post['guid'] = $upload['url'];
-        // Set author per user options.
-        switch ( $post['attribute_author1'] ) {
-            case 1: // Attribute to current user.
-                $post['post_author'] = (int) wp_get_current_user()->ID;
-                break;
-            case 2: // Attribute to user in import file.
-                if( !username_exists( $post['post_author'] ) )
-                    wp_create_user( $post['post_author'], wp_generate_password() );
-                $post['post_author'] = (int) username_exists( $post['post_author'] );
-                break;
-            case 3: // Attribute to selected user.
-                $post['post_author'] = (int) $post['attribute_author2'];
-                break;
-        }
+        // Set author.
+        $post['post_author'] = (int) wp_get_current_user()->ID;
         // as per wp-admin/includes/upload.php
         $post_id = wp_insert_attachment( $post, $upload['file'] );
         wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
