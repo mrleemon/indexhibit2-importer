@@ -1,11 +1,11 @@
 <?php
 /*
   Plugin Name: Indexhibit 2 Importer
-  Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
+  Plugin URI: http://wordpress.org/extend/plugins/indexhibit2-importer/
   Description: Import exhibits and images from an Indexhibit 2 site.
   Version: 0.1
   Author: leemon
-  Text Domain: indexhibit-importer
+  Text Domain: indexhibit2-importer
   License: GPLv2 or later
 */
 
@@ -43,7 +43,7 @@ class Indexhibit_Import extends WP_Importer {
     public function header() {
     ?>
         <div class="wrap">
-        <h2><?php _e( 'Import Indexhibit 2', 'indexhibit-importer' ); ?></h2>
+        <h2><?php _e( 'Import Indexhibit 2', 'indexhibit2-importer' ); ?></h2>
     <?php
     }
 
@@ -62,15 +62,15 @@ class Indexhibit_Import extends WP_Importer {
     public function greet() {
     ?>
         <div class="narrow">
-            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 database into your WordPress site. It imports exhibits and images but ignores sections, subsections and exhibit formats.', 'indexhibit-importer' ); ?></p>
-            <p><?php _e( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ); ?></p>
-            <p><?php _e( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ); ?></p>
+            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 database into your WordPress site. It imports exhibits and images but ignores sections, subsections and exhibit formats.', 'indexhibit2-importer' ); ?></p>
+            <p><?php _e( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit2-importer' ); ?></p>
+            <p><?php _e( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit2-importer' ); ?></p>
             <form action="admin.php?import=indexhibit2&amp;step=1" method="post">
     <?php
-        wp_nonce_field( 'import-indexhibit' );
+        wp_nonce_field( 'import-indexhibit2' );
         $this->db_form();
     ?>
-            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import Contents', 'indexhibit-importer' ); ?>" /></p>
+            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import Contents', 'indexhibit2-importer' ); ?>" /></p>
             </form>
         </div>
     <?php
@@ -109,7 +109,7 @@ class Indexhibit_Import extends WP_Importer {
         $ixexhibits2wpposts = array();
 
         if ( is_array( $exhibits ) ) {
-            echo '<p>' . __( 'Importing exhibits...', 'indexhibit-importer' ) . '<br /><br /></p>';
+            echo '<p>' . __( 'Importing exhibits...', 'indexhibit2-importer' ) . '<br /><br /></p>';
             foreach ( $exhibits as $exhibit ) {
                 $count++;
 
@@ -176,7 +176,7 @@ class Indexhibit_Import extends WP_Importer {
         // Store ID translation for later use
         add_option( 'ixexhibits2wpposts', $ixexhibits2wpposts );
 
-        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> exhibits imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
+        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> exhibits imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
         return true;
     }
 
@@ -188,7 +188,7 @@ class Indexhibit_Import extends WP_Importer {
         $count = 0;
 
         if ( is_array( $images ) ) {
-            echo '<p>' . sprintf( __( 'Importing media from exhibit %d...', 'indexhibit-importer' ), $post_id ) . '<br /><br /></p>';
+            echo '<p>' . sprintf( __( 'Importing media from exhibit %d...', 'indexhibit2-importer' ), $post_id ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
                 $process = $this->process_attachment( $image, $post_id );
@@ -211,8 +211,8 @@ class Indexhibit_Import extends WP_Importer {
         }
 
         echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
-        wp_nonce_field( 'import-indexhibit' );
-        printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit-importer' ) );
+        wp_nonce_field( 'import-indexhibit2' );
+        printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit2-importer' ) );
         echo '</form>';
     }
     
@@ -241,7 +241,7 @@ class Indexhibit_Import extends WP_Importer {
                 'type' => 'error',
                 'code' => $pre_process->get_error_code(),
                 'message' => $pre_process->get_error_message(),
-                'text' => sprintf( __( '%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)', 'indexhibit-importer' ), $post['post_title'], $pre_process->get_error_code(), $pre_process->get_error_message() )
+                'text' => sprintf( __( '%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)', 'indexhibit2-importer' ), $post['post_title'], $pre_process->get_error_code(), $pre_process->get_error_message() )
             );
         }
         // If the URL is absolute, but does not contain address, then upload it assuming base_site_url
@@ -256,19 +256,19 @@ class Indexhibit_Import extends WP_Importer {
                 'type' => 'error',
                 'code' => $upload->get_error_code(),
                 'message' => $upload->get_error_message(),
-                'text' => sprintf( __( '%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)', 'indexhibit-importer' ), $post['post_title'], $upload->get_error_code(), $upload->get_error_message() )
+                'text' => sprintf( __( '%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)', 'indexhibit2-importer' ), $post['post_title'], $upload->get_error_code(), $upload->get_error_message() )
             );
         }
         if ( $info = wp_check_filetype( $upload['file'] ) ) {
             $post['post_mime_type'] = $info['type'];
         } else {
-            $upload = new WP_Error( 'attachment_processing_error', __( 'Invalid file type', 'indexhibit-importer' ) );
+            $upload = new WP_Error( 'attachment_processing_error', __( 'Invalid file type', 'indexhibit2-importer' ) );
             return array(
                 'fatal' => false,
                 'type' => 'error',
                 'code' => $upload->get_error_code(),
                 'message' => $upload->get_error_message(),
-                'text' => sprintf( __( '%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)', 'indexhibit-importer' ), $post['post_title'], $upload->get_error_code(), $upload->get_error_message() )
+                'text' => sprintf( __( '%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)', 'indexhibit2-importer' ), $post['post_title'], $upload->get_error_code(), $upload->get_error_message() )
             );
         }
         $post['guid'] = $upload['url'];
@@ -280,7 +280,7 @@ class Indexhibit_Import extends WP_Importer {
         return array(
             'fatal' => false,
             'type' => 'updated',
-            'text' => sprintf( __( '%s was uploaded successfully', 'indexhibit-importer' ), $post['post_title'] )
+            'text' => sprintf( __( '%s was uploaded successfully', 'indexhibit2-importer' ), $post['post_title'] )
         );
     }
 
@@ -303,7 +303,7 @@ class Indexhibit_Import extends WP_Importer {
                         $remote_response = wp_safe_remote_get( $url );
                         $headers = wp_remote_retrieve_headers( $remote_response );
                         if ( filesize( get_attached_file( $attachment->ID ) ) == $headers['content-length'] ) {
-                            return new WP_Error( 'duplicate_file_notice', __( 'File already exists', 'indexhibit-importer' ) );
+                            return new WP_Error( 'duplicate_file_notice', __( 'File already exists', 'indexhibit2-importer' ) );
                         }
                     }
                 }
@@ -335,22 +335,22 @@ class Indexhibit_Import extends WP_Importer {
         // Request failed
         if ( ! $headers ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', __( 'Remote server did not respond', 'indexhibit-importer' ) );
+            return new WP_Error( 'import_file_error', __( 'Remote server did not respond', 'indexhibit2-importer' ) );
         }
         // Make sure the fetch was successful
         $remote_response_code = wp_remote_retrieve_response_code( $remote_response );
         if ( $remote_response_code != '200' ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit-importer' ), esc_html( $remote_response_code ), get_status_header_desc( $remote_response_code ) ) );
+            return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit2-importer' ), esc_html( $remote_response_code ), get_status_header_desc( $remote_response_code ) ) );
         }
         $filesize = filesize( $upload['file'] );
         if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', __( 'Remote file is incorrect size', 'indexhibit-importer' ) );
+            return new WP_Error( 'import_file_error', __( 'Remote file is incorrect size', 'indexhibit2-importer' ) );
         }
         if ( 0 == $filesize ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', __( 'Zero size file downloaded', 'indexhibit-importer' ) );
+            return new WP_Error( 'import_file_error', __( 'Zero size file downloaded', 'indexhibit2-importer' ) );
         }
         return $upload;
     }
@@ -375,15 +375,15 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function tips() {
     ?>
-        <p><?php _e( 'Welcome to WordPress. We hope that you will find this platform incredibly rewarding! As a new WordPress user coming from Indexhibit 2, there are some things that we would like to point out. Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer' ); ?></p>
-        <h3><?php _e( 'WordPress Resources', 'indexhibit-importer' ); ?></h3>
-        <p><?php _e( 'Finally, there are numerous WordPress resources around the internet. Some of them are:', 'indexhibit-importer' ); ?></p>
+        <p><?php _e( 'Welcome to WordPress. We hope that you will find this platform incredibly rewarding! As a new WordPress user coming from Indexhibit 2, there are some things that we would like to point out. Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit2-importer' ); ?></p>
+        <h3><?php _e( 'WordPress Resources', 'indexhibit2-importer' ); ?></h3>
+        <p><?php _e( 'Finally, there are numerous WordPress resources around the internet. Some of them are:', 'indexhibit2-importer' ); ?></p>
         <ul>
-        <li><?php _e( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit-importer' ); ?></li>
-        <li><?php _e( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit-importer' ); ?></li>
-        <li><?php _e( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit-importer' ); ?></li>
+        <li><?php _e( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit2-importer' ); ?></li>
+        <li><?php _e( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit2-importer' ); ?></li>
+        <li><?php _e( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit2-importer' ); ?></li>
         </ul>';
-        <p><?php _e( 'That&#8217;s it! What are you waiting for? Go <a href="../wp-login.php">log in</a>!', 'indexhibit-importer' ); ?></p>
+        <p><?php _e( 'That&#8217;s it! What are you waiting for? Go <a href="../wp-login.php">log in</a>!', 'indexhibit2-importer' ); ?></p>
     <?php
     }
 
@@ -394,42 +394,42 @@ class Indexhibit_Import extends WP_Importer {
     ?>
         <table class="form-table">
         <tr>
-            <th scope="row"><label for="ixurl"><?php _e( 'Indexhibit 2 Site Address', 'indexhibit-importer' ); ?></label></th>
+            <th scope="row"><label for="ixurl"><?php _e( 'Indexhibit 2 Site Address', 'indexhibit2-importer' ); ?></label></th>
             <td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td>
         </tr>
         <tr>
-            <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit-importer' ); ?></label></th>
+            <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbname" id="dbname" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
-            <th scope="row"><label for="dbuser"><?php _e( 'Indexhibit 2 Database User', 'indexhibit-importer' ); ?></label></th>
+            <th scope="row"><label for="dbuser"><?php _e( 'Indexhibit 2 Database User', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbuser" id="dbuser" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['user']</code> value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['user']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
-            <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit-importer' ); ?></label></th>
+            <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="password" name="dbpass" id="dbpass" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
-            <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit-importer' ); ?></label></th>
+            <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
-            <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit-importer' ); ?></label></th>
+            <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         </table>
@@ -449,7 +449,7 @@ class Indexhibit_Import extends WP_Importer {
         $this->header();
 
         if ( $step > 0 ) {
-            check_admin_referer( 'import-indexhibit' );
+            check_admin_referer( 'import-indexhibit2' );
 
             if ( $_POST['dbuser'] ) {
                 if ( get_option( 'ixuser' ) ) {
@@ -513,7 +513,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit-importer' ), __( 'Import exhibits and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and images from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 
@@ -521,6 +521,6 @@ register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit-importer' ), _
  * indexhibit_importer_init
  */
 function indexhibit_importer_init() {
-    load_plugin_textdomain( 'indexhibit-importer', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'indexhibit2-importer', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'init', 'indexhibit_importer_init' );

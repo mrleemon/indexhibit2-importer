@@ -1,15 +1,15 @@
+#, fuzzy
 msgid ""
 msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 22:34+0200\n"
-"PO-Revision-Date: 2019-05-01 22:42+0200\n"
+"POT-Creation-Date: 2019-05-01 22:47+0200\n"
+"PO-Revision-Date: 2019-05-01 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: indexhibit2-importer.php:46
 msgid "Import Indexhibit 2"
-msgstr "Importar Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:65
 msgid ""
@@ -31,91 +31,81 @@ msgid ""
 "database into your WordPress site. It imports exhibits and images but "
 "ignores sections, subsections and exhibit formats."
 msgstr ""
-"Este importador te permite importar la mayoría de los contenidos de una base "
-"de datos de Indexhibit 2 a tu sitio de WordPress. Importa las exposiciones y "
-"las imágenes pero ignora las secciones, las subsecciones y los formatos de "
-"exposición."
 
 #: indexhibit2-importer.php:66
 msgid ""
 "The process may take a few minutes depending on the size of your database. "
 "Please be patient."
 msgstr ""
-"El proceso puede tardar unos minutos en función del tamaño de la base de "
-"datos. Por favor, ten paciencia."
 
 #: indexhibit2-importer.php:67
 msgid ""
 "Fill the following form with your Indexhibit 2 configuration settings. They "
 "can be found in the <code>/ndxzsite/config/config.php</code> file."
 msgstr ""
-"Rellena el siguiente formulario con los valores de configuración de tu "
-"instalación de Indexhibit 2. Se pueden encontrar en el archivo <code>/"
-"ndxzsite/config/config.php</code>."
 
 #: indexhibit2-importer.php:73
 msgid "Import Contents"
-msgstr "Importar contenidos"
+msgstr ""
 
 #: indexhibit2-importer.php:112
 msgid "Importing exhibits..."
-msgstr "Importando exposiciones..."
+msgstr ""
 
 #: indexhibit2-importer.php:179
 #, php-format
 msgid "Done! <strong>%1$s</strong> exhibits imported."
-msgstr "¡Hecho! <strong>%1$s</strong> exposiciones importadas."
+msgstr ""
 
 #: indexhibit2-importer.php:191
 #, php-format
 msgid "Importing media from exhibit %d..."
-msgstr "Importando archivos multimedia de la exposición %d..."
+msgstr ""
 
 #: indexhibit2-importer.php:215
 msgid "Finish"
-msgstr "Finalizar"
+msgstr ""
 
 #: indexhibit2-importer.php:244
 #, php-format
 msgid "%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)"
-msgstr "%1$s no se ha subido. (<strong>%2$s</strong>:%3$s)"
+msgstr ""
 
 #: indexhibit2-importer.php:259 indexhibit2-importer.php:271
 #, php-format
 msgid ""
 "%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)"
 msgstr ""
-"%1$s no se ha podido subir debido a un error. (<strong>%2$s</strong>:%3$s)"
 
 #: indexhibit2-importer.php:265
 msgid "Invalid file type"
-msgstr "Tipo de archivo no válido"
+msgstr ""
 
 #: indexhibit2-importer.php:283
 #, php-format
 msgid "%s was uploaded successfully"
-msgstr "%s se ha subido correctamente"
+msgstr ""
 
 #: indexhibit2-importer.php:306
 msgid "File already exists"
-msgstr "El archivo ya existe"
+msgstr ""
 
 #: indexhibit2-importer.php:338
 msgid "Remote server did not respond"
-msgstr "El servidor remoto no respondió"
+msgstr ""
 
 #: indexhibit2-importer.php:344
 #, php-format
 msgid "Remote server returned error response %1$d %2$s"
-msgstr "Servidor remoto devolvió error de respuesta %1$d %2$s"
+msgstr ""
 
 #: indexhibit2-importer.php:349
 msgid "Remote file is incorrect size"
-msgstr "El tamaño del archivo remoto es incorrecto"
+msgstr ""
 
 #: indexhibit2-importer.php:353
 msgid "Zero size file downloaded"
-msgstr "Tamaño cero en el archivo descargado"
+msgstr ""
 
 #: indexhibit2-importer.php:378
 msgid ""
@@ -124,118 +114,99 @@ msgid ""
 "things that we would like to point out. Hopefully, they will help your "
 "transition go as smoothly as possible."
 msgstr ""
-"Bienvenido a WordPress. Esperamos que encuentres esta plataforma "
-"increíblemente gratificante! Como nuevo usuario de WordPress procedente de "
-"Indexhibit 2, hay algunas cosas que nos gustaría señalar. Con un poco de "
-"suerte, te ayudarán a que la transición sea lo más fluida posible."
 
 #: indexhibit2-importer.php:379
 msgid "WordPress Resources"
-msgstr "Recursos de WordPress"
+msgstr ""
 
 #: indexhibit2-importer.php:380
 msgid ""
 "Finally, there are numerous WordPress resources around the internet. Some of "
 "them are:"
 msgstr ""
-"Por último, hay numerosos recursos de WordPress en Internet. Algunos de "
-"ellos son:"
 
 #: indexhibit2-importer.php:382
 msgid "<a href=\"http://wordpress.org/\">The official WordPress site</a>"
-msgstr "<a href=\"http://wordpress.org/\">El sitio oficial de WordPress</a>"
+msgstr ""
 
 #: indexhibit2-importer.php:383
 msgid ""
 "<a href=\"http://wordpress.org/support/\">The WordPress support forums</a>"
 msgstr ""
-"<a href=\"http://wordpress.org/support/\">Los foros de soporte de WordPress</"
-"a>"
 
 #: indexhibit2-importer.php:384
 msgid ""
 "<a href=\"http://developer.wordpress.org/\">The WordPress developer docs (In "
 "other words, the WordPress Bible)</a>"
 msgstr ""
-"<a href=\"http://developer.wordpress.org/\">La documentación para "
-"desarrolladores de WordPress (en otras palabras, la Biblia de WordPress)</a>"
 
 #: indexhibit2-importer.php:386
 msgid ""
 "That&#8217;s it! What are you waiting for? Go <a href=\"../wp-login.php"
 "\">log in</a>!"
 msgstr ""
-"¡Esto es todo! ¿A qué esperas? ¡<a href=\"../wp-login.php\">Inicia una "
-"sesión</a>!"
 
 #: indexhibit2-importer.php:397
 msgid "Indexhibit 2 Site Address"
-msgstr "Dirección de la web Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:401
 msgid "Indexhibit 2 Database Name"
-msgstr "Nombre de la base de datos de Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:404
 msgid "The <code>&dollar;indx['db']</code> value"
-msgstr "El valor <code>&dollar;indx['db']</code>"
+msgstr ""
 
 #: indexhibit2-importer.php:408
 msgid "Indexhibit 2 Database User"
-msgstr "Usuario de la base de datos de Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:411
 msgid "The <code>&dollar;indx['user']</code> value"
-msgstr "El valor <code>&dollar;indx['user']</code>"
+msgstr ""
 
 #: indexhibit2-importer.php:415
 msgid "Indexhibit 2 Database Password"
-msgstr "Contraseña de la base de datos de Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:418
 msgid "The <code>&dollar;indx['pass']</code> value"
-msgstr "El valor <code>&dollar;indx['pass']</code>"
+msgstr ""
 
 #: indexhibit2-importer.php:422
 msgid "Indexhibit 2 Database Host"
-msgstr "Servidor de la base de datos de Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:425
 msgid "The <code>&dollar;indx['host']</code> value"
-msgstr "El valor <code>&dollar;indx['host']</code>"
+msgstr ""
 
 #: indexhibit2-importer.php:429
 msgid "Indexhibit 2 Table Prefix"
-msgstr "Prefijo de tabla de Indexhibit 2"
+msgstr ""
 
 #: indexhibit2-importer.php:432
 msgid "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value"
-msgstr "El valor <code>xxxx</code> en <code>define('PX', 'xxxx')</code>"
+msgstr ""
 
 #: indexhibit2-importer.php:516
 msgid "Indexhibit 2"
-msgstr "Indexhibit 2"
+msgstr ""
 
 #. Description of the plugin/theme
 #: indexhibit2-importer.php:516
 msgid "Import exhibits and images from an Indexhibit 2 site."
-msgstr "Importa exposiciones e imágenes de una web de Indexhibit 2."
+msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "Indexhibit 2 Importer"
-msgstr "Importador de Indexhibit 2"
+msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "http://wordpress.org/extend/plugins/indexhibit-importer/"
-msgstr "http://es.wordpress.org/extend/plugins/indexhibit-importer/"
+msgstr ""
 
 #. Author of the plugin/theme
 msgid "leemon"
-msgstr "leemon"
-
-#~ msgid "It ignores sections, subsections and exhibit formats."
-#~ msgstr ""
-#~ "Ignora las secciones, las subsecciones y los formatos de exposición."
-
-#~ msgid "http://wordpress.org/"
-#~ msgstr "http://es.wordpress.org/"
+msgstr ""
