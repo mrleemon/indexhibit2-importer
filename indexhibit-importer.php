@@ -160,8 +160,8 @@ class Indexhibit_Import extends WP_Importer {
                 //$authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
 
                 $post_author = get_current_user_id();
-                $post_title = $wpdb->escape( csc( $post['title'] ) );
-                $post_content = textconv( $post['content'] );
+                $post_title = $wpdb->escape( $post['title'] );
+                $post_content = $post['content'];
                 $post_content = $wpdb->escape( $post_content );
                 $post_date = $post['pdate'];
                 $post_modified = $post['udate'];
@@ -453,38 +453,38 @@ class Indexhibit_Import extends WP_Importer {
                 if ( get_option( 'ixuser' ) ) {
                     delete_option( 'ixuser' );
                 }
-                add_option( 'ixuser', sanitize_user( $_POST['dbuser'], true ) );
+                add_option( 'ixuser', sanitize_text_field( $_POST['dbuser'] ) );
             }
             if ( $_POST['dbpass'] ) {
                 if ( get_option( 'ixpass' ) ) {
                     delete_option( 'ixpass' );
                 }
-                add_option( 'ixpass', sanitize_user( $_POST['dbpass'], true ) );
+                add_option( 'ixpass', sanitize_text_field( $_POST['dbpass'] ) );
             }
 
             if ( $_POST['dbname'] ) {
                 if ( get_option( 'ixname' ) ) {
                     delete_option( 'ixname' );
                 }
-                add_option( 'ixname', sanitize_user( $_POST['dbname'], true ) );
+                add_option( 'ixname', sanitize_text_field( $_POST['dbname'] ) );
             }
             if ( $_POST['dbhost'] ) {
                 if ( get_option( 'ixhost' ) ) {
                     delete_option( 'ixhost' );
                 }
-                add_option( 'ixhost', sanitize_user( $_POST['dbhost'], true ) );
+                add_option( 'ixhost', sanitize_text_field( $_POST['dbhost'] ) );
             }
             if ( $_POST['ixcharset'] ) {
                 if ( get_option( 'ixcharset' ) ) {
                     delete_option( 'ixcharset' );
                 }
-                add_option( 'ixcharset', sanitize_user( $_POST['ixcharset'], true ) );
+                add_option( 'ixcharset', sanitize_text_field( $_POST['ixcharset'] ) );
             }
             if ( $_POST['dbprefix'] ) {
                 if ( get_option( 'ixdbprefix' ) ) {
                     delete_option( 'ixdbprefix' );
                 }
-                add_option( 'ixdbprefix', sanitize_user( $_POST['dbprefix'], true ) );
+                add_option( 'ixdbprefix', sanitize_text_field( $_POST['dbprefix'] ) );
             }
 
 
