@@ -248,11 +248,13 @@ class Indexhibit_Import extends WP_Importer {
 
         $media_url = '/files/gimgs/' . $image['media_file'];
                 
-        $post['post_title'] = $image['media_title'];
-        $post['post_content'] = $image['media_caption'];
-        $post['post_date'] = $image['media_udate'];
-        $post['post_date_gmt'] = $image['media_udate'];
-        $post['post_parent'] = $parent;
+        $post = array(
+            'post_title'    => $image['media_title'],
+            'post_content'  => $image['media_caption'],
+            'post_date'     => $image['media_udate'],
+            'post_date_gmt' => $image['media_udate'],
+            'post_parent'   => $parent,
+        );
 
         $pre_process = pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
