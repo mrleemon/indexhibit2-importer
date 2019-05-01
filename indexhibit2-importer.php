@@ -383,12 +383,12 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function db_form() {
         echo '<table class="form-table">';
-        printf( '<tr><th><label for="ixurl">%s</label></th><td><input type="url" name="ixurl" id="ixurl" required placeholder="http://" /></td></tr>', __( 'Indexhibit 2 Site Address:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" required /></td></tr>', __( 'Indexhibit 2 Database User:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" required /></td></tr>', __( 'Indexhibit 2 Database Name:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" required /></td></tr>', __( 'Indexhibit 2 Database Password:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" required placeholder="localhost" /></td></tr>', __( 'Indexhibit 2 Database Host:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" required placeholder="ix_" /></td></tr>', __( 'Indexhibit 2 Table Prefix:', 'indexhibit-importer' ) );
+        printf( '<tr><th scope="row"><label for="ixurl">%s</label></th><td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td></tr>', __( 'Indexhibit 2 Site Address', 'indexhibit-importer' ) );
+        printf( '<tr><th scope="row"><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" class="regular-text" required /></td></tr>', __( 'Indexhibit 2 Database User', 'indexhibit-importer' ) );
+        printf( '<tr><th scope="row"><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" class="regular-text" required /></td></tr>', __( 'Indexhibit 2 Database Name', 'indexhibit-importer' ) );
+        printf( '<tr><th scope="row"><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" class="regular-text" required /></td></tr>', __( 'Indexhibit 2 Database Password', 'indexhibit-importer' ) );
+        printf( '<tr><th scope="row"><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" /></td></tr>', __( 'Indexhibit 2 Database Host', 'indexhibit-importer' ) );
+        printf( '<tr><th scope="row"><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" /></td></tr>', __( 'Indexhibit 2 Table Prefix', 'indexhibit-importer' ) );
         echo '</table>';
     }
 

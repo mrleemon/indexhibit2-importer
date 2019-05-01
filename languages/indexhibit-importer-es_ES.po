@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 19:52+0200\n"
-"PO-Revision-Date: 2019-05-01 19:52+0200\n"
+"POT-Creation-Date: 2019-05-01 21:25+0200\n"
+"PO-Revision-Date: 2019-05-01 21:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -93,28 +93,28 @@ msgstr "Tipo de archivo no válido"
 msgid "%s was uploaded successfully"
 msgstr "%s se ha subido correctamente"
 
-#: indexhibit2-importer.php:300
+#: indexhibit2-importer.php:299
 msgid "File already exists"
 msgstr "El archivo ya existe"
 
-#: indexhibit2-importer.php:333
+#: indexhibit2-importer.php:331
 msgid "Remote server did not respond"
 msgstr "El servidor remoto no respondió"
 
-#: indexhibit2-importer.php:341
+#: indexhibit2-importer.php:337
 #, php-format
 msgid "Remote server returned error response %1$d %2$s"
 msgstr "Servidor remoto devolvió error de respuesta %1$d %2$s"
 
-#: indexhibit2-importer.php:346
+#: indexhibit2-importer.php:342
 msgid "Remote file is incorrect size"
 msgstr "El tamaño del archivo remoto es incorrecto"
 
-#: indexhibit2-importer.php:350
+#: indexhibit2-importer.php:346
 msgid "Zero size file downloaded"
 msgstr "Tamaño cero en el archivo descargado"
 
-#: indexhibit2-importer.php:374
+#: indexhibit2-importer.php:370
 msgid ""
 "Welcome to WordPress. We hope that you will find this platform incredibly "
 "rewarding! As a new WordPress user coming from Indexhibit 2, there are some "
@@ -126,11 +126,11 @@ msgstr ""
 "Indexhibit 2, hay algunas cosas que nos gustaría señalar. Con un poco de "
 "suerte, te ayudarán a que la transición sea lo más fluida posible."
 
-#: indexhibit2-importer.php:375
+#: indexhibit2-importer.php:371
 msgid "WordPress Resources"
 msgstr "Recursos de WordPress"
 
-#: indexhibit2-importer.php:376
+#: indexhibit2-importer.php:372
 msgid ""
 "Finally, there are numerous WordPress resources around the internet. Some of "
 "them are:"
@@ -138,18 +138,18 @@ msgstr ""
 "Por último, hay numerosos recursos de WordPress en Internet. Algunos de "
 "ellos son:"
 
-#: indexhibit2-importer.php:378
+#: indexhibit2-importer.php:374
 msgid "<a href=\"http://wordpress.org/\">The official WordPress site</a>"
 msgstr "<a href=\"http://wordpress.org/\">El sitio oficial de WordPress</a>"
 
-#: indexhibit2-importer.php:379
+#: indexhibit2-importer.php:375
 msgid ""
 "<a href=\"http://wordpress.org/support/\">The WordPress support forums</a>"
 msgstr ""
 "<a href=\"http://wordpress.org/support/\">Los foros de soporte de WordPress</"
 "a>"
 
-#: indexhibit2-importer.php:380
+#: indexhibit2-importer.php:376
 msgid ""
 "<a href=\"http://developer.wordpress.org/\">The WordPress developer docs (In "
 "other words, the WordPress Bible)</a>"
@@ -157,48 +157,48 @@ msgstr ""
 "<a href=\"http://developer.wordpress.org/\">La documentación para "
 "desarrolladores de WordPress (en otras palabras, la Biblia de WordPress)</a>"
 
-#: indexhibit2-importer.php:382
+#: indexhibit2-importer.php:378
 #, php-format
 msgid ""
 "That&#8217;s it! What are you waiting for? Go <a href=\"%1$s\">log in</a>!"
 msgstr "¡Eso es todo! ¿A qué esperas? ¡<a href=\"%1$s\">Inicia una sesión</a>!"
 
+#: indexhibit2-importer.php:386
+msgid "Indexhibit 2 Site Address"
+msgstr "Dirección del sitio Indexhibit 2"
+
+#: indexhibit2-importer.php:387
+msgid "Indexhibit 2 Database User"
+msgstr "Usuario de la base de datos de Indexhibit 2"
+
+#: indexhibit2-importer.php:388
+msgid "Indexhibit 2 Database Name"
+msgstr "Nombre de la base de datos de Indexhibit 2"
+
+#: indexhibit2-importer.php:389
+msgid "Indexhibit 2 Database Password"
+msgstr "Contraseña de la base de datos de Indexhibit 2"
+
 #: indexhibit2-importer.php:390
-msgid "Indexhibit 2 Site Address:"
-msgstr "Dirección del sitio Indexhibit 2:"
+msgid "Indexhibit 2 Database Host"
+msgstr "Servidor de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:391
-msgid "Indexhibit 2 Database User:"
-msgstr "Usuario de la base de datos de Indexhibit 2:"
+msgid "Indexhibit 2 Table Prefix"
+msgstr "Prefijo de tabla de Indexhibit 2"
 
-#: indexhibit2-importer.php:392
-msgid "Indexhibit 2 Database Name:"
-msgstr "Nombre de la base de datos de Indexhibit 2:"
-
-#: indexhibit2-importer.php:393
-msgid "Indexhibit 2 Database Password:"
-msgstr "Contraseña de la base de datos de Indexhibit 2:"
-
-#: indexhibit2-importer.php:394
-msgid "Indexhibit 2 Database Host:"
-msgstr "Servidor de la base de datos de Indexhibit 2:"
-
-#: indexhibit2-importer.php:395
-msgid "Indexhibit 2 Table Prefix:"
-msgstr "Prefijo de tabla de Indexhibit 2:"
-
-#: indexhibit2-importer.php:476
+#: indexhibit2-importer.php:472
 msgid "Indexhibit 2"
 msgstr "Indexhibit 2"
 
 #. Description of the plugin/theme
-#: indexhibit2-importer.php:476
+#: indexhibit2-importer.php:472
 msgid "Import posts and images from an Indexhibit 2 site."
 msgstr "Importa entradas e imágenes desde un sitio de Indexhibit 2."
 
 #. Plugin Name of the plugin/theme
 msgid "Indexhibit 2 Importer"
-msgstr "Indexhibit 2 Importer"
+msgstr "Importador de Indexhibit 2"
 
 #. Plugin URI of the plugin/theme
 msgid "http://wordpress.org/extend/plugins/indexhibit-importer/"
