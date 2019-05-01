@@ -41,15 +41,19 @@ class Indexhibit_Import extends WP_Importer {
      * header
      */
     public function header() {
-        echo '<div class="wrap">';
-        echo '<h2>' . __( 'Import Indexhibit 2', 'indexhibit-importer' ) . '</h2>';
+    ?>
+        <div class="wrap">
+        <h2><?php _e( 'Import Indexhibit 2', 'indexhibit-importer' ); ?></h2>
+    <?php
     }
 
     /**
      * footer
      */
     public function footer() {
-        echo '</div>';
+    ?>
+        </div>
+    <?php
     }
 
     /**
@@ -66,7 +70,7 @@ class Indexhibit_Import extends WP_Importer {
         wp_nonce_field( 'import-indexhibit' );
         $this->db_form();
     ?>
-            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import Contents', 'indexhibit-importer' ); ?>" /></p>';
+            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import Contents', 'indexhibit-importer' ); ?>" /></p>
             </form>
         </div>
     <?php
