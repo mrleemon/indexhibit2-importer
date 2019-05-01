@@ -76,7 +76,6 @@ class Indexhibit_Import extends WP_Importer {
      */
     function header() {
         echo '<div class="wrap">';
-        screen_icon();
         echo '<h2>' . __( 'Import Indexhibit', 'indexhibit-importer' ) . '</h2>';
         echo '<p>' . __( 'Steps may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ) . '</p>';
     }
@@ -431,7 +430,7 @@ class Indexhibit_Import extends WP_Importer {
         printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __( 'Indexhibit Database Name:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="ix_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="ixcharset">%s</label></th><td><input type="text" name="ixcharset" id="ixcharset" value="ISO-8859-15"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="ixcharset">%s</label></th><td><input type="text" name="ixcharset" id="ixcharset" value="utf-8"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
         echo '</table>';
     }
 
