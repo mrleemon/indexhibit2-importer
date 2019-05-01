@@ -106,7 +106,6 @@ class Indexhibit_Import extends WP_Importer {
     public function get_ix_posts() {
         // General Housekeeping
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
-        //set_magic_quotes_runtime( 0 );
         $dbprefix = get_option( 'ixdbprefix' );
 
         // Get Posts
@@ -125,7 +124,6 @@ class Indexhibit_Import extends WP_Importer {
     public function get_ix_media( $post_id ) {
         // General Housekeeping
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
-        //set_magic_quotes_runtime( 0 );
         $dbprefix = get_option( 'ixdbprefix' );
 
         // Get media from a specific post
