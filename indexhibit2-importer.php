@@ -293,7 +293,6 @@ class Indexhibit_Import extends WP_Importer {
             foreach ( $imported as $attachment ) {
                 if ( basename( $url ) == basename( $attachment->guid ) ) {
                     if ( $post['post_date_gmt'] == $attachment->post_date_gmt ) {
-                        //$headers = wp_get_http( $url );
                         $remote_response = wp_safe_remote_get( $url );
                         $headers = wp_remote_retrieve_headers( $remote_response );
                         if ( filesize( get_attached_file( $attachment->ID ) ) == $headers['content-length'] ) {
@@ -318,7 +317,6 @@ class Indexhibit_Import extends WP_Importer {
             return new WP_Error( 'upload_dir_error', $upload['error'] );
         }
         // Fetch the remote url and write it to the placeholder file
-        // $headers = wp_get_http( $url, $upload['file'] );
         $remote_response = wp_safe_remote_get( $url, array(
             'timeout'  => 300,
             'stream'   => true,
@@ -335,9 +333,7 @@ class Indexhibit_Import extends WP_Importer {
         // Make sure the fetch was successful
         $remote_response_code = wp_remote_retrieve_response_code( $remote_response );
         if ( $remote_response_code != '200' ) {
-        //if ( $headers['response'] != '200' ) {
             @unlink( $upload['file'] );
-            /*return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit-importer' ), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );*/
             return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit-importer' ), esc_html( $remote_response_code ), get_status_header_desc( $remote_response_code ) ) );
         }
         $filesize = filesize( $upload['file'] );
