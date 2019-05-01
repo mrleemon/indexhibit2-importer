@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
 "POT-Creation-Date: 2019-05-01 22:34+0200\n"
-"PO-Revision-Date: 2019-05-01 22:35+0200\n"
+"PO-Revision-Date: 2019-05-01 22:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -170,7 +170,7 @@ msgstr ""
 
 #: indexhibit2-importer.php:397
 msgid "Indexhibit 2 Site Address"
-msgstr "Dirección del sitio Indexhibit 2"
+msgstr "Dirección de la web Indexhibit 2"
 
 #: indexhibit2-importer.php:401
 msgid "Indexhibit 2 Database Name"
