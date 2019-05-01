@@ -473,7 +473,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit', __( 'Indexhibit 2', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 
