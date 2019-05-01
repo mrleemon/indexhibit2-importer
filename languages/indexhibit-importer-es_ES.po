@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 22:11+0200\n"
-"PO-Revision-Date: 2019-05-01 22:12+0200\n"
+"POT-Creation-Date: 2019-05-01 22:14+0200\n"
+"PO-Revision-Date: 2019-05-01 22:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -172,40 +172,40 @@ msgid "Indexhibit 2 Database Name"
 msgstr "Nombre de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:392
-msgid "The &dollar;indx['db'] value"
-msgstr "El valor &dollar;indx['db']"
+msgid "The <code>&dollar;indx['db']</code> value"
+msgstr "El valor <code>&dollar;indx['db']</code>"
 
 #: indexhibit2-importer.php:396
 msgid "Indexhibit 2 Database User"
 msgstr "Usuario de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:399
-msgid "The &dollar;indx['user'] value"
-msgstr "El valor &dollar;indx['user']"
+msgid "The <code>&dollar;indx['user']</code> value"
+msgstr "El valor <code>&dollar;indx['user']</code>"
 
 #: indexhibit2-importer.php:403
 msgid "Indexhibit 2 Database Password"
 msgstr "Contraseña de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:406
-msgid "The &dollar;indx['pass'] value"
-msgstr "El valor &dollar;indx['pass']"
+msgid "The <code>&dollar;indx['pass']</code> value"
+msgstr "El valor <code>&dollar;indx['pass']</code>"
 
 #: indexhibit2-importer.php:410
 msgid "Indexhibit 2 Database Host"
 msgstr "Servidor de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:413
-msgid "The &dollar;indx['host'] value"
-msgstr "El valor &dollar;indx['host']"
+msgid "The <code>&dollar;indx['host']</code> value"
+msgstr "El valor <code>&dollar;indx['host']</code>"
 
 #: indexhibit2-importer.php:417
 msgid "Indexhibit 2 Table Prefix"
 msgstr "Prefijo de tabla de Indexhibit 2"
 
 #: indexhibit2-importer.php:420
-msgid "The define('PX', 'xxxx') value"
-msgstr "El valor define('PX', 'xxxx')"
+msgid "The <code>define('PX', 'xxxx')</code> value"
+msgstr "El valor <code>define('PX', 'xxxx')</code>"
 
 #: indexhibit2-importer.php:504
 msgid "Indexhibit 2"

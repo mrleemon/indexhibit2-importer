@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 22:12+0200\n"
+"POT-Creation-Date: 2019-05-01 22:15+0200\n"
 "PO-Revision-Date: 2019-05-01 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -154,7 +154,7 @@ msgid "Indexhibit 2 Database Name"
 msgstr ""
 
 #: indexhibit2-importer.php:392
-msgid "The &dollar;indx['db'] value"
+msgid "The <code>&dollar;indx['db']</code> value"
 msgstr ""
 
 #: indexhibit2-importer.php:396
@@ -162,7 +162,7 @@ msgid "Indexhibit 2 Database User"
 msgstr ""
 
 #: indexhibit2-importer.php:399
-msgid "The &dollar;indx['user'] value"
+msgid "The <code>&dollar;indx['user']</code> value"
 msgstr ""
 
 #: indexhibit2-importer.php:403
@@ -170,7 +170,7 @@ msgid "Indexhibit 2 Database Password"
 msgstr ""
 
 #: indexhibit2-importer.php:406
-msgid "The &dollar;indx['pass'] value"
+msgid "The <code>&dollar;indx['pass']</code> value"
 msgstr ""
 
 #: indexhibit2-importer.php:410
@@ -178,7 +178,7 @@ msgid "Indexhibit 2 Database Host"
 msgstr ""
 
 #: indexhibit2-importer.php:413
-msgid "The &dollar;indx['host'] value"
+msgid "The <code>&dollar;indx['host']</code> value"
 msgstr ""
 
 #: indexhibit2-importer.php:417
@@ -186,7 +186,7 @@ msgid "Indexhibit 2 Table Prefix"
 msgstr ""
 
 #: indexhibit2-importer.php:420
-msgid "The define('PX', 'xxxx') value"
+msgid "The <code>define('PX', 'xxxx')</code> value"
 msgstr ""
 
 #: indexhibit2-importer.php:504

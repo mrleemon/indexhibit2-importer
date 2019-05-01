@@ -389,35 +389,35 @@ class Indexhibit_Import extends WP_Importer {
             <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbname" id="dbname" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['db'] value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit-importer' ); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbuser"><?php _e( 'Indexhibit 2 Database User', 'indexhibit-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbuser" id="dbuser" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['user'] value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['user']</code> value", 'indexhibit-importer' ); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit-importer' ); ?></label></th>
             <td>
             <input type="password" name="dbpass" id="dbpass" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['pass'] value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit-importer' ); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" />
-            <p class="description" id="dbuser-description"><?php _e( "The &dollar;indx['host'] value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit-importer' ); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
-            <p class="description" id="dbuser-description"><?php _e( "The define('PX', 'xxxx') value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>define('PX', 'xxxx')</code> value", 'indexhibit-importer' ); ?></p>
             </td>
         </tr>
         </table>
