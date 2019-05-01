@@ -1,13 +1,12 @@
 <?php
 /*
-Plugin Name: Indexhibit 2 Importer
-Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
-Description: Import posts and images from an Indexhibit 2 site.
-Author: leemon
-Author URI: http://wordpress.org/
-Text Domain: indexhibit-importer
-Version: 0.1
-License: GPL v2
+  Plugin Name: Indexhibit 2 Importer
+  Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
+  Description: Import posts and images from an Indexhibit 2 site.
+  Version: 0.1
+  Author: leemon
+  Text Domain: indexhibit-importer
+  License: GPLv2 or later
 */
 
 if ( !defined( 'WP_LOAD_IMPORTERS' ) ) {
@@ -34,11 +33,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 class Indexhibit_Import extends WP_Importer {
 
     /**
-     * Constructor
+     * Constructor. Intentionally left empty and public.
      */
-    public function __construct() {
-        // Nothing.
-    }
+    public function __construct() {}
 
     /**
      * header
