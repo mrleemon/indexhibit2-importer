@@ -417,7 +417,7 @@ class Indexhibit_Import extends WP_Importer {
             <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>define('PX', 'xxxx')</code> value", 'indexhibit-importer' ); ?></p>
+            <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit-importer' ); ?></p>
             </td>
         </tr>
         </table>

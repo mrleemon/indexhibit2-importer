@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 22:14+0200\n"
-"PO-Revision-Date: 2019-05-01 22:15+0200\n"
+"POT-Creation-Date: 2019-05-01 22:16+0200\n"
+"PO-Revision-Date: 2019-05-01 22:17+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -204,8 +204,8 @@ msgid "Indexhibit 2 Table Prefix"
 msgstr "Prefijo de tabla de Indexhibit 2"
 
 #: indexhibit2-importer.php:420
-msgid "The <code>define('PX', 'xxxx')</code> value"
-msgstr "El valor <code>define('PX', 'xxxx')</code>"
+msgid "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value"
+msgstr "El valor <code>xxxx</code> en <code>define('PX', 'xxxx')</code>"
 
 #: indexhibit2-importer.php:504
 msgid "Indexhibit 2"
