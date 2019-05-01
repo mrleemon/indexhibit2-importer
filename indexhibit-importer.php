@@ -256,7 +256,7 @@ class Indexhibit_Import extends WP_Importer {
         );
 
         $ixurl = get_option( 'ixurl' );
-        $media_url = $ixurl . '/files/gimgs/' . $image['media_file'];
+        $media_url = trailingslashit( $ixurl ) . '/files/gimgs/' . $image['media_file'];
 
         echo $media_url;
 
