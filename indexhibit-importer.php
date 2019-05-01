@@ -146,9 +146,8 @@ class Indexhibit_Import extends WP_Importer {
                 );
 
                 $post_author = get_current_user_id();
-                $post_title = $wpdb->escape( $post['title'] );
+                $post_title = $post['title'];
                 $post_content = $post['content'];
-                $post_content = $wpdb->escape( $post_content );
                 $post_date = $post['pdate'];
                 $post_modified = $post['udate'];
                 $post_status = $stattrans[$post['status']];
@@ -216,7 +215,7 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
-                $process = process_attachment( $image, $post_id );
+                $process = $this->process_attachment( $image, $post_id );
             }
         }
 
@@ -246,8 +245,6 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function process_attachment( $image, $parent ) {
 
-        $media_url = '/files/gimgs/' . $image['media_file'];
-                
         $post = array(
             'post_title'    => $image['media_title'],
             'post_content'  => $image['media_caption'],
@@ -256,7 +253,9 @@ class Indexhibit_Import extends WP_Importer {
             'post_parent'   => $parent,
         );
 
-        $pre_process = pre_process_attachment( $post, $media_url );
+        $media_url = '/files/gimgs/' . $image['media_file'];
+
+        $pre_process = $this->pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
             return array(
                 'fatal' => false,
@@ -268,9 +267,10 @@ class Indexhibit_Import extends WP_Importer {
         }
         // If the URL is absolute, but does not contain address, then upload it assuming base_site_url
         if ( preg_match( '|^/[\w\W]+$|', $media_url ) ) {
-            $media_url = rtrim( $this->base_url, '/' ) . $media_url;
+            $base_url = get_home_url();
+            $media_url = rtrim( $base_url, '/' ) . $media_url;
         }
-        $upload = fetch_remote_file( $media_url, $post );
+        $upload = $this->fetch_remote_file( $media_url, $post );
         if ( is_wp_error( $upload ) ) {
             return array(
                 'fatal' => ( $upload->get_error_code() == 'upload_dir_error' && $upload->get_error_message() != 'Invalid file type' ? true : false ),
@@ -283,7 +283,7 @@ class Indexhibit_Import extends WP_Importer {
         if ( $info = wp_check_filetype( $upload['file'] ) ) {
             $post['post_mime_type'] = $info['type'];
         } else {
-            $upload = new WP_Error( 'attachment_processing_error', __('Invalid file type', 'indexhibit-importer') );
+            $upload = new WP_Error( 'attachment_processing_error', __( 'Invalid file type', 'indexhibit-importer' ) );
             return array(
                 'fatal' => false,
                 'type' => 'error',
@@ -321,7 +321,9 @@ class Indexhibit_Import extends WP_Importer {
             foreach ( $imported as $attachment ) {
                 if ( basename( $url ) == basename( $attachment->guid ) ) {
                     if ( $post['post_date_gmt'] == $attachment->post_date_gmt ) {
-                        $headers = wp_get_http( $url );
+                        //$headers = wp_get_http( $url );
+                        $remote_response = wp_safe_remote_get( $url );
+                        $headers = wp_remote_retrieve_headers( $remote_response );
                         if ( filesize( get_attached_file( $attachment->ID ) ) == $headers['content-length'] ) {
                             return new WP_Error( 'duplicate_file_notice', __( 'File already exists', 'indexhibit-importer' ) );
                         }
@@ -344,25 +346,36 @@ class Indexhibit_Import extends WP_Importer {
             return new WP_Error( 'upload_dir_error', $upload['error'] );
         }
         // Fetch the remote url and write it to the placeholder file
-        $headers = wp_get_http( $url, $upload['file'] );
+        // $headers = wp_get_http( $url, $upload['file'] );
+        $remote_response = wp_safe_remote_get( $url, array(
+			'timeout'  => 300,
+            'stream'   => true,
+            'filename' => $upload['file'],
+            )
+        );
+		$headers = wp_remote_retrieve_headers( $remote_response );
+
         // Request failed
         if ( ! $headers ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', __('Remote server did not respond', 'indexhibit-importer') );
+            return new WP_Error( 'import_file_error', __( 'Remote server did not respond', 'indexhibit-importer' ) );
         }
         // Make sure the fetch was successful
-        if ( $headers['response'] != '200' ) {
+        $remote_response_code = wp_remote_retrieve_response_code( $remote_response );
+        if ( $remote_response_code != '200' ) {
+        //if ( $headers['response'] != '200' ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'indexhibit-importer'), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );
+            /*return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit-importer' ), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );*/
+            return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit-importer' ), esc_html( $remote_response_code ), get_status_header_desc( $remote_response_code ) ) );
         }
         $filesize = filesize( $upload['file'] );
         if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', __('Remote file is incorrect size', 'indexhibit-importer') );
+            return new WP_Error( 'import_file_error', __( 'Remote file is incorrect size', 'indexhibit-importer' ) );
         }
         if ( 0 == $filesize ) {
             @unlink( $upload['file'] );
-            return new WP_Error( 'import_file_error', __('Zero size file downloaded', 'indexhibit-importer') );
+            return new WP_Error( 'import_file_error', __( 'Zero size file downloaded', 'indexhibit-importer' ) );
         }
         return $upload;
     }
@@ -386,9 +399,9 @@ class Indexhibit_Import extends WP_Importer {
      * tips
      */
     public function tips() {
-        echo '<p>'.__('Welcome to WordPress.  We hope ( and expect! ) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Indexhibit, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer').'</p>';
+        echo '<p>'.__( 'Welcome to WordPress.  We hope ( and expect! ) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Indexhibit, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit-importer' ).'</p>';
         echo '<h3>'.__( 'Users', 'indexhibit-importer' ).'</h3>';
-        echo '<p>'.sprintf(__( 'You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn&#8217;t have that login in Indexhibit, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and Indexhibit uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="%1$s">Log in</a> and change it.', 'indexhibit-importer' ), '/wp-login.php').'</p>';
+        echo '<p>'.sprintf(__( 'You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn&#8217;t have that login in Indexhibit, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and Indexhibit uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="%1$s">Log in</a> and change it.', 'indexhibit-importer' ), '/wp-login.php' ).'</p>';
         echo '<h3>'.__( 'Preserving Authors', 'indexhibit-importer' ).'</h3>';
         echo '<p>'.__( 'Secondly, we have attempted to preserve post authors.  If you are the only author or contributor to your blog, then you are safe.  In most cases, we are successful in this preservation endeavor.  However, if we cannot ascertain the name of the writer due to discrepancies between database tables, we assign it to you, the administrative user.', 'indexhibit-importer' ).'</p>';
         echo '<h3>'.__( 'Textile', 'indexhibit-importer' ).'</h3>';
@@ -398,9 +411,9 @@ class Indexhibit_Import extends WP_Importer {
         echo '<ul>';
         echo '<li>'.__( '<a href="http://wordpress.org/">The official WordPress site</a>', 'indexhibit-importer' ).'</li>';
         echo '<li>'.__( '<a href="http://wordpress.org/support/">The WordPress support forums</a>', 'indexhibit-importer' ).'</li>';
-        echo '<li>'.__('<a href="http://codex.wordpress.org/">The Codex ( In other words, the WordPress Bible )</a>', 'indexhibit-importer').'</li>';
+        echo '<li>'.__( '<a href="http://codex.wordpress.org/">The Codex ( In other words, the WordPress Bible )</a>', 'indexhibit-importer' ).'</li>';
         echo '</ul>';
-        echo '<p>'.sprintf(__( 'That&#8217;s it! What are you waiting for? Go <a href="%1$s">log in</a>!', 'indexhibit-importer' ), '../wp-login.php').'</p>';
+        echo '<p>'.sprintf(__( 'That&#8217;s it! What are you waiting for? Go <a href="%1$s">log in</a>!', 'indexhibit-importer' ), '../wp-login.php' ).'</p>';
     }
 
     /**
@@ -409,9 +422,8 @@ class Indexhibit_Import extends WP_Importer {
     public function db_form() {
         echo '<table class="form-table">';
         printf( '<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __( 'Indexhibit Database User:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __( 'Indexhibit Database Password:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __( 'Indexhibit Database Name:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
+        printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __( 'Indexhibit Database Password:', 'indexhibit-importer' ) );        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="ix_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="ixcharset">%s</label></th><td><input type="text" name="ixcharset" id="ixcharset" value="utf-8"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
         echo '</table>';
