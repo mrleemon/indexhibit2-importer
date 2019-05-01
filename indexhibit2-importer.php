@@ -59,7 +59,7 @@ class Indexhibit_Import extends WP_Importer {
         echo '<div class="narrow"><p>' . __( 'This importer allows you to import the contents from an Indexhibit 2 database into your WordPress site.', 'indexhibit-importer' ) . '</p>';
         echo '<p>' . __( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ) . '</p>';
         echo '<p>' . __( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ) . '</p>';
-        echo '<form action="admin.php?import=indexhibit&amp;step=1" method="post">';
+        echo '<form action="admin.php?import=indexhibit2&amp;step=1" method="post">';
         wp_nonce_field( 'import-indexhibit' );
         $this->db_form();
         echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Contents', 'indexhibit-importer' ) . '" /></p>';
@@ -200,7 +200,7 @@ class Indexhibit_Import extends WP_Importer {
             return $result;
         }
 
-        echo '<form action="admin.php?import=indexhibit&amp;step=2" method="post">';
+        echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
         wp_nonce_field( 'import-indexhibit' );
         printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit-importer' ) );
         echo '</form>';
@@ -356,7 +356,7 @@ class Indexhibit_Import extends WP_Importer {
         delete_option( 'ixname' );
         delete_option( 'ixhost' );
         delete_option( 'ixurl' );
-        do_action( 'import_done', 'indexhibit' );
+        do_action( 'import_done', 'indexhibit2' );
         $this->tips();
     }
 
