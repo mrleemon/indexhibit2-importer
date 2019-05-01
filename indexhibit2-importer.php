@@ -60,7 +60,7 @@ class Indexhibit_Import extends WP_Importer {
      * greet
      */
     public function greet() {
-        echo '<div class="narrow"><p>' . __( 'This importer allows you to extract posts from an Indexhibit 2 database into your WordPress site.  Mileage may vary.', 'indexhibit-importer' ) . '</p>';
+        echo '<div class="narrow"><p>' . __( 'This importer allows you to import posts from an Indexhibit 2 database into your WordPress site.', 'indexhibit-importer' ) . '</p>';
         echo '<p>' . __( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ) . '</p>';
         echo '<form action="admin.php?import=indexhibit&amp;step=1" method="post">';
         wp_nonce_field( 'import-indexhibit' );
@@ -320,12 +320,12 @@ class Indexhibit_Import extends WP_Importer {
         // Fetch the remote url and write it to the placeholder file
         // $headers = wp_get_http( $url, $upload['file'] );
         $remote_response = wp_safe_remote_get( $url, array(
-			'timeout'  => 300,
+            'timeout'  => 300,
             'stream'   => true,
             'filename' => $upload['file'],
             )
         );
-		$headers = wp_remote_retrieve_headers( $remote_response );
+        $headers = wp_remote_retrieve_headers( $remote_response );
 
         // Request failed
         if ( ! $headers ) {
