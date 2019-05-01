@@ -127,7 +127,7 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Posts...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $posts as $post ) {
                 $count++;
-                extract( $post );
+                //extract( $post );
 
                 // Set Indexhibit-to-WordPress status translation
                 $stattrans = array(
@@ -136,14 +136,16 @@ class Indexhibit_Import extends WP_Importer {
                 );
 
                 // Can we do this more efficiently?
-                $uinfo = ( get_userdatabylogin( $user_id ) ) ? get_userdatabylogin( $user_id ) : 1;
-                $authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
+                //$uinfo = ( get_userdatabylogin( $user_id ) ) ? get_userdatabylogin( $user_id ) : 1;
+                //$authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
 
                 $post_author = get_current_user_id();
-                $post_title = $wpdb->escape( csc( $title ) );
-                $post_content = textconv( $content );
+                $post_title = $wpdb->escape( csc( $post['title'] ) );
+                $post_content = textconv( $post['content'] );
                 $post_content = $wpdb->escape( $post_content );
-                $post_status = $stattrans[$status];
+                $post_date = $post['pdate'];
+                $post_modified = $post['udate'];
+                $post_status = $stattrans[$post['status']];
 
                 // Import Post data into WordPress
 
@@ -151,10 +153,10 @@ class Indexhibit_Import extends WP_Importer {
                     $ret_id = wp_insert_post( array(
                             'ID'                => $pinfo,
                             'post_author'       => $post_author,
-                            'post_date'         => $pdate,
-                            'post_date_gmt'     => $pdate,
-                            'post_modified'     => $udate,
-                            'post_modified_gmt' => $udate,
+                            'post_date'         => $post_date,
+                            'post_date_gmt'     => $post_date,
+                            'post_modified'     => $post_modified,
+                            'post_modified_gmt' => $post_modified,
                             'post_title'        => $post_title,
                             'post_content'      => $post_content,
                             'post_status'       => $post_status,
@@ -167,10 +169,10 @@ class Indexhibit_Import extends WP_Importer {
                 } else {
                     $ret_id = wp_insert_post( array(
                             'post_author'       => $post_author,
-                            'post_date'         => $pdate,
-                            'post_date_gmt'     => $pdate,
-                            'post_modified'     => $udate,
-                            'post_modified_gmt' => $udate,
+                            'post_date'         => $post_date,
+                            'post_date_gmt'     => $post_date,
+                            'post_modified'     => $post_modified,
+                            'post_modified_gmt' => $post_modified,
                             'post_title'        => $post_title,
                             'post_content'      => $post_content,
                             'post_status'       => $post_status,
@@ -181,7 +183,7 @@ class Indexhibit_Import extends WP_Importer {
                         return $ret_id;
                     }
                 }
-                $dcposts2wpposts[$id] = $ret_id;
+                $dcposts2wpposts[$post['id']] = $ret_id;
 
                 $media = $this->get_media( $id );
                 $result = $this->media2wp( $media, $ret_id );
@@ -208,9 +210,9 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
-                extract( $image );
-                $url = $media_file;
-                process_attachment( $post, $url );
+                //extract( $image );
+                $post_url = $image['media_file'];
+                process_attachment( $post, $post_url );
             }
         }
 
@@ -273,7 +275,7 @@ class Indexhibit_Import extends WP_Importer {
         }
         $post['guid'] = $upload['url'];
         // Set author.
-        $post['post_author'] = (int) wp_get_current_user()->ID;
+        $post['post_author'] = get_current_user_id();
         // as per wp-admin/includes/upload.php
         $post_id = wp_insert_attachment( $post, $upload['file'] );
         wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
