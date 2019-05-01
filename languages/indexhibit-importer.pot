@@ -1,0 +1,239 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Indexhibit Importer\n"
+"POT-Creation-Date: 2019-05-01 12:53+0200\n"
+"PO-Revision-Date: 2019-05-01 12:52+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: indexhibit-importer.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: indexhibit-importer.php:74
+msgid "Import Indexhibit"
+msgstr ""
+
+#: indexhibit-importer.php:75
+msgid ""
+"Steps may take a few minutes depending on the size of your database. Please "
+"be patient."
+msgstr ""
+
+#: indexhibit-importer.php:83
+msgid ""
+"Howdy! This importer allows you to extract posts from an Indexhibit database "
+"into your WordPress site.  Mileage may vary."
+msgstr ""
+
+#: indexhibit-importer.php:84
+msgid "Your Indexhibit Configuration settings are as follows:"
+msgstr ""
+
+#: indexhibit-importer.php:88
+msgid "Import Posts"
+msgstr ""
+
+#: indexhibit-importer.php:127
+msgid "Importing Posts..."
+msgstr ""
+
+#: indexhibit-importer.php:199
+#, php-format
+msgid "Done! <strong>%1$s</strong> posts imported."
+msgstr ""
+
+#: indexhibit-importer.php:210
+msgid "Importing Media..."
+msgstr ""
+
+#: indexhibit-importer.php:234
+msgid "Finish"
+msgstr ""
+
+#: indexhibit-importer.php:247
+#, php-format
+msgid "%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)"
+msgstr ""
+
+#: indexhibit-importer.php:261 indexhibit-importer.php:273
+#, php-format
+msgid ""
+"%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)"
+msgstr ""
+
+#: indexhibit-importer.php:267
+msgid "Invalid file type"
+msgstr ""
+
+#: indexhibit-importer.php:289
+#, php-format
+msgid "%s was uploaded successfully"
+msgstr ""
+
+#: indexhibit-importer.php:308
+msgid "File already exists"
+msgstr ""
+
+#: indexhibit-importer.php:330
+msgid "Remote server did not respond"
+msgstr ""
+
+#: indexhibit-importer.php:335
+#, php-format
+msgid "Remote server returned error response %1$d %2$s"
+msgstr ""
+
+#: indexhibit-importer.php:340
+msgid "Remote file is incorrect size"
+msgstr ""
+
+#: indexhibit-importer.php:344
+msgid "Zero size file downloaded"
+msgstr ""
+
+#: indexhibit-importer.php:365
+msgid ""
+"Welcome to WordPress.  We hope ( and expect! ) that you will find this "
+"platform incredibly rewarding!  As a new WordPress user coming from "
+"Indexhibit, there are some things that we would like to point out.  "
+"Hopefully, they will help your transition go as smoothly as possible."
+msgstr ""
+
+#: indexhibit-importer.php:366
+msgid "Users"
+msgstr ""
+
+#: indexhibit-importer.php:367
+#, php-format
+msgid ""
+"You have already setup WordPress and have been assigned an administrative "
+"login and password.  Forget it.  You didn&#8217;t have that login in "
+"Indexhibit, why should you have it here?  Instead we have taken care to "
+"import all of your users into our system.  Unfortunately there is one "
+"downside.  Because both WordPress and Indexhibit uses a strong encryption "
+"hash with passwords, it is impossible to decrypt it and we are forced to "
+"assign temporary passwords to all your users.  <strong>Every user has the "
+"same username, but their passwords are reset to password123.</strong>  So <a "
+"href=\"%1$s\">Log in</a> and change it."
+msgstr ""
+
+#: indexhibit-importer.php:368
+msgid "Preserving Authors"
+msgstr ""
+
+#: indexhibit-importer.php:369
+msgid ""
+"Secondly, we have attempted to preserve post authors.  If you are the only "
+"author or contributor to your blog, then you are safe.  In most cases, we "
+"are successful in this preservation endeavor.  However, if we cannot "
+"ascertain the name of the writer due to discrepancies between database "
+"tables, we assign it to you, the administrative user."
+msgstr ""
+
+#: indexhibit-importer.php:370
+msgid "Textile"
+msgstr ""
+
+#: indexhibit-importer.php:371
+msgid ""
+"Also, since you&#8217;re coming from Indexhibit, you probably have been "
+"using Textile to format your comments and posts.  If this is the case, we "
+"recommend downloading and installing <a href=\"http://www.huddledmasses.org/"
+"category/development/wordpress/textile/\">Textile for WordPress</a>.  Trust "
+"me&#8230; You&#8217;ll want it."
+msgstr ""
+
+#: indexhibit-importer.php:372
+msgid "WordPress Resources"
+msgstr ""
+
+#: indexhibit-importer.php:373
+msgid ""
+"Finally, there are numerous WordPress resources around the internet.  Some "
+"of them are:"
+msgstr ""
+
+#: indexhibit-importer.php:375
+msgid "<a href=\"http://wordpress.org/\">The official WordPress site</a>"
+msgstr ""
+
+#: indexhibit-importer.php:376
+msgid ""
+"<a href=\"http://wordpress.org/support/\">The WordPress support forums</a>"
+msgstr ""
+
+#: indexhibit-importer.php:377
+msgid ""
+"<a href=\"http://codex.wordpress.org/\">The Codex ( In other words, the "
+"WordPress Bible )</a>"
+msgstr ""
+
+#: indexhibit-importer.php:379
+#, php-format
+msgid ""
+"That&#8217;s it! What are you waiting for? Go <a href=\"%1$s\">log in</a>!"
+msgstr ""
+
+#: indexhibit-importer.php:384
+msgid "Indexhibit Database User:"
+msgstr ""
+
+#: indexhibit-importer.php:385
+msgid "Indexhibit Database Password:"
+msgstr ""
+
+#: indexhibit-importer.php:386
+msgid "Indexhibit Database Name:"
+msgstr ""
+
+#: indexhibit-importer.php:387
+msgid "Indexhibit Database Host:"
+msgstr ""
+
+#: indexhibit-importer.php:388
+msgid "Indexhibit Table prefix:"
+msgstr ""
+
+#: indexhibit-importer.php:389
+msgid "Originating character set:"
+msgstr ""
+
+#: indexhibit-importer.php:469
+msgid "Indexhibit"
+msgstr ""
+
+#: indexhibit-importer.php:469
+msgid "Import posts an Indexhibit site."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Indexhibit Importer"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://wordpress.org/extend/plugins/indexhibit-importer/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Import posts from an Indexhibit site."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "leemon"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://wordpress.org/"
+msgstr ""
