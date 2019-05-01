@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Indexhibit Importer
+Plugin Name: Indexhibit 2 Importer
 Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
-Description: Import posts and images from an Indexhibit site.
+Description: Import posts and images from an Indexhibit 2 site.
 Author: leemon
 Author URI: http://wordpress.org/
 Version: 0.1
@@ -11,38 +11,6 @@ License: GPL v2
 
 if ( !defined( 'WP_LOAD_IMPORTERS' ) ) {
     return;
-}
-
-/**
- * Add These Functions to make our lives easier
- */
-
-/**
- * Convert from dotclear charset to utf8 if required
- *
- * @package WordPress
- * @subpackage Dotclear_Import
- *
- * @param string $s
- * @return string
- */
-function csc( $s ) {
-    if ( seems_utf8( $s ) ) {
-        return $s;
-    } else {
-        return iconv( get_option ( "ixcharset" ), "UTF-8", $s );
-    }
-}
-
-/**
- * @package WordPress
- * @subpackage Indexhibit_Import
- *
- * @param string $s
- * @return string
- */
-function textconv( $s ) {
-    return csc( preg_replace( '|( ?<!<br /> )\s*\n|', ' ', $s ) );
 }
 
 // Load Importer API
@@ -91,7 +59,7 @@ class Indexhibit_Import extends WP_Importer {
      * greet
      */
     public function greet() {
-        echo '<div class="narrow"><p>' . __( 'Howdy! This importer allows you to extract posts from an Indexhibit database into your WordPress site.  Mileage may vary.', 'indexhibit-importer' ) . '</p>';
+        echo '<div class="narrow"><p>' . __( 'Howdy! This importer allows you to extract posts from an Indexhibit 2 database into your WordPress site.  Mileage may vary.', 'indexhibit-importer' ) . '</p>';
         echo '<p>' . __( 'Your Indexhibit Configuration settings are as follows:', 'indexhibit-importer' ) . '</p>';
         echo '<form action="admin.php?import=indexhibit&amp;step=1" method="post">';
         wp_nonce_field( 'import-indexhibit' );
@@ -519,7 +487,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit', __( 'Indexhibit', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 

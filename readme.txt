@@ -1,4 +1,4 @@
-=== Indexhibit Importer ===
+=== Indexhibit 2 Importer ===
 Contributors: leemon
 Donate link: 
 Tags: importer, indexhibit
@@ -8,11 +8,11 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Import categories, users, posts, comments, and links from an Indexhibit site.
+Import categories, users, posts, comments, and links from an Indexhibit 2 site.
 
 == Description ==
 
-Import categories, users, posts, comments, and links from an Indexhibit site.
+Import categories, users, posts, comments, and links from an Indexhibit 2 site.
 
 == Installation ==
 
