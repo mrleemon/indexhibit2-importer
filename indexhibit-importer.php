@@ -364,7 +364,6 @@ class Indexhibit_Import extends WP_Importer {
         delete_option( 'ixname' );
         delete_option( 'ixhost' );
         delete_option( 'ixurl' );
-        delete_option( 'ixcharset' );
         do_action( 'import_done', 'indexhibit' );
         $this->tips();
     }
@@ -400,7 +399,6 @@ class Indexhibit_Import extends WP_Importer {
         printf( '<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __( 'Indexhibit Database Password:', 'indexhibit-importer' ) );        printf( '<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" id="dbhost" value="localhost" /></td></tr>', __( 'Indexhibit Database Host:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="ix_"/></td></tr>', __( 'Indexhibit Table prefix:', 'indexhibit-importer' ) );
         printf( '<tr><th><label for="ixurl">%s</label></th><td><input type="text" name="ixurl" id="ixurl" value=""/></td></tr>', __( 'Indexhibit URL:', 'indexhibit-importer' ) );
-        printf( '<tr><th><label for="ixcharset">%s</label></th><td><input type="text" name="ixcharset" id="ixcharset" value="utf-8"/></td></tr>', __( 'Originating character set:', 'indexhibit-importer' ) );
         echo '</table>';
     }
 
@@ -449,12 +447,6 @@ class Indexhibit_Import extends WP_Importer {
                     delete_option( 'ixurl' );
                 }
                 add_option( 'ixurl', sanitize_text_field( $_POST['ixurl'] ) );
-            }
-            if ( $_POST['ixcharset'] ) {
-                if ( get_option( 'ixcharset' ) ) {
-                    delete_option( 'ixcharset' );
-                }
-                add_option( 'ixcharset', sanitize_text_field( $_POST['ixcharset'] ) );
             }
             if ( $_POST['dbprefix'] ) {
                 if ( get_option( 'ixdbprefix' ) ) {
