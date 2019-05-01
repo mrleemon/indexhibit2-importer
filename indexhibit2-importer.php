@@ -2,7 +2,7 @@
 /*
   Plugin Name: Indexhibit 2 Importer
   Plugin URI: http://wordpress.org/extend/plugins/indexhibit-importer/
-  Description: Import posts and images from an Indexhibit 2 site.
+  Description: Import exhibits and images from an Indexhibit 2 site.
   Version: 0.1
   Author: leemon
   Text Domain: indexhibit-importer
@@ -62,18 +62,18 @@ class Indexhibit_Import extends WP_Importer {
         echo '<form action="admin.php?import=indexhibit&amp;step=1" method="post">';
         wp_nonce_field( 'import-indexhibit' );
         $this->db_form();
-        echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Posts', 'indexhibit-importer' ) . '" /></p>';
+        echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . esc_attr__( 'Import Contents', 'indexhibit-importer' ) . '" /></p>';
         echo '</form></div>';
     }
 
     /**
-     * get_ix_posts
+     * get_ix_exhibits
      */
-    public function get_ix_posts() {
+    public function get_ix_exhibits() {
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
 
-        // Get posts
+        // Get exhibits
         return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
     }
 
@@ -91,30 +91,30 @@ class Indexhibit_Import extends WP_Importer {
     }
 
     /**
-     * posts2wp
+     * exhibits2wp
      */
-    public function posts2wp( $posts = '' ) {
+    public function exhibits2wp( $exhibits = '' ) {
         global $wpdb;
         $count = 0;
-        $ixposts2wpposts = array();
+        $ixexhibits2wpposts = array();
 
-        if ( is_array( $posts ) ) {
-            echo '<p>' . __( 'Importing posts...', 'indexhibit-importer' ) . '<br /><br /></p>';
-            foreach ( $posts as $post ) {
+        if ( is_array( $exhibits ) ) {
+            echo '<p>' . __( 'Importing exhibits...', 'indexhibit-importer' ) . '<br /><br /></p>';
+            foreach ( $exhibits as $exhibit ) {
                 $count++;
 
                 $post_author = get_current_user_id();
-                $post_title = $post['title'];
-                $post_content = $post['content'];
-                $post_date = $post['pdate'];
-                $post_modified = $post['udate'];
+                $post_title = $exhibit['title'];
+                $post_content = $exhibit['content'];
+                $post_date = $exhibit['pdate'];
+                $post_modified = $exhibit['udate'];
 
                 // Set Indexhibit-to-WordPress status translation
-                $stattrans = array(
+                $ixstatus = array(
                     0 => 'draft',
                     1 => 'publish'
                 );
-                $post_status = $stattrans[$post['status']];
+                $post_status = $ixstatus[$exhibit['status']];
 
                 // Import post data into WordPress
                 if ( $pinfo = post_exists( $post_title, $post_content ) ) {
@@ -153,9 +153,9 @@ class Indexhibit_Import extends WP_Importer {
                         return $ret_id;
                     }
                 }
-                $ixposts2wpposts[$post['id']] = $ret_id;
+                $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
 
-                $media = $this->get_ix_media( $post['id'] );
+                $media = $this->get_ix_media( $exhibit['id'] );
                 $result = $this->media2wp( $media, $ret_id );
                 if ( is_wp_error( $result ) ) {
                     return $result;
@@ -164,9 +164,9 @@ class Indexhibit_Import extends WP_Importer {
             }
         }
         // Store ID translation for later use
-        add_option( 'ixposts2wpposts', $ixposts2wpposts );
+        add_option( 'ixexhibits2wpposts', $ixexhibits2wpposts );
 
-        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> posts imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
+        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> exhibits imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
         return true;
     }
 
@@ -178,7 +178,7 @@ class Indexhibit_Import extends WP_Importer {
         $count = 0;
 
         if ( is_array( $images ) ) {
-            echo '<p>' . sprintf( __( 'Importing media from post %d...', 'indexhibit-importer' ), $post_id ) . '<br /><br /></p>';
+            echo '<p>' . sprintf( __( 'Importing media from exhibit %d...', 'indexhibit-importer' ), $post_id ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
                 $process = $this->process_attachment( $image, $post_id );
@@ -190,12 +190,12 @@ class Indexhibit_Import extends WP_Importer {
     }
 
     /**
-     * import_posts
+     * import_exhibits
      */
-    public function import_posts() {
+    public function import_exhibits() {
         // Post import
-        $posts = $this->get_ix_posts();
-        $result = $this->posts2wp( $posts );
+        $exhibits = $this->get_ix_exhibits();
+        $result = $this->exhibits2wp( $exhibits );
         if ( is_wp_error( $result ) ) {
             return $result;
         }
@@ -349,7 +349,7 @@ class Indexhibit_Import extends WP_Importer {
      * cleanup_import
      */
     public function cleanup_import() {
-        delete_option( 'ixposts2wpposts' );
+        delete_option( 'ixexhibits2wpposts' );
         delete_option( 'ixdbprefix' );
         delete_option( 'ixuser' );
         delete_option( 'ixpass' );
@@ -450,7 +450,7 @@ class Indexhibit_Import extends WP_Importer {
                 $this->greet();
                 break;
             case 1 :
-                $result = $this->import_posts();
+                $result = $this->import_exhibits();
                 if ( is_wp_error( $result ) ) {
                     echo $result->get_error_message();
                 }
@@ -466,7 +466,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit-importer' ), __( 'Import posts and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit-importer' ), __( 'Import exhibits and images from an Indexhibit 2 site.', 'indexhibit-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 

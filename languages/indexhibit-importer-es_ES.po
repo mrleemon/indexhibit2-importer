@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 21:41+0200\n"
-"PO-Revision-Date: 2019-05-01 21:41+0200\n"
+"POT-Creation-Date: 2019-05-01 21:47+0200\n"
+"PO-Revision-Date: 2019-05-01 21:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -51,22 +51,22 @@ msgstr ""
 "ndxzsite/config/config.php</code>."
 
 #: indexhibit2-importer.php:65
-msgid "Import Posts"
-msgstr "Importar entradas"
+msgid "Import Contents"
+msgstr "Importar contenidos"
 
 #: indexhibit2-importer.php:102
-msgid "Importing posts..."
-msgstr "Importando entradas..."
+msgid "Importing exhibits..."
+msgstr "Importando exposiciones..."
 
 #: indexhibit2-importer.php:169
 #, php-format
-msgid "Done! <strong>%1$s</strong> posts imported."
-msgstr "¡Hecho! <strong>%1$s</strong> entradas importadas."
+msgid "Done! <strong>%1$s</strong> exhibits imported."
+msgstr "¡Hecho! <strong>%1$s</strong> exposiciones importadas."
 
 #: indexhibit2-importer.php:181
 #, php-format
-msgid "Importing media from post %d..."
-msgstr "Importación de archivos multimedia de la entrada %d..."
+msgid "Importing media from exhibit %d..."
+msgstr "Importando archivos multimedia de la exposición %d..."
 
 #: indexhibit2-importer.php:205
 msgid "Finish"
@@ -193,8 +193,8 @@ msgstr "Indexhibit 2"
 
 #. Description of the plugin/theme
 #: indexhibit2-importer.php:469
-msgid "Import posts and images from an Indexhibit 2 site."
-msgstr "Importa entradas e imágenes desde un sitio de Indexhibit 2."
+msgid "Import exhibits and images from an Indexhibit 2 site."
+msgstr "Importa exposiciones e imágenes de una web de Indexhibit 2."
 
 #. Plugin Name of the plugin/theme
 msgid "Indexhibit 2 Importer"
