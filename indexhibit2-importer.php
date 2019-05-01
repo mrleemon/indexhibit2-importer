@@ -62,7 +62,7 @@ class Indexhibit_Import extends WP_Importer {
     public function greet() {
     ?>
         <div class="narrow">
-            <p><?php _e( 'This importer allows you to import the contents from an Indexhibit 2 database into your WordPress site.', 'indexhibit-importer' ); ?></p>
+            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 database into your WordPress site. It imports exhibits and images but ignores sections, subsections and exhibit formats.', 'indexhibit-importer' ); ?></p>
             <p><?php _e( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit-importer' ); ?></p>
             <p><?php _e( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit-importer' ); ?></p>
             <form action="admin.php?import=indexhibit2&amp;step=1" method="post">
