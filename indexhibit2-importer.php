@@ -221,8 +221,11 @@ class Indexhibit_Import extends WP_Importer {
      */
     public function process_attachment( $image, $parent ) {
 
+        $media_file = $image['media_file'];
+        $media_file_noext = preg_replace( '/\\.[^.\\s]{3,4}$/', '', $media_file );
+
         $post = array(
-            'post_title'    => $image['media_title'],
+            'post_title'    => ( !empty( $image['media_title'] ) ? $image['media_title'] : $media_file_noext ),
             'post_content'  => $image['media_caption'],
             'post_date'     => $image['media_udate'],
             'post_date_gmt' => $image['media_udate'],
@@ -230,7 +233,7 @@ class Indexhibit_Import extends WP_Importer {
         );
 
         $ixurl = get_option( 'ixurl' );
-        $media_url = trailingslashit( $ixurl ) . '/files/gimgs/' . $image['media_file'];
+        $media_url = trailingslashit( $ixurl ) . '/files/gimgs/' . $media_file;
 
         $pre_process = $this->pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
