@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 21:34+0200\n"
-"PO-Revision-Date: 2019-05-01 21:35+0200\n"
+"POT-Creation-Date: 2019-05-01 21:41+0200\n"
+"PO-Revision-Date: 2019-05-01 21:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -25,21 +25,21 @@ msgstr ""
 msgid "Import Indexhibit 2"
 msgstr "Import Indexhibit 2"
 
-#: indexhibit2-importer.php:46
+#: indexhibit2-importer.php:59
+msgid ""
+"This importer allows you to import the contents from an Indexhibit 2 "
+"database into your WordPress site."
+msgstr ""
+"Este importador te permite importar los contenidos de una base de datos de "
+"Indexhibit 2 a tu sitio de WordPress."
+
+#: indexhibit2-importer.php:60
 msgid ""
 "The process may take a few minutes depending on the size of your database. "
 "Please be patient."
 msgstr ""
 "El proceso puede tardar unos minutos en función del tamaño de la base de "
 "datos. Por favor, ten paciencia."
-
-#: indexhibit2-importer.php:60
-msgid ""
-"This importer allows you to import posts from an Indexhibit 2 database into "
-"your WordPress site."
-msgstr ""
-"Este importador te permite importar entradas de una base de datos de "
-"Indexhibit 2 a tu sitio de WordPress."
 
 #: indexhibit2-importer.php:61
 msgid ""

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 21:36+0200\n"
+"POT-Creation-Date: 2019-05-01 21:41+0200\n"
 "PO-Revision-Date: 2019-05-01 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -25,16 +25,16 @@ msgstr ""
 msgid "Import Indexhibit 2"
 msgstr ""
 
-#: indexhibit2-importer.php:46
+#: indexhibit2-importer.php:59
 msgid ""
-"The process may take a few minutes depending on the size of your database. "
-"Please be patient."
+"This importer allows you to import the contents from an Indexhibit 2 "
+"database into your WordPress site."
 msgstr ""
 
 #: indexhibit2-importer.php:60
 msgid ""
-"This importer allows you to import posts from an Indexhibit 2 database into "
-"your WordPress site."
+"The process may take a few minutes depending on the size of your database. "
+"Please be patient."
 msgstr ""
 
 #: indexhibit2-importer.php:61
