@@ -185,7 +185,7 @@ class Indexhibit_Import extends WP_Importer {
                 }
                 $dcposts2wpposts[$post['id']] = $ret_id;
 
-                $media = $this->get_media( $id );
+                $media = $this->get_media( $post['id'] );
                 $result = $this->media2wp( $media, $ret_id );
                 if ( is_wp_error( $result ) ) {
                     return $result;
@@ -211,8 +211,8 @@ class Indexhibit_Import extends WP_Importer {
             foreach ( $images as $image ) {
                 $count++;
                 //extract( $image );
-                $post_url = $image['media_file'];
-                process_attachment( $post, $post_url );
+                $media_url = '/files/gimgs/' . $image['media_file'];
+                process_attachment( $post, $media_url );
             }
         }
 
@@ -235,9 +235,9 @@ class Indexhibit_Import extends WP_Importer {
         echo '</form>';
     }
     
-    function process_attachment( $post, $url ) {
+    function process_attachment( $post, $media_url ) {
         
-        $pre_process = pre_process_attachment( $post, $url );
+        $pre_process = pre_process_attachment( $post, $media_url );
         if ( is_wp_error( $pre_process ) ) {
             return array(
                 'fatal' => false,
@@ -248,10 +248,10 @@ class Indexhibit_Import extends WP_Importer {
             );
         }
         // if the URL is absolute, but does not contain address, then upload it assuming base_site_url
-        if ( preg_match( '|^/[\w\W]+$|', $url ) ) {
-            $url = rtrim( $this->base_url, '/' ) . $url;
+        if ( preg_match( '|^/[\w\W]+$|', $media_url ) ) {
+            $media_url = rtrim( $this->base_url, '/' ) . $media_url;
         }
-        $upload = fetch_remote_file( $url, $post );
+        $upload = fetch_remote_file( $media_url, $post );
         if ( is_wp_error( $upload ) ) {
             return array(
                 'fatal' => ( $upload->get_error_code() == 'upload_dir_error' && $upload->get_error_message() != 'Invalid file type' ? true : false ),
@@ -274,6 +274,8 @@ class Indexhibit_Import extends WP_Importer {
             );
         }
         $post['guid'] = $upload['url'];
+        // Set parent.
+        $post['post_parent'] = //get_current_user_id();
         // Set author.
         $post['post_author'] = get_current_user_id();
         // as per wp-admin/includes/upload.php
