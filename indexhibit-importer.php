@@ -108,11 +108,6 @@ class Indexhibit_Import extends WP_Importer {
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
 
-        // Get Posts
-        /* return $ixdb->get_results( 'SELECT ' . $dbprefix . 'post.*, ' . $dbprefix . 'categorie.cat_libelle_url AS post_cat_name
-                        FROM ' . $dbprefix . 'post INNER JOIN ' . $dbprefix . 'categorie
-                        ON ' . $dbprefix . 'post.cat_id = ' . $dbprefix . 'categorie.cat_id', ARRAY_A ); */
-
         // Get posts
         return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
 
@@ -135,12 +130,10 @@ class Indexhibit_Import extends WP_Importer {
      * posts2wp
      */
     public function posts2wp( $posts = '' ) {
-        // General Housekeeping
         global $wpdb;
         $count = 0;
         $ixposts2wpposts = array();
 
-        // Do the Magic
         if ( is_array( $posts ) ) {
             echo '<p>' . __( 'Importing Posts...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $posts as $post ) {
@@ -218,11 +211,9 @@ class Indexhibit_Import extends WP_Importer {
      * media2wp
      */
     public function media2wp( $images = '', $post_id ) {
-        // General Housekeeping
         global $wpdb;
         $count = 0;
 
-        // Do the Magic
         if ( is_array( $images ) ) {
             echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
@@ -239,7 +230,6 @@ class Indexhibit_Import extends WP_Importer {
             }
         }
 
-        //echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> posts imported.', 'indexhibit-importer' ), $count ) . '<br /><br /></p>';
         return true;
 
     }
