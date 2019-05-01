@@ -104,7 +104,6 @@ class Indexhibit_Import extends WP_Importer {
      * get_ix_posts
      */
     public function get_ix_posts() {
-        // General Housekeeping
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
 
@@ -117,7 +116,6 @@ class Indexhibit_Import extends WP_Importer {
      * get_ix_media
      */
     public function get_ix_media( $post_id ) {
-        // General Housekeeping
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
 
@@ -140,7 +138,6 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Posts...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $posts as $post ) {
                 $count++;
-                //extract( $post );
 
                 // Set Indexhibit-to-WordPress status translation
                 $stattrans = array(
@@ -156,8 +153,7 @@ class Indexhibit_Import extends WP_Importer {
                 $post_modified = $post['udate'];
                 $post_status = $stattrans[$post['status']];
 
-                // Import Post data into WordPress
-
+                // Import post data into WordPress
                 if ( $pinfo = post_exists( $post_title, $post_content ) ) {
                     $ret_id = wp_insert_post( array(
                             'ID'                => $pinfo,
@@ -220,7 +216,6 @@ class Indexhibit_Import extends WP_Importer {
             echo '<p>' . __( 'Importing Media...', 'indexhibit-importer' ) . '<br /><br /></p>';
             foreach ( $images as $image ) {
                 $count++;
-                //extract( $image );
                 $media_url = '/files/gimgs/' . $image['media_file'];
                 
                 $post['post_title'] = $image['media_title'];
@@ -240,7 +235,7 @@ class Indexhibit_Import extends WP_Importer {
      * import_posts
      */
     public function import_posts() {
-        // Post Import
+        // Post import
         $posts = $this->get_ix_posts();
         $result = $this->posts2wp( $posts );
         if ( is_wp_error( $result ) ) {
@@ -268,7 +263,7 @@ class Indexhibit_Import extends WP_Importer {
                 'text' => sprintf( __( '%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)', 'indexhibit-importer' ), $post['post_title'], $pre_process->get_error_code(), $pre_process->get_error_message() )
             );
         }
-        // if the URL is absolute, but does not contain address, then upload it assuming base_site_url
+        // If the URL is absolute, but does not contain address, then upload it assuming base_site_url
         if ( preg_match( '|^/[\w\W]+$|', $media_url ) ) {
             $media_url = rtrim( $this->base_url, '/' ) . $media_url;
         }
@@ -302,8 +297,6 @@ class Indexhibit_Import extends WP_Importer {
         // as per wp-admin/includes/upload.php
         $post_id = wp_insert_attachment( $post, $upload['file'] );
         wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
-        // remap image URL's
-        //backfill_attachment_urls( $url, $upload['url'] );
         return array(
             'fatal' => false,
             'type' => 'updated',
@@ -342,21 +335,21 @@ class Indexhibit_Import extends WP_Importer {
      * fetch_remote_file
      */
     public function fetch_remote_file( $url, $post ) {
-        // extract the file name and extension from the url
+        // Extract the file name and extension from the url
         $file_name = basename( $url );
-        // get placeholder file in the upload dir with a unique, sanitized filename
+        // Get placeholder file in the upload dir with a unique, sanitized filename
         $upload = wp_upload_bits( $file_name, 0, '', $post['post_date'] );
         if ( $upload['error'] ) {
             return new WP_Error( 'upload_dir_error', $upload['error'] );
         }
-        // fetch the remote url and write it to the placeholder file
+        // Fetch the remote url and write it to the placeholder file
         $headers = wp_get_http( $url, $upload['file'] );
-        // request failed
+        // Request failed
         if ( ! $headers ) {
             @unlink( $upload['file'] );
             return new WP_Error( 'import_file_error', __('Remote server did not respond', 'indexhibit-importer') );
         }
-        // make sure the fetch was successful
+        // Make sure the fetch was successful
         if ( $headers['response'] != '200' ) {
             @unlink( $upload['file'] );
             return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'indexhibit-importer'), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );
