@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-02 08:57+0200\n"
-"PO-Revision-Date: 2019-05-02 08:57+0200\n"
+"POT-Creation-Date: 2019-05-02 09:24+0200\n"
+"PO-Revision-Date: 2019-05-02 09:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -28,13 +28,13 @@ msgstr "Importar Indexhibit 2"
 #: indexhibit2-importer.php:65
 msgid ""
 "This importer allows you to import most of the contents from an Indexhibit 2 "
-"database into your WordPress site. It imports exhibits and images but "
+"database into your WordPress site. It imports exhibits and media files but "
 "ignores sections, subsections and exhibit formats."
 msgstr ""
 "Este importador te permite importar la mayoría de los contenidos de una base "
 "de datos de Indexhibit 2 a tu sitio de WordPress. Importa las exposiciones y "
-"las imágenes pero ignora las secciones, las subsecciones y los formatos de "
-"exposición."
+"los archivos multimedia pero ignora las secciones, las subsecciones y los "
+"formatos de exposición."
 
 #: indexhibit2-importer.php:66
 msgid ""
@@ -68,13 +68,13 @@ msgstr "¡Hecho! <strong>%1$s</strong> exposiciones importadas."
 
 #: indexhibit2-importer.php:193
 #, php-format
-msgid "Importing media from exhibit \"%1$s\"..."
+msgid "Importing media files from exhibit \"%1$s\"..."
 msgstr "Importando archivos multimedia de la exposición \"%1$s\"..."
 
 #: indexhibit2-importer.php:200
 #, php-format
-msgid "Done! <strong>%1$s</strong> archives imported."
-msgstr "¡Hecho! <strong>%1$s</strong> archivos importados."
+msgid "Done! <strong>%1$s</strong> media files imported."
+msgstr "¡Hecho! <strong>%1$s</strong> archivos multimedia importados."
 
 #: indexhibit2-importer.php:218
 msgid "Finish"
@@ -223,8 +223,8 @@ msgstr "Indexhibit 2"
 
 #. Description of the plugin/theme
 #: indexhibit2-importer.php:520
-msgid "Import exhibits and images from an Indexhibit 2 site."
-msgstr "Importa exposiciones e imágenes de una web de Indexhibit 2."
+msgid "Import exhibits and media files from an Indexhibit 2 site."
+msgstr "Importa exposiciones y archivos multimedia de una web de Indexhibit 2."
 
 #. Plugin Name of the plugin/theme
 msgid "Indexhibit 2 Importer"

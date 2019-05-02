@@ -2,7 +2,7 @@
 /*
   Plugin Name: Indexhibit 2 Importer
   Plugin URI: http://wordpress.org/extend/plugins/indexhibit2-importer/
-  Description: Import exhibits and images from an Indexhibit 2 site.
+  Description: Import exhibits and media files from an Indexhibit 2 site.
   Version: 0.1
   Author: leemon
   Text Domain: indexhibit2-importer
@@ -62,7 +62,7 @@ class Indexhibit_Import extends WP_Importer {
     public function greet() {
     ?>
         <div class="narrow">
-            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 database into your WordPress site. It imports exhibits and images but ignores sections, subsections and exhibit formats.', 'indexhibit2-importer' ); ?></p>
+            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 database into your WordPress site. It imports exhibits and media files but ignores sections, subsections and exhibit formats.', 'indexhibit2-importer' ); ?></p>
             <p><?php _e( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit2-importer' ); ?></p>
             <p><?php _e( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit2-importer' ); ?></p>
             <form action="admin.php?import=indexhibit2&amp;step=1" method="post">
@@ -185,19 +185,19 @@ class Indexhibit_Import extends WP_Importer {
     /**
      * media2wp
      */
-    public function media2wp( $images = '', $exhibit, $post_id ) {
+    public function media2wp( $files = '', $exhibit, $post_id ) {
         global $wpdb;
         $count = 0;
 
-        if ( is_array( $images ) ) {
-            echo '<p>' . sprintf( __( 'Importing media from exhibit "%1$s"...', 'indexhibit2-importer' ), $exhibit['title'] ) . '</p>';
-            foreach ( $images as $image ) {
+        if ( is_array( $files ) ) {
+            echo '<p>' . sprintf( __( 'Importing media files from exhibit "%1$s"...', 'indexhibit2-importer' ), $exhibit['title'] ) . '</p>';
+            foreach ( $files as $file ) {
                 $count++;
-                $process = $this->process_attachment( $image, $post_id );
+                $process = $this->process_attachment( $file, $post_id );
             }
         }
 
-        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> archives imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
+        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> media files imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
         return true;
 
     }
@@ -222,16 +222,16 @@ class Indexhibit_Import extends WP_Importer {
     /**
      * process_attachment
      */
-    public function process_attachment( $image, $parent ) {
+    public function process_attachment( $file, $parent ) {
 
-        $media_file = $image['media_file'];
+        $media_file = $file['media_file'];
         $media_file_noext = preg_replace( '/\\.[^.\\s]{3,4}$/', '', $media_file );
 
         $post = array(
-            'post_title'    => ( !empty( $image['media_title'] ) ? $image['media_title'] : $media_file_noext ),
-            'post_content'  => $image['media_caption'],
-            'post_date'     => $image['media_udate'],
-            'post_date_gmt' => $image['media_udate'],
+            'post_title'    => ( !empty( $file['media_title'] ) ? $file['media_title'] : $media_file_noext ),
+            'post_content'  => $file['media_caption'],
+            'post_date'     => $file['media_udate'],
+            'post_date_gmt' => $file['media_udate'],
             'post_parent'   => $parent,
         );
 
@@ -517,7 +517,7 @@ class Indexhibit_Import extends WP_Importer {
 
 $ix_import = new Indexhibit_Import();
 
-register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and images from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and media files from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix_import, 'dispatch' ) );
 
 }
 
