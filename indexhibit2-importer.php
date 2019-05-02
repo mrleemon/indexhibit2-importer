@@ -84,7 +84,7 @@ class Indexhibit_Import extends WP_Importer {
         $dbprefix = get_option( 'ixdbprefix' );
 
         // Get exhibits
-        return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects", ARRAY_A );
+        return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
     }
 
     /**
