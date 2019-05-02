@@ -291,6 +291,7 @@ class Indexhibit2_Import extends WP_Importer {
             'post_content'  => $file['media_caption'],
             'post_date'     => $file['media_udate'],
             'post_date_gmt' => $file['media_udate'],
+            'menu_order'    => $file['media_order'],
             'post_parent'   => $parent,
         );
 
