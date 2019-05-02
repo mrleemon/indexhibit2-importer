@@ -77,11 +77,85 @@ class Indexhibit2_Import extends WP_Importer {
     }
 
     /**
+     * db_form
+     */
+    public function db_form() {
+    ?>
+        <table class="form-table">
+        <tr>
+            <th scope="row"><label for="ixurl"><?php _e( 'Indexhibit 2 Site Address', 'indexhibit2-importer' ); ?></label></th>
+            <td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbname" id="dbname" class="regular-text" required />
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit2-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbuser"><?php _e( 'Indexhibit 2 Database User', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbuser" id="dbuser" class="regular-text" required />
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['user']</code> value", 'indexhibit2-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="password" name="dbpass" id="dbpass" class="regular-text" required />
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit2-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" />
+            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit2-importer' ); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
+            <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
+            </td>
+        </tr>
+        </table>
+    <?php
+    }
+
+    /**
+     * import_exhibits
+     */
+    public function import_exhibits() {
+        // Import exhibits
+        $exhibits = $this->get_ix_exhibits();
+        if ( $exhibits ) {
+            $result = $this->exhibits2wp( $exhibits );
+            if ( is_wp_error( $result ) ) {
+                return $result;
+            }
+
+            echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
+            wp_nonce_field( 'import-indexhibit2' );
+            printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit2-importer' ) );
+            echo '</form>';
+        } else {
+            echo '<p>' . __( 'Cannot connect to Indexhibit 2 database', 'indexhibit2-importer' ) . '</p>';
+        }
+    }
+
+    /**
      * get_ix_exhibits
      */
     public function get_ix_exhibits() {
-        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
+        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
+        $result = $ixdb->check_connection( false );
+        if ( !$result ) {
+            return false;
+        }
 
         // Get exhibits
         return $ixdb->get_results( "SELECT * FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
@@ -91,8 +165,12 @@ class Indexhibit2_Import extends WP_Importer {
      * get_ix_media
      */
     public function get_ix_media( $post_id ) {
-        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
+        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
+        $ixdb->check_connection( false );
+        if ( !$result ) {
+            return false;
+        }
 
         // Get media files from a specific exhibit
         return $ixdb->get_results( 
@@ -198,23 +276,6 @@ class Indexhibit2_Import extends WP_Importer {
         echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> media files imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
         return true;
 
-    }
-
-    /**
-     * import_exhibits
-     */
-    public function import_exhibits() {
-        // Import exhibits
-        $exhibits = $this->get_ix_exhibits();
-        $result = $this->exhibits2wp( $exhibits );
-        if ( is_wp_error( $result ) ) {
-            return $result;
-        }
-
-        echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
-        wp_nonce_field( 'import-indexhibit2' );
-        printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit2-importer' ) );
-        echo '</form>';
     }
     
     /**
@@ -385,55 +446,6 @@ class Indexhibit2_Import extends WP_Importer {
         <li><?php _e( '<a href="http://developer.wordpress.org/">The WordPress developer docs (In other words, the WordPress Bible)</a>', 'indexhibit2-importer' ); ?></li>
         </ul>
         <p><?php _e( 'That&#8217;s it! What are you waiting for? Go <a href="../wp-login.php">log in</a>!', 'indexhibit2-importer' ); ?></p>
-    <?php
-    }
-
-    /**
-     * db_form
-     */
-    public function db_form() {
-    ?>
-        <table class="form-table">
-        <tr>
-            <th scope="row"><label for="ixurl"><?php _e( 'Indexhibit 2 Site Address', 'indexhibit2-importer' ); ?></label></th>
-            <td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td>
-        </tr>
-        <tr>
-            <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit2-importer' ); ?></label></th>
-            <td>
-            <input type="text" name="dbname" id="dbname" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit2-importer' ); ?></p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><label for="dbuser"><?php _e( 'Indexhibit 2 Database User', 'indexhibit2-importer' ); ?></label></th>
-            <td>
-            <input type="text" name="dbuser" id="dbuser" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['user']</code> value", 'indexhibit2-importer' ); ?></p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit2-importer' ); ?></label></th>
-            <td>
-            <input type="password" name="dbpass" id="dbpass" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit2-importer' ); ?></p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit2-importer' ); ?></label></th>
-            <td>
-            <input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit2-importer' ); ?></p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit2-importer' ); ?></label></th>
-            <td>
-            <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
-            </td>
-        </tr>
-        </table>
     <?php
     }
 
