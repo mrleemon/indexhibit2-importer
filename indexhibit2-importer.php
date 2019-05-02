@@ -166,7 +166,7 @@ class Indexhibit_Import extends WP_Importer {
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
 
                 $media = $this->get_ix_media( $exhibit['id'] );
-                $result = $this->media2wp( $media, $ret_id );
+                $result = $this->media2wp( $media, $exhibit, $ret_id );
                 if ( is_wp_error( $result ) ) {
                     return $result;
                 }
@@ -183,18 +183,19 @@ class Indexhibit_Import extends WP_Importer {
     /**
      * media2wp
      */
-    public function media2wp( $images = '', $post_id ) {
+    public function media2wp( $images = '', $exhibit, $post_id ) {
         global $wpdb;
         $count = 0;
 
         if ( is_array( $images ) ) {
-            echo '<p>' . sprintf( __( 'Importing media from exhibit %d...', 'indexhibit2-importer' ), $post_id ) . '<br /><br /></p>';
+            echo '<p>' . sprintf( __( 'Importing media from exhibit "%1$s..."', 'indexhibit2-importer' ), $exhibit['title'] ) . '</p>';
             foreach ( $images as $image ) {
                 $count++;
                 $process = $this->process_attachment( $image, $post_id );
             }
         }
 
+        echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> archives imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
         return true;
 
     }

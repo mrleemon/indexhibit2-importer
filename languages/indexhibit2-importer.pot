@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-01 22:47+0200\n"
+"POT-Creation-Date: 2019-05-02 08:51+0200\n"
 "PO-Revision-Date: 2019-05-01 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -59,55 +59,60 @@ msgstr ""
 
 #: indexhibit2-importer.php:191
 #, php-format
-msgid "Importing media from exhibit %d..."
+msgid "Importing media from exhibit \"%1$s...\""
 msgstr ""
 
-#: indexhibit2-importer.php:215
+#: indexhibit2-importer.php:198
+#, php-format
+msgid "Done! <strong>%1$s</strong> archives imported."
+msgstr ""
+
+#: indexhibit2-importer.php:216
 msgid "Finish"
 msgstr ""
 
-#: indexhibit2-importer.php:244
+#: indexhibit2-importer.php:246
 #, php-format
 msgid "%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)"
 msgstr ""
 
-#: indexhibit2-importer.php:259 indexhibit2-importer.php:271
+#: indexhibit2-importer.php:261 indexhibit2-importer.php:273
 #, php-format
 msgid ""
 "%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)"
 msgstr ""
 
-#: indexhibit2-importer.php:265
+#: indexhibit2-importer.php:267
 msgid "Invalid file type"
 msgstr ""
 
-#: indexhibit2-importer.php:283
+#: indexhibit2-importer.php:285
 #, php-format
 msgid "%s was uploaded successfully"
 msgstr ""
 
-#: indexhibit2-importer.php:306
+#: indexhibit2-importer.php:308
 msgid "File already exists"
 msgstr ""
 
-#: indexhibit2-importer.php:338
+#: indexhibit2-importer.php:340
 msgid "Remote server did not respond"
 msgstr ""
 
-#: indexhibit2-importer.php:344
+#: indexhibit2-importer.php:346
 #, php-format
 msgid "Remote server returned error response %1$d %2$s"
 msgstr ""
 
-#: indexhibit2-importer.php:349
+#: indexhibit2-importer.php:351
 msgid "Remote file is incorrect size"
 msgstr ""
 
-#: indexhibit2-importer.php:353
+#: indexhibit2-importer.php:355
 msgid "Zero size file downloaded"
 msgstr ""
 
-#: indexhibit2-importer.php:378
+#: indexhibit2-importer.php:380
 msgid ""
 "Welcome to WordPress. We hope that you will find this platform incredibly "
 "rewarding! As a new WordPress user coming from Indexhibit 2, there are some "
@@ -115,87 +120,87 @@ msgid ""
 "transition go as smoothly as possible."
 msgstr ""
 
-#: indexhibit2-importer.php:379
+#: indexhibit2-importer.php:381
 msgid "WordPress Resources"
 msgstr ""
 
-#: indexhibit2-importer.php:380
+#: indexhibit2-importer.php:382
 msgid ""
 "Finally, there are numerous WordPress resources around the internet. Some of "
 "them are:"
 msgstr ""
 
-#: indexhibit2-importer.php:382
+#: indexhibit2-importer.php:384
 msgid "<a href=\"http://wordpress.org/\">The official WordPress site</a>"
 msgstr ""
 
-#: indexhibit2-importer.php:383
+#: indexhibit2-importer.php:385
 msgid ""
 "<a href=\"http://wordpress.org/support/\">The WordPress support forums</a>"
 msgstr ""
 
-#: indexhibit2-importer.php:384
+#: indexhibit2-importer.php:386
 msgid ""
 "<a href=\"http://developer.wordpress.org/\">The WordPress developer docs (In "
 "other words, the WordPress Bible)</a>"
 msgstr ""
 
-#: indexhibit2-importer.php:386
+#: indexhibit2-importer.php:388
 msgid ""
 "That&#8217;s it! What are you waiting for? Go <a href=\"../wp-login.php"
 "\">log in</a>!"
 msgstr ""
 
-#: indexhibit2-importer.php:397
+#: indexhibit2-importer.php:399
 msgid "Indexhibit 2 Site Address"
 msgstr ""
 
-#: indexhibit2-importer.php:401
+#: indexhibit2-importer.php:403
 msgid "Indexhibit 2 Database Name"
 msgstr ""
 
-#: indexhibit2-importer.php:404
+#: indexhibit2-importer.php:406
 msgid "The <code>&dollar;indx['db']</code> value"
 msgstr ""
 
-#: indexhibit2-importer.php:408
+#: indexhibit2-importer.php:410
 msgid "Indexhibit 2 Database User"
 msgstr ""
 
-#: indexhibit2-importer.php:411
+#: indexhibit2-importer.php:413
 msgid "The <code>&dollar;indx['user']</code> value"
 msgstr ""
 
-#: indexhibit2-importer.php:415
+#: indexhibit2-importer.php:417
 msgid "Indexhibit 2 Database Password"
 msgstr ""
 
-#: indexhibit2-importer.php:418
+#: indexhibit2-importer.php:420
 msgid "The <code>&dollar;indx['pass']</code> value"
 msgstr ""
 
-#: indexhibit2-importer.php:422
+#: indexhibit2-importer.php:424
 msgid "Indexhibit 2 Database Host"
 msgstr ""
 
-#: indexhibit2-importer.php:425
+#: indexhibit2-importer.php:427
 msgid "The <code>&dollar;indx['host']</code> value"
 msgstr ""
 
-#: indexhibit2-importer.php:429
+#: indexhibit2-importer.php:431
 msgid "Indexhibit 2 Table Prefix"
 msgstr ""
 
-#: indexhibit2-importer.php:432
+#: indexhibit2-importer.php:434
 msgid "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value"
 msgstr ""
 
-#: indexhibit2-importer.php:516
+#: indexhibit2-importer.php:518
 msgid "Indexhibit 2"
 msgstr ""
 
 #. Description of the plugin/theme
-#: indexhibit2-importer.php:516
+#: indexhibit2-importer.php:518
 msgid "Import exhibits and images from an Indexhibit 2 site."
 msgstr ""
 
@@ -204,7 +209,7 @@ msgid "Indexhibit 2 Importer"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://wordpress.org/extend/plugins/indexhibit-importer/"
+msgid "http://wordpress.org/extend/plugins/indexhibit2-importer/"
 msgstr ""
 
 #. Author of the plugin/theme
