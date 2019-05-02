@@ -167,7 +167,7 @@ class Indexhibit2_Import extends WP_Importer {
     public function get_ix_media( $post_id ) {
         $dbprefix = get_option( 'ixdbprefix' );
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
-        $ixdb->check_connection( false );
+        $result = $ixdb->check_connection( false );
         if ( !$result ) {
             return false;
         }
