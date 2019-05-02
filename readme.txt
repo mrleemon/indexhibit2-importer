@@ -18,13 +18,13 @@ This plugin is experimental and is provided with no support or warranty.
 
 == Installation ==
 
-1. Upload the `indexhibit-importer` folder to the `/wp-content/plugins/` directory
+1. Upload the `indexhibit2-importer` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to the Tools -> Import screen, Click on Indexhibit
+3. Go to the Tools -> Import screen, Click on Indexhibit 2
 
 == Frequently Asked Questions ==
-= Does this plugin import everything from an Indexhibit2 sit? =
-No, this just imports exhibits and media files, but ignores links, sections, subsections and exhibit formats.
+= Does this plugin import all the contents from an Indexhibit 2 site? =
+No, this imports exhibits and media files, but ignores links, sections, subsections and exhibit formats.
 
 == Changelog ==
 
