@@ -129,7 +129,7 @@ class Indexhibit_Import extends WP_Importer {
                 $ret_id = 0;
 
                 // Import post data into WordPress
-                if ( $pinfo = post_exists( $post_title, $post_content ) ) {
+                if ( $pinfo = post_exists( $post_title, $post_content, $post_date ) ) {
                     $ret_id = wp_insert_post( array(
                             'ID'                => $pinfo,
                             'post_author'       => $post_author,
