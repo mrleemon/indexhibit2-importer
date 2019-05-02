@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
 "POT-Creation-Date: 2019-05-02 09:24+0200\n"
-"PO-Revision-Date: 2019-05-02 09:24+0200\n"
+"PO-Revision-Date: 2019-05-02 09:31+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -183,7 +183,7 @@ msgstr "Nombre de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:408
 msgid "The <code>&dollar;indx['db']</code> value"
-msgstr "El valor <code>&dollar;indx['db']</code>"
+msgstr "El valor de <code>&dollar;indx['db']</code>"
 
 #: indexhibit2-importer.php:412
 msgid "Indexhibit 2 Database User"
@@ -191,7 +191,7 @@ msgstr "Usuario de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:415
 msgid "The <code>&dollar;indx['user']</code> value"
-msgstr "El valor <code>&dollar;indx['user']</code>"
+msgstr "El valor de <code>&dollar;indx['user']</code>"
 
 #: indexhibit2-importer.php:419
 msgid "Indexhibit 2 Database Password"
@@ -199,7 +199,7 @@ msgstr "Contraseña de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:422
 msgid "The <code>&dollar;indx['pass']</code> value"
-msgstr "El valor <code>&dollar;indx['pass']</code>"
+msgstr "El valor de <code>&dollar;indx['pass']</code>"
 
 #: indexhibit2-importer.php:426
 msgid "Indexhibit 2 Database Host"
@@ -207,7 +207,7 @@ msgstr "Servidor de la base de datos de Indexhibit 2"
 
 #: indexhibit2-importer.php:429
 msgid "The <code>&dollar;indx['host']</code> value"
-msgstr "El valor <code>&dollar;indx['host']</code>"
+msgstr "El valor de <code>&dollar;indx['host']</code>"
 
 #: indexhibit2-importer.php:433
 msgid "Indexhibit 2 Table Prefix"
