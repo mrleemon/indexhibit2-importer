@@ -84,7 +84,7 @@ class Indexhibit_Import extends WP_Importer {
         $dbprefix = get_option( 'ixdbprefix' );
 
         // Get exhibits
-        return $ixdb->get_results( "SELECT " . $dbprefix . "objects.* FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
+        return $ixdb->get_results( "SELECT * FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
     }
 
     /**
@@ -96,7 +96,7 @@ class Indexhibit_Import extends WP_Importer {
 
         // Get media from a specific post
         return $ixdb->get_results( 
-            $ixdb->prepare( "SELECT " . $dbprefix . "media.* FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
+            $ixdb->prepare( "SELECT * FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
             ARRAY_A );
     }
 
