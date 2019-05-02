@@ -104,7 +104,6 @@ class Indexhibit2_Import extends WP_Importer {
      * exhibits2wp
      */
     public function exhibits2wp( $exhibits = '' ) {
-        global $wpdb;
         $count = 0;
         $ixexhibits2wpposts = array();
 
@@ -186,7 +185,6 @@ class Indexhibit2_Import extends WP_Importer {
      * media2wp
      */
     public function media2wp( $files = '', $exhibit, $post_id ) {
-        global $wpdb;
         $count = 0;
 
         if ( is_array( $files ) ) {
