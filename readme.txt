@@ -8,11 +8,11 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Import exhibits and images from an Indexhibit 2 site.
+Import exhibits and media files from an Indexhibit 2 site.
 
 == Description ==
 
-Import exhibits and images from an Indexhibit 2 site.
+Import exhibits and media files from an Indexhibit 2 site.
 
 This plugin is experimental and is provided with no support or warranty.
 
@@ -24,7 +24,7 @@ This plugin is experimental and is provided with no support or warranty.
 
 == Frequently Asked Questions ==
 = Does this plugin import everything from an Indexhibit2 sit? =
-No, this just imports exhibits and images, but ignores links, sections, subsections and exhibit formats.
+No, this just imports exhibits and media files, but ignores links, sections, subsections and exhibit formats.
 
 == Changelog ==
 
