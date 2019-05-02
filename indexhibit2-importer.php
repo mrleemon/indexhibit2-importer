@@ -126,6 +126,8 @@ class Indexhibit_Import extends WP_Importer {
                 );
                 $post_status = $ixstatus[$exhibit['status']];
 
+                $ret_id = 0;
+
                 // Import post data into WordPress
                 if ( $pinfo = post_exists( $post_title, $post_content ) ) {
                     $ret_id = wp_insert_post( array(
@@ -188,7 +190,7 @@ class Indexhibit_Import extends WP_Importer {
         $count = 0;
 
         if ( is_array( $images ) ) {
-            echo '<p>' . sprintf( __( 'Importing media from exhibit "%1$s..."', 'indexhibit2-importer' ), $exhibit['title'] ) . '</p>';
+            echo '<p>' . sprintf( __( 'Importing media from exhibit "%1$s"...', 'indexhibit2-importer' ), $exhibit['title'] ) . '</p>';
             foreach ( $images as $image ) {
                 $count++;
                 $process = $this->process_attachment( $image, $post_id );
