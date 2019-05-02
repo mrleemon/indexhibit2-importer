@@ -26,6 +26,9 @@ This plugin is experimental and is provided with no support or warranty.
 = Does this plugin import all the contents from an Indexhibit 2 site? =
 No, this imports exhibits and media files, but ignores links, sections, subsections and exhibit formats.
 
+= How are exhibits and media files imported into WordPress? =
+Exhibits are imported as pages and media files are imported as attachments attached to their corresponding pages.
+
 == Changelog ==
 
 = 0.1 =
