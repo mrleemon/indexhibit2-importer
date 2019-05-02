@@ -24,13 +24,13 @@ if ( !class_exists( 'WP_Importer' ) ) {
 }
 
 /**
- * Indexhibit Importer
+ * Indexhibit 2 Importer
  *
  * @package WordPress
  * @subpackage Importer
  */
 if ( class_exists( 'WP_Importer' ) ) {
-class Indexhibit_Import extends WP_Importer {
+class Indexhibit2_Import extends WP_Importer {
 
     /**
      * Constructor. Intentionally left empty and public.
@@ -94,7 +94,7 @@ class Indexhibit_Import extends WP_Importer {
         $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $dbprefix = get_option( 'ixdbprefix' );
 
-        // Get media from a specific post
+        // Get media files from a specific exhibit
         return $ixdb->get_results( 
             $ixdb->prepare( "SELECT * FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
             ARRAY_A );
@@ -128,7 +128,7 @@ class Indexhibit_Import extends WP_Importer {
 
                 $ret_id = 0;
 
-                // Import post data into WordPress
+                // Import exhibit data into WordPress
                 if ( $pinfo = post_exists( $post_title, $post_content, $post_date ) ) {
                     $ret_id = wp_insert_post( array(
                             'ID'                => $pinfo,
@@ -206,7 +206,7 @@ class Indexhibit_Import extends WP_Importer {
      * import_exhibits
      */
     public function import_exhibits() {
-        // Post import
+        // Import exhibits
         $exhibits = $this->get_ix_exhibits();
         $result = $this->exhibits2wp( $exhibits );
         if ( is_wp_error( $result ) ) {
@@ -276,7 +276,6 @@ class Indexhibit_Import extends WP_Importer {
             );
         }
         $post['guid'] = $upload['url'];
-        // Set author.
         $post['post_author'] = get_current_user_id();
         // as per wp-admin/includes/upload.php
         $post_id = wp_insert_attachment( $post, $upload['file'] );
@@ -501,6 +500,8 @@ class Indexhibit_Import extends WP_Importer {
                 $this->greet();
                 break;
             case 1 :
+                // Try to remove execution time limit to avoid timeouts
+                set_time_limit( 0 );
                 $result = $this->import_exhibits();
                 if ( is_wp_error( $result ) ) {
                     echo $result->get_error_message();
@@ -515,7 +516,7 @@ class Indexhibit_Import extends WP_Importer {
     }
 }
 
-$ix_import = new Indexhibit_Import();
+$ix_import = new Indexhibit2_Import();
 
 register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and media files from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix_import, 'dispatch' ) );
 
