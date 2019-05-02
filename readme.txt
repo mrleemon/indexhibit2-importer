@@ -14,11 +14,17 @@ Import exhibits and images from an Indexhibit 2 site.
 
 Import exhibits and images from an Indexhibit 2 site.
 
+This plugin is experimental and is provided with no support or warranty.
+
 == Installation ==
 
 1. Upload the `indexhibit-importer` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to the Tools -> Import screen, Click on Indexhibit
+
+== Frequently Asked Questions ==
+= Does this plugin import everything from an Indexhibit2 sit? =
+No, this just imports exhibits and images, but ignores links, sections, subsections and exhibit formats.
 
 == Changelog ==
 
