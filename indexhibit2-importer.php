@@ -531,9 +531,9 @@ class Indexhibit2_Import extends WP_Importer {
     }
 }
 
-$ix_import = new Indexhibit2_Import();
+$ix2_import = new Indexhibit2_Import();
 
-register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and media files from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix_import, 'dispatch' ) );
+register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and media files from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix2_import, 'dispatch' ) );
 
 }
 
