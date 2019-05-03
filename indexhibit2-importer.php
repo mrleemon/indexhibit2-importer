@@ -132,7 +132,6 @@ class Indexhibit2_Import extends WP_Importer {
      * init_ix2db
      */
     public function init_ix2db() {
-        $dbprefix = get_option( 'ixdbprefix' );
         $this->ix2db = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
         $result = $this->ix2db->check_connection( false );
         if ( !$result ) {
