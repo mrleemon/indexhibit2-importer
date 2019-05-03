@@ -32,6 +32,9 @@ if ( !class_exists( 'WP_Importer' ) ) {
 if ( class_exists( 'WP_Importer' ) ) {
 class Indexhibit2_Import extends WP_Importer {
 
+    // Database connection
+    public $ix2db;
+
     /**
      * Constructor. Intentionally left empty and public.
      */
@@ -126,56 +129,51 @@ class Indexhibit2_Import extends WP_Importer {
     }
 
     /**
+     * init_ix2db
+     */
+    public function init_ix2db() {
+        $dbprefix = get_option( 'ixdbprefix' );
+        $this->ix2db = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
+        $result = $this->ix2db->check_connection( false );
+        if ( !$result ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * get_ix2_exhibits
+     */
+    public function get_ix2_exhibits() {
+        $dbprefix = get_option( 'ixdbprefix' );
+        return $this->ix2db->get_results( "SELECT * FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
+    }
+
+    /**
+     * get_ix2_media
+     */
+    public function get_ix2_media( $post_id ) {
+        $dbprefix = get_option( 'ixdbprefix' );
+        return $this->ix2db->get_results( 
+            $this->ix2db->prepare( "SELECT * FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
+            ARRAY_A );
+    }
+
+    /**
      * import_exhibits
      */
     public function import_exhibits() {
         // Import exhibits
-        $exhibits = $this->get_ix_exhibits();
-        if ( $exhibits ) {
-            $result = $this->exhibits2wp( $exhibits );
-            if ( is_wp_error( $result ) ) {
-                return $result;
-            }
-
-            echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
-            wp_nonce_field( 'import-indexhibit2' );
-            printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit2-importer' ) );
-            echo '</form>';
-        } else {
-            echo '<p>' . __( 'Cannot connect to Indexhibit 2 database', 'indexhibit2-importer' ) . '</p>';
-        }
-    }
-
-    /**
-     * get_ix_exhibits
-     */
-    public function get_ix_exhibits() {
-        $dbprefix = get_option( 'ixdbprefix' );
-        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
-        $result = $ixdb->check_connection( false );
-        if ( !$result ) {
-            return false;
+        $exhibits = $this->get_ix2_exhibits();
+        $result = $this->exhibits2wp( $exhibits );
+        if ( is_wp_error( $result ) ) {
+            return $result;
         }
 
-        // Get exhibits
-        return $ixdb->get_results( "SELECT * FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
-    }
-
-    /**
-     * get_ix_media
-     */
-    public function get_ix_media( $post_id ) {
-        $dbprefix = get_option( 'ixdbprefix' );
-        $ixdb = new wpdb( get_option( 'ixuser' ), get_option( 'ixpass' ), get_option( 'ixname' ), get_option( 'ixhost' ) );
-        $result = $ixdb->check_connection( false );
-        if ( !$result ) {
-            return false;
-        }
-
-        // Get media files from a specific exhibit
-        return $ixdb->get_results( 
-            $ixdb->prepare( "SELECT * FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
-            ARRAY_A );
+        echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
+        wp_nonce_field( 'import-indexhibit2' );
+        printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit2-importer' ) );
+        echo '</form>';
     }
 
     /**
@@ -244,7 +242,7 @@ class Indexhibit2_Import extends WP_Importer {
                 }
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
 
-                $media = $this->get_ix_media( $exhibit['id'] );
+                $media = $this->get_ix2_media( $exhibit['id'] );
                 $result = $this->media2wp( $media, $exhibit, $ret_id );
                 if ( is_wp_error( $result ) ) {
                     return $result;
@@ -513,9 +511,15 @@ class Indexhibit2_Import extends WP_Importer {
             case 1 :
                 // Try to remove execution time limit to avoid timeouts
                 set_time_limit( 0 );
-                $result = $this->import_exhibits();
-                if ( is_wp_error( $result ) ) {
-                    echo $result->get_error_message();
+                // Initialize database connection
+                $conn = $this->init_ix2db();
+                if ( $conn ) {
+                    $result = $this->import_exhibits();
+                    if ( is_wp_error( $result ) ) {
+                        echo $result->get_error_message();
+                    }
+                } else {
+                    echo '<p>' . __( 'Cannot connect to Indexhibit 2 database', 'indexhibit2-importer' ) . '</p>';
                 }
                 break;
             case 2 :
