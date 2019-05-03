@@ -192,6 +192,7 @@ class Indexhibit2_Import extends WP_Importer {
                 $post_content = $exhibit['content'];
                 $post_date = $exhibit['pdate'];
                 $post_modified = $exhibit['udate'];
+                $post_format = $exhibit['format'];
 
                 // Set Indexhibit-to-WordPress status translation
                 $ixstatus = array(
@@ -221,6 +222,7 @@ class Indexhibit2_Import extends WP_Importer {
                     if ( is_wp_error( $ret_id ) ) {
                         return $ret_id;
                     }
+                    add_post_meta( $ret_id, 'ix2_exhibit_format', $post_format );
                 } else {
                     $ret_id = wp_insert_post( array(
                             'post_author'       => $post_author,
@@ -238,6 +240,7 @@ class Indexhibit2_Import extends WP_Importer {
                     if ( is_wp_error( $ret_id ) ) {
                         return $ret_id;
                     }
+                    add_post_meta( $ret_id, 'ix2_exhibit_format', $post_format );
                 }
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
 
@@ -491,7 +494,7 @@ class Indexhibit2_Import extends WP_Importer {
                 if ( get_option( 'ixurl' ) ) {
                     delete_option( 'ixurl' );
                 }
-                add_option( 'ixurl', sanitize_text_field( $_POST['ixurl'] ) );
+                add_option( 'ixurl', sanitize_text_field( esc_url( $_POST['ixurl'] ) ) );
             }
             if ( $_POST['dbprefix'] ) {
                 if ( get_option( 'ixdbprefix' ) ) {
