@@ -519,6 +519,7 @@ class Indexhibit2_Import extends WP_Importer {
                     }
                 } else {
                     echo '<p>' . __( 'Cannot connect to Indexhibit 2 database', 'indexhibit2-importer' ) . '</p>';
+                    echo '<a class="button" href="admin.php?import=indexhibit2">' . __( 'Try Again', 'indexhibit2-importer' ) . '</a>';
                 }
                 break;
             case 2 :
