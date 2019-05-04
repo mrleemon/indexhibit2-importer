@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-03 11:52+0200\n"
+"POT-Creation-Date: 2019-05-04 09:39+0200\n"
 "PO-Revision-Date: 2019-05-01 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -92,71 +92,75 @@ msgstr ""
 msgid "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value"
 msgstr ""
 
-#: indexhibit2-importer.php:174
+#: indexhibit2-importer.php:128
+msgid "Insert imported media files into pages content?"
+msgstr ""
+
+#: indexhibit2-importer.php:180
 msgid "Finish"
 msgstr ""
 
-#: indexhibit2-importer.php:186
+#: indexhibit2-importer.php:192
 msgid "Importing exhibits..."
 msgstr ""
 
-#: indexhibit2-importer.php:255
+#: indexhibit2-importer.php:265
 #, php-format
 msgid "Done! <strong>%1$s</strong> exhibits imported."
 msgstr ""
 
-#: indexhibit2-importer.php:266
+#: indexhibit2-importer.php:276
 #, php-format
 msgid "Importing media files from exhibit \"%1$s\"..."
 msgstr ""
 
-#: indexhibit2-importer.php:273
+#: indexhibit2-importer.php:283
 #, php-format
 msgid "Done! <strong>%1$s</strong> media files imported."
 msgstr ""
 
-#: indexhibit2-importer.php:305
+#: indexhibit2-importer.php:315
 #, php-format
 msgid "%1$s was not uploaded. (<strong>%2$s</strong>: %3$s)"
 msgstr ""
 
-#: indexhibit2-importer.php:320 indexhibit2-importer.php:332
+#: indexhibit2-importer.php:330 indexhibit2-importer.php:342
 #, php-format
 msgid ""
 "%1$s could not be uploaded because of an error. (<strong>%2$s</strong>: %3$s)"
 msgstr ""
 
-#: indexhibit2-importer.php:326
+#: indexhibit2-importer.php:336
 msgid "Invalid file type"
 msgstr ""
 
-#: indexhibit2-importer.php:343
+#: indexhibit2-importer.php:353
 #, php-format
 msgid "%s was uploaded successfully"
 msgstr ""
 
-#: indexhibit2-importer.php:366
+#: indexhibit2-importer.php:376
 msgid "File already exists"
 msgstr ""
 
-#: indexhibit2-importer.php:398
+#: indexhibit2-importer.php:408
 msgid "Remote server did not respond"
 msgstr ""
 
-#: indexhibit2-importer.php:404
+#: indexhibit2-importer.php:414
 #, php-format
 msgid "Remote server returned error response %1$d %2$s"
 msgstr ""
 
-#: indexhibit2-importer.php:409
+#: indexhibit2-importer.php:419
 msgid "Remote file is incorrect size"
 msgstr ""
 
-#: indexhibit2-importer.php:413
+#: indexhibit2-importer.php:423
 msgid "Zero size file downloaded"
 msgstr ""
 
-#: indexhibit2-importer.php:438
+#: indexhibit2-importer.php:469
 msgid ""
 "Welcome to WordPress. We hope that you will find this platform incredibly "
 "rewarding! As a new WordPress user coming from Indexhibit 2, there are some "
@@ -164,51 +168,51 @@ msgid ""
 "transition go as smoothly as possible."
 msgstr ""
 
-#: indexhibit2-importer.php:439
+#: indexhibit2-importer.php:470
 msgid "WordPress Resources"
 msgstr ""
 
-#: indexhibit2-importer.php:440
+#: indexhibit2-importer.php:471
 msgid ""
 "Finally, there are numerous WordPress resources around the internet. Some of "
 "them are:"
 msgstr ""
 
-#: indexhibit2-importer.php:442
+#: indexhibit2-importer.php:473
 msgid "<a href=\"http://wordpress.org/\">The official WordPress site</a>"
 msgstr ""
 
-#: indexhibit2-importer.php:443
+#: indexhibit2-importer.php:474
 msgid ""
 "<a href=\"http://wordpress.org/support/\">The WordPress support forums</a>"
 msgstr ""
 
-#: indexhibit2-importer.php:444
+#: indexhibit2-importer.php:475
 msgid ""
 "<a href=\"http://developer.wordpress.org/\">The WordPress developer docs (In "
 "other words, the WordPress Bible)</a>"
 msgstr ""
 
-#: indexhibit2-importer.php:446
+#: indexhibit2-importer.php:477
 msgid ""
 "That&#8217;s it! What are you waiting for? Go <a href=\"../wp-login.php"
 "\">log in</a>!"
 msgstr ""
 
-#: indexhibit2-importer.php:521
+#: indexhibit2-importer.php:552
 msgid "Cannot connect to Indexhibit 2 database"
 msgstr ""
 
-#: indexhibit2-importer.php:522
+#: indexhibit2-importer.php:553
 msgid "Try Again"
 msgstr ""
 
-#: indexhibit2-importer.php:536
+#: indexhibit2-importer.php:567
 msgid "Indexhibit 2"
 msgstr ""
 
 #. Description of the plugin/theme
-#: indexhibit2-importer.php:536
+#: indexhibit2-importer.php:567
 msgid "Import exhibits and media files from an Indexhibit 2 site."
 msgstr ""
 

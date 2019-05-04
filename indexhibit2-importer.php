@@ -124,6 +124,12 @@ class Indexhibit2_Import extends WP_Importer {
             <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
+        <tr>
+            <th scope="row"><label for="mdinsert"><?php _e( 'Insert imported media files into pages content?', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="checkbox" name="mdinsert" id="mdinsert" value="1" checked />
+            </td>
+        </tr>
         </table>
     <?php
     }
@@ -181,6 +187,7 @@ class Indexhibit2_Import extends WP_Importer {
     public function exhibits2wp( $exhibits = '' ) {
         $count = 0;
         $ixexhibits2wpposts = array();
+        $mdinsert = get_option( 'mdinsert' );
 
         if ( is_array( $exhibits ) ) {
             echo '<p>' . __( 'Importing exhibits...', 'indexhibit2-importer' ) . '<br /><br /></p>';
@@ -249,7 +256,9 @@ class Indexhibit2_Import extends WP_Importer {
                 if ( is_wp_error( $result ) ) {
                     return $result;
                 }
-                $this->insert_attachments( $ret_id );
+                if ( $mdinsert ) {
+                    $this->insert_attachments( $ret_id );
+                }
 
             }
         }
@@ -445,12 +454,13 @@ class Indexhibit2_Import extends WP_Importer {
      */
     public function cleanup_import() {
         delete_option( 'ixexhibits2wpposts' );
-        delete_option( 'ixdbprefix' );
+        delete_option( 'ixurl' );
+        delete_option( 'ixname' );
         delete_option( 'ixuser' );
         delete_option( 'ixpass' );
-        delete_option( 'ixname' );
         delete_option( 'ixhost' );
-        delete_option( 'ixurl' );
+        delete_option( 'ixdbprefix' );
+        delete_option( 'mdinsert' )
         do_action( 'import_done', 'indexhibit2' );
         $this->tips();
     }
@@ -487,6 +497,18 @@ class Indexhibit2_Import extends WP_Importer {
         if ( $step > 0 ) {
             check_admin_referer( 'import-indexhibit2' );
 
+            if ( $_POST['ixurl'] ) {
+                if ( get_option( 'ixurl' ) ) {
+                    delete_option( 'ixurl' );
+                }
+                add_option( 'ixurl', sanitize_text_field( esc_url( $_POST['ixurl'] ) ) );
+            }
+            if ( $_POST['dbname'] ) {
+                if ( get_option( 'ixname' ) ) {
+                    delete_option( 'ixname' );
+                }
+                add_option( 'ixname', sanitize_text_field( $_POST['dbname'] ) );
+            }
             if ( $_POST['dbuser'] ) {
                 if ( get_option( 'ixuser' ) ) {
                     delete_option( 'ixuser' );
@@ -499,24 +521,11 @@ class Indexhibit2_Import extends WP_Importer {
                 }
                 add_option( 'ixpass', sanitize_text_field( $_POST['dbpass'] ) );
             }
-
-            if ( $_POST['dbname'] ) {
-                if ( get_option( 'ixname' ) ) {
-                    delete_option( 'ixname' );
-                }
-                add_option( 'ixname', sanitize_text_field( $_POST['dbname'] ) );
-            }
             if ( $_POST['dbhost'] ) {
                 if ( get_option( 'ixhost' ) ) {
                     delete_option( 'ixhost' );
                 }
                 add_option( 'ixhost', sanitize_text_field( $_POST['dbhost'] ) );
-            }
-            if ( $_POST['ixurl'] ) {
-                if ( get_option( 'ixurl' ) ) {
-                    delete_option( 'ixurl' );
-                }
-                add_option( 'ixurl', sanitize_text_field( esc_url( $_POST['ixurl'] ) ) );
             }
             if ( $_POST['dbprefix'] ) {
                 if ( get_option( 'ixdbprefix' ) ) {
@@ -524,7 +533,17 @@ class Indexhibit2_Import extends WP_Importer {
                 }
                 add_option( 'ixdbprefix', sanitize_text_field( $_POST['dbprefix'] ) );
             }
-
+            if ( $_POST['mdinsert'] ) {
+                if ( get_option( 'mdinsert' ) ) {
+                    delete_option( 'mdinsert' );
+                }
+                add_option( 'mdinsert', '1' );
+            } else {
+                if ( get_option( 'mdinsert' ) ) {
+                    delete_option( 'mdinsert' );
+                }
+                add_option( 'mdinsert', '0' );
+            }
         }
 
         switch ( $step ) {
@@ -538,6 +557,7 @@ class Indexhibit2_Import extends WP_Importer {
                 // Initialize database connection
                 $conn = $this->init_ix2db();
                 if ( $conn ) {
+                    // Import content
                     $result = $this->import_exhibits();
                     if ( is_wp_error( $result ) ) {
                         echo $result->get_error_message();
