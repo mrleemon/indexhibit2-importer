@@ -423,22 +423,21 @@ class Indexhibit2_Import extends WP_Importer {
      * insert_attachments
      */
     public function insert_attachments( $post_id ) {
-        $post = get_post( $post_id );
-        $content = $post->post_content;
-        // Insert attachments into the post content
         $attachments = get_attached_media( 'image', $post_id );
         if ( $attachments ) {
+            $post = get_post( $post_id );
+            $content = $post->post_content;
+            // Insert attachments into the post content
             foreach ( $attachments as $attachment ) {
                 $content .= wp_get_attachment_image( $attachment->ID, 'full' );
             }
+            $updated_post = array(
+                'ID'           => $post_id,
+                'post_content' => $content,
+            );
+            // Update the post into the database
+            wp_update_post( $updated_post );
         }
-        
-        $updated_post = array(
-            'ID'           => $post_id,
-            'post_content' => $content,
-        );
-        // Update the post into the database
-        wp_update_post( $updated_post );
     }
 
     /**
