@@ -256,7 +256,7 @@ class Indexhibit2_Import extends WP_Importer {
                 if ( is_wp_error( $result ) ) {
                     return $result;
                 }
-                if ( $mdinsert ) {
+                if ( !empty( $mdinsert ) ) {
                     $this->insert_attachments( $ret_id );
                 }
 
@@ -460,7 +460,7 @@ class Indexhibit2_Import extends WP_Importer {
         delete_option( 'ixpass' );
         delete_option( 'ixhost' );
         delete_option( 'ixdbprefix' );
-        delete_option( 'mdinsert' )
+        delete_option( 'mdinsert' );
         do_action( 'import_done', 'indexhibit2' );
         $this->tips();
     }
