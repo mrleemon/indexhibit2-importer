@@ -30,9 +30,6 @@ No, this imports exhibits and media files, but ignores links, sections, subsecti
 Exhibits are imported as pages and media files are imported as attachments attached to their corresponding pages.
 If needed, you can convert the imported pages to posts or other post types with a plugin such as Post Type Switcher (https://wordpress.org/plugins/post-type-switcher/)
 
-= I don't see any of the imported media files in the imported pages. Why? =
-The plugin just imports the media files to the WordPress media library. You need to add them to the pages inserting them directly or creating galleries.
-
 == Changelog ==
 
 = 0.1 =
