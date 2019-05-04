@@ -498,48 +498,56 @@ class Indexhibit2_Import extends WP_Importer {
             check_admin_referer( 'import-indexhibit2' );
 
             if ( isset( $_POST['ixurl'] ) ) {
-                if ( get_option( 'ixurl' ) ) {
+                $ixurl = get_option( 'ixurl' );
+                if ( isset( $ixurl ) ) {
                     delete_option( 'ixurl' );
                 }
                 add_option( 'ixurl', sanitize_text_field( esc_url( $_POST['ixurl'] ) ) );
             }
             if ( isset( $_POST['dbname'] ) ) {
-                if ( get_option( 'ixname' ) ) {
+                $ixname = get_option( 'ixname' );
+                if ( isset( $ixname ) ) {
                     delete_option( 'ixname' );
                 }
                 add_option( 'ixname', sanitize_text_field( $_POST['dbname'] ) );
             }
             if ( isset( $_POST['dbuser'] ) ) {
-                if ( get_option( 'ixuser' ) ) {
+                $ixuser = get_option( 'ixuser' );
+                if ( isset( $ixuser ) ) {
                     delete_option( 'ixuser' );
                 }
                 add_option( 'ixuser', sanitize_text_field( $_POST['dbuser'] ) );
             }
             if ( isset( $_POST['dbpass'] ) ) {
-                if ( get_option( 'ixpass' ) ) {
+                $ixpass = get_option( 'ixpass' );
+                if ( isset( $ixpass ) ) {
                     delete_option( 'ixpass' );
                 }
                 add_option( 'ixpass', sanitize_text_field( $_POST['dbpass'] ) );
             }
             if ( isset( $_POST['dbhost'] ) ) {
-                if ( get_option( 'ixhost' ) ) {
+                $ixhost = get_option( 'ixhost' );
+                if ( isset( $ixhost ) ) {
                     delete_option( 'ixhost' );
                 }
                 add_option( 'ixhost', sanitize_text_field( $_POST['dbhost'] ) );
             }
             if ( isset( $_POST['dbprefix'] ) ) {
-                if ( get_option( 'ixdbprefix' ) ) {
+                $ixdbprefix = get_option( 'ixdbprefix' );
+                if ( isset( $ixdbprefix ) ) {
                     delete_option( 'ixdbprefix' );
                 }
                 add_option( 'ixdbprefix', sanitize_text_field( $_POST['dbprefix'] ) );
             }
             if ( isset( $_POST['mdinsert'] ) ) {
-                if ( get_option( 'mdinsert' ) ) {
+                $mdinsert = get_option( 'mdinsert' );
+                if ( isset( $mdinsert ) ) {
                     delete_option( 'mdinsert' );
                 }
                 add_option( 'mdinsert', '1' );
             } else {
-                if ( get_option( 'mdinsert' ) ) {
+                $mdinsert = get_option( 'mdinsert' );
+                if ( isset( $mdinsert ) ) {
                     delete_option( 'mdinsert' );
                 }
                 add_option( 'mdinsert', '0' );
