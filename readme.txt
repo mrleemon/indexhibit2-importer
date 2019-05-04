@@ -24,10 +24,10 @@ This plugin is experimental and is provided with no support or warranty.
 
 == Frequently Asked Questions ==
 = Does this plugin import all the contents from an Indexhibit 2 site? =
-No, this imports exhibits and media files, but ignores links, sections, subsections and exhibit formats.
+No, it imports exhibits and media files, but ignores links, sections, subsections and exhibit formats.
 
 = How are exhibits and media files imported into WordPress? =
-Exhibits are imported as pages and media files are imported as attachments attached to their corresponding pages.
+Exhibits are imported as pages and media files are imported as attachments which are attached to their corresponding pages.
 If needed, you can convert the imported pages to posts or other post types with a plugin such as Post Type Switcher (https://wordpress.org/plugins/post-type-switcher/)
 
 == Changelog ==
