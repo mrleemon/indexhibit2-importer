@@ -419,6 +419,22 @@ class Indexhibit2_Import extends WP_Importer {
     }
 
     /**
+     * insert_attachments
+     */
+    public function insert_attachments( $post_id ) {
+        $post = get_post( $post_id );
+        $content = $post->post_content;
+        $media = get_attached_media( 'image', $post_id );
+        
+        $updated_post = array(
+            'ID'           => $post_id,
+            'post_content' => $content,
+        );
+        // Update the post into the database
+        wp_update_post( $updated_post );
+    }
+
+    /**
      * cleanup_import
      */
     public function cleanup_import() {
