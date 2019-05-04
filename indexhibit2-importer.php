@@ -249,6 +249,7 @@ class Indexhibit2_Import extends WP_Importer {
                 if ( is_wp_error( $result ) ) {
                     return $result;
                 }
+                $this->insert_attachments( $ret_id );
 
             }
         }
@@ -424,7 +425,13 @@ class Indexhibit2_Import extends WP_Importer {
     public function insert_attachments( $post_id ) {
         $post = get_post( $post_id );
         $content = $post->post_content;
-        $media = get_attached_media( 'image', $post_id );
+        // Insert attachments into the post content
+        $attachments = get_attached_media( 'image', $post_id );
+        if ( $attachments ) {
+            foreach ( $attachments as $attachment ) {
+                $content .= wp_get_attachment_image( $attachment->ID, 'full' );
+            }
+        }
         
         $updated_post = array(
             'ID'           => $post_id,
