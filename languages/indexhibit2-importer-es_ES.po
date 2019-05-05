@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Indexhibit Importer\n"
-"POT-Creation-Date: 2019-05-05 19:37+0200\n"
-"PO-Revision-Date: 2019-05-05 19:38+0200\n"
+"POT-Creation-Date: 2019-05-05 20:45+0200\n"
+"PO-Revision-Date: 2019-05-05 20:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -28,13 +28,13 @@ msgstr "Importar Indexhibit 2"
 #: indexhibit2-importer.php:68
 msgid ""
 "This importer allows you to import most of the contents from an Indexhibit 2 "
-"database into your WordPress site. It imports exhibits and media files but "
-"ignores sections, subsections and exhibit formats."
+"site into your WordPress site. It imports exhibits and media files but "
+"ignores links, sections, subsections and exhibit formats."
 msgstr ""
-"Este importador te permite importar la mayoría de los contenidos de una base "
-"de datos de Indexhibit 2 a tu sitio de WordPress. Importa las exposiciones y "
-"los archivos multimedia pero ignora las secciones, las subsecciones y los "
-"formatos de exposición."
+"Este importador te permite importar casi todo el contenido de una web hecha "
+"en Indexhibit 2 a tu sitio de WordPress. Importa las exposiciones y los "
+"archivos multimedia pero ignora los enlaces, las secciones, las subsecciones "
+"y los formatos de exposición."
 
 #: indexhibit2-importer.php:69
 msgid ""
@@ -188,10 +188,34 @@ msgstr ""
 "suerte, te ayudarán a que la transición sea lo más fluida posible."
 
 #: indexhibit2-importer.php:494
+msgid ""
+"This plugin imports exhibits and media files from Indexhibit 2 sites, but "
+"ignores links, sections, subsections and exhibit formats."
+msgstr ""
+"Este plugin importa las exposiciones y los archivos multimedia de webs "
+"hechas con Indexhibit 2, pero ignora los enlaces, las secciones, las "
+"subsecciones y los formatos de exposición."
+
+#: indexhibit2-importer.php:495
+msgid ""
+"Exhibits are imported as pages and media files are imported as attachments "
+"which are attached to their corresponding pages. If needed, you can convert "
+"the imported pages to posts or other post types with a plugin such as <a "
+"href=\"https://wordpress.org/plugins/post-type-switcher/\">Post Type "
+"Switcher</a>."
+msgstr ""
+"Las exposiciones se importan como páginas y los archivos multimedia se "
+"importan como archivos adjuntos que se adjuntan a sus páginas "
+"correspondientes. Si es necesario, puedes convertir las páginas importadas a "
+"entradas u otros tipos de contenido mediante un plugin como <a href = "
+"\"https://es.wordpress.org/plugins/post-type-switcher/\">Post Type Switcher</"
+"a>."
+
+#: indexhibit2-importer.php:496
 msgid "WordPress Resources"
 msgstr "Recursos de WordPress"
 
-#: indexhibit2-importer.php:495
+#: indexhibit2-importer.php:497
 msgid ""
 "Finally, there are numerous WordPress resources around the internet. Some of "
 "them are:"
@@ -199,18 +223,18 @@ msgstr ""
 "Por último, hay numerosos recursos de WordPress en Internet. Algunos de "
 "ellos son:"
 
-#: indexhibit2-importer.php:497
+#: indexhibit2-importer.php:499
 msgid "<a href=\"http://wordpress.org/\">The official WordPress site</a>"
 msgstr "<a href=\"http://wordpress.org/\">El sitio oficial de WordPress</a>"
 
-#: indexhibit2-importer.php:498
+#: indexhibit2-importer.php:500
 msgid ""
 "<a href=\"http://wordpress.org/support/\">The WordPress support forums</a>"
 msgstr ""
 "<a href=\"http://wordpress.org/support/\">Los foros de soporte de WordPress</"
 "a>"
 
-#: indexhibit2-importer.php:499
+#: indexhibit2-importer.php:501
 msgid ""
 "<a href=\"http://developer.wordpress.org/\">The WordPress developer docs (In "
 "other words, the WordPress Bible)</a>"
@@ -218,7 +242,7 @@ msgstr ""
 "<a href=\"http://developer.wordpress.org/\">La documentación para "
 "desarrolladores de WordPress (en otras palabras, la Biblia de WordPress)</a>"
 
-#: indexhibit2-importer.php:501
+#: indexhibit2-importer.php:503
 msgid ""
 "That&#8217;s it! What are you waiting for? Go <a href=\"../wp-login.php"
 "\">log in</a>!"
@@ -226,20 +250,20 @@ msgstr ""
 "¡Esto es todo! ¿A qué esperas? ¡<a href=\"../wp-login.php\">Inicia una "
 "sesión</a>!"
 
-#: indexhibit2-importer.php:596 indexhibit2-importer.php:612
+#: indexhibit2-importer.php:598 indexhibit2-importer.php:614
 msgid "Cannot connect to Indexhibit 2 database"
 msgstr "No se ha podido conectar con la base de datos de Indexhibit 2"
 
-#: indexhibit2-importer.php:597 indexhibit2-importer.php:613
+#: indexhibit2-importer.php:599 indexhibit2-importer.php:615
 msgid "Try Again"
 msgstr "Inténtalo de nuevo"
 
-#: indexhibit2-importer.php:628
+#: indexhibit2-importer.php:630
 msgid "Indexhibit 2"
 msgstr "Indexhibit 2"
 
 #. Description of the plugin/theme
-#: indexhibit2-importer.php:628
+#: indexhibit2-importer.php:630
 msgid "Import exhibits and media files from an Indexhibit 2 site."
 msgstr "Importa exposiciones y archivos multimedia de una web de Indexhibit 2."
 

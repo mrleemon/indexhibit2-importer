@@ -65,7 +65,7 @@ class Indexhibit2_Import extends WP_Importer {
     public function greet() {
     ?>
         <div class="narrow">
-            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 database into your WordPress site. It imports exhibits and media files but ignores sections, subsections and exhibit formats.', 'indexhibit2-importer' ); ?></p>
+            <p><?php _e( 'This importer allows you to import most of the contents from an Indexhibit 2 site into your WordPress site. It imports exhibits and media files but ignores links, sections, subsections and exhibit formats.', 'indexhibit2-importer' ); ?></p>
             <p><?php _e( 'The process may take a few minutes depending on the size of your database. Please be patient.', 'indexhibit2-importer' ); ?></p>
             <p><?php _e( 'Fill the following form with your Indexhibit 2 configuration settings. They can be found in the <code>/ndxzsite/config/config.php</code> file.', 'indexhibit2-importer' ); ?></p>
             <form action="admin.php?import=indexhibit2&amp;step=1" method="post">
@@ -491,6 +491,8 @@ class Indexhibit2_Import extends WP_Importer {
     public function tips() {
     ?>
         <p><?php _e( 'Welcome to WordPress. We hope that you will find this platform incredibly rewarding! As a new WordPress user coming from Indexhibit 2, there are some things that we would like to point out. Hopefully, they will help your transition go as smoothly as possible.', 'indexhibit2-importer' ); ?></p>
+        <p><?php _e( 'This plugin imports exhibits and media files from Indexhibit 2 sites, but ignores links, sections, subsections and exhibit formats.', 'indexhibit2-importer' ); ?></p>
+        <p><?php _e( 'Exhibits are imported as pages and media files are imported as attachments which are attached to their corresponding pages. If needed, you can convert the imported pages to posts or other post types with a plugin such as <a href="https://wordpress.org/plugins/post-type-switcher/">Post Type Switcher</a>.', 'indexhibit2-importer' ); ?></p>
         <h3><?php _e( 'WordPress Resources', 'indexhibit2-importer' ); ?></h3>
         <p><?php _e( 'Finally, there are numerous WordPress resources around the internet. Some of them are:', 'indexhibit2-importer' ); ?></p>
         <ul>
