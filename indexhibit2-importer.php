@@ -228,6 +228,7 @@ class Indexhibit2_Import extends WP_Importer {
                 $post_author = get_current_user_id();
                 $post_title = $exhibit['title'];
                 $post_content = $exhibit['content'];
+                $post_home = $exhibit['home'];
                 $post_date = $exhibit['pdate'];
                 $post_modified = $exhibit['udate'];
                 $post_format = $exhibit['format'];
@@ -280,11 +281,15 @@ class Indexhibit2_Import extends WP_Importer {
                     }
                     add_post_meta( $ret_id, 'ix2_exhibit_format', $post_format );
                 }
+                // Set front page
+                if ( !empty( $post_home ) ) {
+                    update_option( 'page_on_front', $ret_id );
+                    update_option( 'show_on_front', 'page' );
+                }
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
-
             }
         }
-        // Store ID translation for later use
+        // Store exhibit2post translation for later use
         add_option( 'ixexhibits2wpposts', $ixexhibits2wpposts );
 
         echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> exhibits imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
