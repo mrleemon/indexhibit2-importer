@@ -30,6 +30,26 @@ No, it imports exhibits and media files, but ignores links, sections, subsection
 Exhibits are imported as pages and media files are imported as attachments which are attached to their corresponding pages.
 If needed, you can convert the imported pages to posts or other post types with a plugin such as Post Type Switcher (https://wordpress.org/plugins/post-type-switcher/)
 
+== Copyright ==
+
+Indexhibit 2 Importer is distributed under the terms of the GNU GPL
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+Indexhibit 2 Importer uses the following third-party resources:
+
+FontAwesome
+License: Creative Commons Attribution 4.0 International License
+Source: https://fontawesome.com/license
+
 == Changelog ==
 
 = 0.1 =
