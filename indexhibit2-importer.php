@@ -73,7 +73,7 @@ class Indexhibit2_Import extends WP_Importer {
         wp_nonce_field( 'import-indexhibit2' );
         $this->db_form();
     ?>
-            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import Contents', 'indexhibit2-importer' ); ?>" /></p>
+            <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import exhibits', 'indexhibit2-importer' ); ?>" /></p>
             </form>
         </div>
     <?php
@@ -124,12 +124,6 @@ class Indexhibit2_Import extends WP_Importer {
             <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
-        <tr>
-            <th scope="row"><label for="mdinsert"><?php _e( 'Insert imported media files into pages content?', 'indexhibit2-importer' ); ?></label></th>
-            <td>
-            <input type="checkbox" name="mdinsert" id="mdinsert" value="1" checked />
-            </td>
-        </tr>
         </table>
     <?php
     }
@@ -175,10 +169,47 @@ class Indexhibit2_Import extends WP_Importer {
             return $result;
         }
 
-        echo '<form action="admin.php?import=indexhibit2&amp;step=2" method="post">';
-        wp_nonce_field( 'import-indexhibit2' );
-        printf( '<p class="submit"><input type="submit" name="submit" class="button" value="%s" /></p>', esc_attr__( 'Finish', 'indexhibit2-importer' ) );
-        echo '</form>';
+        ?>
+        <form action="admin.php?import=indexhibit2&amp;step=2" method="post">
+        <?php wp_nonce_field( 'import-indexhibit2' ); ?>
+        <table class="form-table">
+            <tr>
+            <th scope="row"><label for="mdinsert"><?php _e( 'Insert imported media files into pages content?', 'indexhibit2-importer' ); ?></label></th>
+            <td>
+            <input type="checkbox" name="mdinsert" id="mdinsert" value="1" checked />
+            </td>
+            </tr>
+        </table>
+        <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Import media files', 'indexhibit2-importer' ); ?>" /></p>
+        </form>
+        <?php
+    }
+
+    /**
+     * import_media
+     */
+    public function import_media() {
+        $mdinsert = get_option( 'mdinsert' );
+        $ixexhibits2wpposts = get_option( 'ixexhibits2wpposts' );
+        
+        // Import media
+        foreach ( $ixexhibits2wpposts as $key => $value ) {
+            $media = $this->get_ix2_media( $key );
+            $result = $this->media2wp( $media, $value );
+            if ( is_wp_error( $result ) ) {
+                return $result;
+            }
+            if ( !empty( $mdinsert ) ) {
+                $this->insert_attachments( $value );
+            }
+        }
+
+        ?>
+        <form action="admin.php?import=indexhibit2&amp;step=3" method="post">
+        <?php wp_nonce_field( 'import-indexhibit2' ); ?>
+        <p class="submit"><input type="submit" name="submit" class="button" value="<?php echo esc_attr__( 'Finish', 'indexhibit2-importer' ); ?>" /></p>
+        </form>
+        <?php
     }
 
     /**
@@ -190,7 +221,7 @@ class Indexhibit2_Import extends WP_Importer {
         $mdinsert = get_option( 'mdinsert' );
 
         if ( is_array( $exhibits ) ) {
-            echo '<p>' . __( 'Importing exhibits...', 'indexhibit2-importer' ) . '<br /><br /></p>';
+            echo '<p>' . __( 'Importing exhibits...', 'indexhibit2-importer' ) . '</p>';
             foreach ( $exhibits as $exhibit ) {
                 $count++;
 
@@ -251,15 +282,6 @@ class Indexhibit2_Import extends WP_Importer {
                 }
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
 
-                $media = $this->get_ix2_media( $exhibit['id'] );
-                $result = $this->media2wp( $media, $exhibit, $ret_id );
-                if ( is_wp_error( $result ) ) {
-                    return $result;
-                }
-                if ( !empty( $mdinsert ) ) {
-                    $this->insert_attachments( $ret_id );
-                }
-
             }
         }
         // Store ID translation for later use
@@ -272,11 +294,11 @@ class Indexhibit2_Import extends WP_Importer {
     /**
      * media2wp
      */
-    public function media2wp( $files = '', $exhibit, $post_id ) {
+    public function media2wp( $files = '', $post_id ) {
         $count = 0;
 
         if ( is_array( $files ) ) {
-            echo '<p>' . sprintf( __( 'Importing media files from exhibit "%1$s"...', 'indexhibit2-importer' ), $exhibit['title'] ) . '</p>';
+            echo '<p>' . sprintf( __( 'Importing media files from exhibit "%1$s"...', 'indexhibit2-importer' ), get_the_title( $post_id ) ) . '</p>';
             foreach ( $files as $file ) {
                 $count++;
                 $process = $this->process_attachment( $file, $post_id );
@@ -450,9 +472,9 @@ class Indexhibit2_Import extends WP_Importer {
     }
 
     /**
-     * cleanup_import
+     * clean_options
      */
-    public function cleanup_import() {
+    public function clean_options() {
         delete_option( 'ixurl' );
         delete_option( 'ixname' );
         delete_option( 'ixuser' );
@@ -461,8 +483,6 @@ class Indexhibit2_Import extends WP_Importer {
         delete_option( 'ixdbprefix' );
         delete_option( 'mdinsert' );
         delete_option( 'ixexhibits2wpposts' );
-        do_action( 'import_done', 'indexhibit2' );
-        $this->tips();
     }
 
     /**
@@ -557,6 +577,8 @@ class Indexhibit2_Import extends WP_Importer {
         switch ( $step ) {
             default:
             case 0 :
+                // Clean options
+                $this->clean_options();
                 $this->greet();
                 break;
             case 1 :
@@ -576,7 +598,24 @@ class Indexhibit2_Import extends WP_Importer {
                 }
                 break;
             case 2 :
-                $this->cleanup_import();
+                // Try to remove execution time limit to avoid timeouts
+                set_time_limit( 0 );
+                // Initialize database connection
+                $conn = $this->init_ix2db();
+                if ( $conn ) {
+                    // Import content
+                    $result = $this->import_media();
+                    if ( is_wp_error( $result ) ) {
+                        echo $result->get_error_message();
+                    }
+                } else {
+                    echo '<p>' . __( 'Cannot connect to Indexhibit 2 database', 'indexhibit2-importer' ) . '</p>';
+                    echo '<a class="button" href="admin.php?import=indexhibit2">' . __( 'Try Again', 'indexhibit2-importer' ) . '</a>';
+                }
+                break;
+            case 3 :
+                do_action( 'import_done', 'indexhibit2' );
+                $this->tips();
                 break;
         }
 
