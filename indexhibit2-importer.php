@@ -30,6 +30,7 @@ if ( !class_exists( 'WP_Importer' ) ) {
  * @subpackage Importer
  */
 if ( class_exists( 'WP_Importer' ) ) {
+    
 class Indexhibit2_Import extends WP_Importer {
 
     // Database connection
@@ -625,16 +626,15 @@ class Indexhibit2_Import extends WP_Importer {
     }
 }
 
-$ix2_import = new Indexhibit2_Import();
-
-register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and media files from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix2_import, 'dispatch' ) );
-
 }
 
 /**
- * indexhibit_importer_init
+ * indexhibit2_importer_init
  */
-function indexhibit_importer_init() {
+function indexhibit2_importer_init() {
     load_plugin_textdomain( 'indexhibit2-importer', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
+    $ix2_import = new Indexhibit2_Import();
+    register_importer( 'indexhibit2', __( 'Indexhibit 2', 'indexhibit2-importer' ), __( 'Import exhibits and media files from an Indexhibit 2 site.', 'indexhibit2-importer' ), array( $ix2_import, 'dispatch' ) );
 }
-add_action( 'init', 'indexhibit_importer_init' );
+add_action( 'init', 'indexhibit2_importer_init' );
