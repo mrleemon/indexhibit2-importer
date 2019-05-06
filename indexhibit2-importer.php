@@ -513,14 +513,9 @@ class Indexhibit2_Import extends WP_Importer {
      * dispatch
      */
     public function dispatch() {
-
-        if ( empty ( $_GET['step'] ) ) {
-            $step = 0;
-        } else {
-            $step = ( int ) $_GET['step'];
-        }
         $this->header();
 
+        $step = empty( $_GET['step'] ) ? 0 : (int) $_GET['step'];
         if ( $step > 0 ) {
             check_admin_referer( 'import-indexhibit2' );
 
