@@ -1,4 +1,4 @@
-=== Indexhibit 2 Importer ===
+=== Indexhibit2 Importer ===
 Contributors: leemon
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=oscarciutat%40gmail%2ecom
 Tags: importer, indexhibit
