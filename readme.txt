@@ -44,12 +44,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
-Indexhibit 2 Importer uses the following third-party resources:
-
-FontAwesome
-License: Creative Commons Attribution 4.0 International License
-Source: https://fontawesome.com/license
-
 == Changelog ==
 
 = 0.1 =
