@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: Indexhibit 2 Importer
+  Plugin Name: Indexhibit2 Importer
   Plugin URI: http://wordpress.org/extend/plugins/indexhibit2-importer/
   Description: Import exhibits and media files from an Indexhibit 2 site.
   Version: 0.1
@@ -30,7 +30,7 @@ if ( !class_exists( 'WP_Importer' ) ) {
  * @subpackage Importer
  */
 if ( class_exists( 'WP_Importer' ) ) {
-    
+
 class Indexhibit2_Import extends WP_Importer {
 
     // Database connection
