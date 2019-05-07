@@ -3,7 +3,7 @@
   Plugin Name: Indexhibit 2 Importer
   Plugin URI: http://wordpress.org/plugins/indexhibit2-importer/
   Description: Import exhibits and media files from an Indexhibit 2 site.
-  Version: 1.0.1
+  Version: 1.0.2
   Author: leemon
   Text Domain: indexhibit2-importer
   License: GPLv2 or later
@@ -133,7 +133,8 @@ class Ix2_Import extends WP_Importer {
      * init_ix2db
      */
     public function init_ix2db() {
-        $this->ix2db = new wpdb( get_option( 'ix2_user' ), get_option( 'ix2_pass' ), get_option( 'ix2_name' ), get_option( 'ix2_host' ) );
+        $options = get_option( 'ix2_options' );
+        $this->ix2db = new wpdb( $options['ix2_user'], $options['ix2_pass'], $options['ix2_name'], $options['ix2_host'] );
         $result = $this->ix2db->check_connection( false );
         if ( !$result ) {
             return false;
@@ -145,7 +146,8 @@ class Ix2_Import extends WP_Importer {
      * get_ix2_exhibits
      */
     public function get_ix2_exhibits() {
-        $dbprefix = get_option( 'ix2_dbprefix' );
+        $options = get_option( 'ix2_options' );
+        $dbprefix = $options['ix2_dbprefix'];
         return $this->ix2db->get_results( "SELECT * FROM " . $dbprefix . "objects WHERE link = ''", ARRAY_A );
     }
 
@@ -153,7 +155,8 @@ class Ix2_Import extends WP_Importer {
      * get_ix2_media
      */
     public function get_ix2_media( $post_id ) {
-        $dbprefix = get_option( 'ix2_dbprefix' );
+        $options = get_option( 'ix2_options' );
+        $dbprefix = $options['ix2_dbprefix'];
         return $this->ix2db->get_results( 
             $this->ix2db->prepare( "SELECT * FROM " . $dbprefix . "media WHERE media_ref_id = %s AND media_mime NOT IN ( 'youtube', 'vimeo' ) ORDER BY media_order ASC", $post_id ), 
             ARRAY_A );
@@ -190,9 +193,10 @@ class Ix2_Import extends WP_Importer {
      * import_media
      */
     public function import_media() {
-        $mdinsert = get_option( 'ix2_mdinsert' );
-        $ixexhibits2wpposts = get_option( 'ix2_exhibits2wpposts' );
-        
+        $options = get_option( 'ix2_options' );
+        $mdinsert = $options['ix2_mdinsert'];
+        $ixexhibits2wpposts = $options['ix2_exhibits2wpposts'];
+
         // Import media
         foreach ( $ixexhibits2wpposts as $key => $value ) {
             $media = $this->get_ix2_media( $key );
@@ -217,9 +221,9 @@ class Ix2_Import extends WP_Importer {
      * exhibits2wp
      */
     public function exhibits2wp( $exhibits = '' ) {
+        $options = get_option( 'ix2_options' );
         $count = 0;
         $ixexhibits2wpposts = array();
-        $mdinsert = get_option( 'ix2_mdinsert' );
 
         if ( is_array( $exhibits ) ) {
             echo '<p>' . __( 'Importing exhibits...', 'indexhibit2-importer' ) . '</p>';
@@ -290,8 +294,10 @@ class Ix2_Import extends WP_Importer {
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
             }
         }
+
         // Store exhibit2post translation for later use
-        add_option( 'ix2_exhibits2wpposts', $ixexhibits2wpposts );
+        $options['ix2_exhibits2wpposts'] = $ixexhibits2wpposts;
+        update_option( 'ix2_options', $options );
 
         echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> exhibits imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
         return true;
@@ -320,6 +326,8 @@ class Ix2_Import extends WP_Importer {
      * process_attachment
      */
     public function process_attachment( $file, $parent ) {
+        $options = get_option( 'ix2_options' );
+        $ixurl = $options['ix2_url'];
 
         $media_file = $file['media_file'];
         $media_file_noext = preg_replace( '/\\.[^.\\s]{3,4}$/', '', $media_file );
@@ -333,7 +341,6 @@ class Ix2_Import extends WP_Importer {
             'post_parent'   => $parent,
         );
 
-        $ixurl = get_option( 'ix2_url' );
         $media_url = trailingslashit( $ixurl ) . 'files/gimgs/' . $media_file;
 
         $pre_process = $this->pre_process_attachment( $post, $media_url );
@@ -481,14 +488,7 @@ class Ix2_Import extends WP_Importer {
      * clean_options
      */
     public function clean_options() {
-        delete_option( 'ix2_url' );
-        delete_option( 'ix2_name' );
-        delete_option( 'ix2_user' );
-        delete_option( 'ix2_pass' );
-        delete_option( 'ix2_host' );
-        delete_option( 'ix2_dbprefix' );
-        delete_option( 'ix2_mdinsert' );
-        delete_option( 'ix2_exhibits2wpposts' );
+        delete_option( 'ix2_options' );
     }
 
     /**
@@ -520,61 +520,33 @@ class Ix2_Import extends WP_Importer {
         if ( $step > 0 ) {
             check_admin_referer( 'import-indexhibit2' );
 
+            $options = get_option( 'ix2_options' );
+
             if ( isset( $_POST['ixurl'] ) ) {
-                $ixurl = get_option( 'ix2_url' );
-                if ( isset( $ixurl ) ) {
-                    delete_option( 'ix2_url' );
-                }
-                add_option( 'ix2_url', sanitize_text_field( esc_url( $_POST['ixurl'] ) ) );
+                $options['ix2_url'] = sanitize_text_field( esc_url( $_POST['ixurl'] ) );
             }
             if ( isset( $_POST['dbname'] ) ) {
-                $ixname = get_option( 'ix2_name' );
-                if ( isset( $ixname ) ) {
-                    delete_option( 'ix2_name' );
-                }
-                add_option( 'ix2_name', sanitize_text_field( $_POST['dbname'] ) );
+                $options['ix2_name'] = sanitize_text_field( $_POST['dbname'] );
             }
             if ( isset( $_POST['dbuser'] ) ) {
-                $ixuser = get_option( 'ix2_user' );
-                if ( isset( $ixuser ) ) {
-                    delete_option( 'ix2_user' );
-                }
-                add_option( 'ix2_user', sanitize_text_field( $_POST['dbuser'] ) );
+                $options['ix2_user'] = sanitize_text_field( $_POST['dbuser'] );
             }
             if ( isset( $_POST['dbpass'] ) ) {
-                $ixpass = get_option( 'ix2_pass' );
-                if ( isset( $ixpass ) ) {
-                    delete_option( 'ix2_pass' );
-                }
-                add_option( 'ix2_pass', sanitize_text_field( $_POST['dbpass'] ) );
+                $options['ix2_pass'] = sanitize_text_field( $_POST['dbpass'] );
             }
             if ( isset( $_POST['dbhost'] ) ) {
-                $ixhost = get_option( 'ix2_host' );
-                if ( isset( $ixhost ) ) {
-                    delete_option( 'ix2_host' );
-                }
-                add_option( 'ix2_host', sanitize_text_field( $_POST['dbhost'] ) );
+                $options['ix2_host'] = sanitize_text_field( $_POST['dbhost'] );
             }
             if ( isset( $_POST['dbprefix'] ) ) {
-                $ixdbprefix = get_option( 'ix2_dbprefix' );
-                if ( isset( $ixdbprefix ) ) {
-                    delete_option( 'ix2_dbprefix' );
-                }
-                add_option( 'ix2_dbprefix', sanitize_text_field( $_POST['dbprefix'] ) );
+                $options['ix2_dbprefix'] = sanitize_text_field( $_POST['dbprefix'] );
             }
             if ( isset( $_POST['mdinsert'] ) ) {
-                $mdinsert = get_option( 'ix2_mdinsert' );
-                if ( isset( $mdinsert ) ) {
-                    delete_option( 'ix2_mdinsert' );
-                }
-                add_option( 'ix2_mdinsert', '1' );
+                $options['ix2_mdinsert'] = '1';
             } else {
-                $mdinsert = get_option( 'ix2_mdinsert' );
-                if ( isset( $mdinsert ) ) {
-                    delete_option( 'ix2_mdinsert' );
-                }
-                add_option( 'ix2_mdinsert', '0' );
+                $options['ix2_mdinsert'] = '0';
             }
+
+            update_option( 'ix2_options', $options );
         }
 
         switch ( $step ) {
