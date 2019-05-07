@@ -1,11 +1,11 @@
-=== Indexhibit2 Importer ===
+=== Indexhibit 2 Importer ===
 Contributors: leemon
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=oscarciutat%40gmail%2ecom
 Tags: importer, indexhibit
 Requires at least: 4.0
 Tested up to: 4.9.10
 Requires PHP: 5.6
-Stable tag: trunk
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,21 +25,11 @@ No, it imports exhibits and media files, but ignores links, sections, subsection
 
 = How are exhibits and media files imported into WordPress? =
 Exhibits are imported as pages and media files are imported as attachments which are attached to their corresponding pages.
-If needed, you can convert the imported pages to posts or other post types with a plugin such as Post Type Switcher (https://wordpress.org/plugins/post-type-switcher/)
-
-== Copyright ==
-Indexhibit 2 Importer is distributed under the terms of the GNU GPL
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+If needed, you can convert the imported pages to posts or other post types with a plugin such as [Post Type Switcher](https://wordpress.org/plugins/post-type-switcher/)
 
 == Changelog ==
-= 0.1 =
+= 1.0.1 =
+* Fix small typos
+
+= 1.0 =
 * Initial release
