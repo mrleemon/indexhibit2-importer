@@ -31,14 +31,14 @@ If needed, you can convert the imported pages to posts or other post types with 
 The `config.php` file can be found in the `/ndxzsite/config/` directory
 
 = I like the default theme in Indexhibit 2. Is there anything like it in WordPress? =
-There are similar themes in WordPress. Here are some examples:
-* [Blask]https://wordpress.org/themes/blask/
-* [Cele]https://wordpress.org/themes/cele/
-* [Fukasawa]https://wordpress.org/themes/fukasawa/
-* [Koji]https://wordpress.org/themes/koji/
-* [McLuhan]https://wordpress.org/themes/mcluhan/
-* [Rams]https://wordpress.org/themes/rams/
-* [Soho Lite]https://wordpress.org/themes/soho-lite/
+There are similar themes available in the WordPress [theme repository](https://wordpress.org/themes/). Here are some examples:
+* [Blask](https://wordpress.org/themes/blask/)
+* [Cele](https://wordpress.org/themes/cele/)
+* [Fukasawa](https://wordpress.org/themes/fukasawa/)
+* [Koji](https://wordpress.org/themes/koji/)
+* [McLuhan](https://wordpress.org/themes/mcluhan/)
+* [Rams](https://wordpress.org/themes/rams/)
+* [Soho Lite](https://wordpress.org/themes/soho-lite/)
 
 == Screenshots ==
 1. Import exhibits
