@@ -3,7 +3,7 @@
   Plugin Name: Indexhibit 2 Importer
   Plugin URI: http://wordpress.org/plugins/indexhibit2-importer/
   Description: Import exhibits and media files from an Indexhibit 2 site.
-  Version: 1.0.2
+  Version: 1.0.3
   Author: leemon
   Text Domain: indexhibit2-importer
   License: GPLv2 or later
@@ -88,13 +88,16 @@ class Ix2_Import extends WP_Importer {
         <table class="form-table">
         <tr>
             <th scope="row"><label for="ixurl"><?php _e( 'Indexhibit 2 Site Address', 'indexhibit2-importer' ); ?></label></th>
-            <td><input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" /></td>
+            <td>
+            <input type="url" name="ixurl" id="ixurl" class="regular-text" required placeholder="http://" />
+            <p class="description" id="ixurl-description"><?php _e( "The URL where your Indexhibit 2 site is installed", 'indexhibit2-importer' ); ?></p>
+            </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbname"><?php _e( 'Indexhibit 2 Database Name', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbname" id="dbname" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit2-importer' ); ?></p>
+            <p class="description" id="dbname-description"><?php _e( "The <code>&dollar;indx['db']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
@@ -108,21 +111,21 @@ class Ix2_Import extends WP_Importer {
             <th scope="row"><label for="dbpass"><?php _e( 'Indexhibit 2 Database Password', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="password" name="dbpass" id="dbpass" class="regular-text" required />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit2-importer' ); ?></p>
+            <p class="description" id="dbpass-description"><?php _e( "The <code>&dollar;indx['pass']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbhost"><?php _e( 'Indexhibit 2 Database Host', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbhost" id="dbhost" class="regular-text" required placeholder="localhost" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit2-importer' ); ?></p>
+            <p class="description" id="dbhost-description"><?php _e( "The <code>&dollar;indx['host']</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit2-importer' ); ?></label></th>
             <td>
             <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
-            <p class="description" id="dbuser-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
+            <p class="description" id="dbprefix-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
         </table>

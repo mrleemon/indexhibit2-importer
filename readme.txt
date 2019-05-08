@@ -5,7 +5,7 @@ Tags: importer, indexhibit
 Requires at least: 4.0
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,11 +27,17 @@ No, it imports exhibits and media files, but ignores links, sections, subsection
 Exhibits are imported as pages and media files are imported as attachments which are attached to their corresponding pages.
 If needed, you can convert the imported pages to posts or other post types with a plugin such as [Post Type Switcher](https://wordpress.org/plugins/post-type-switcher/)
 
+= Where can I find my Indexhibit 2 site settings file? =
+The `config.php` file can be found in the `/ndxzsite/config/` directory
+
 == Screenshots ==
 1. Import exhibits
 2. Import media files
 
 == Changelog ==
+= 1.0.3 =
+* Fix typos in database settings form
+
 = 1.0.2 =
 * Consolidate plugin options into one array
 
