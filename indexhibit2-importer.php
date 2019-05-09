@@ -3,7 +3,7 @@
   Plugin Name: Indexhibit 2 Importer
   Plugin URI: http://wordpress.org/plugins/indexhibit2-importer/
   Description: Import exhibits and media files from an Indexhibit 2 site.
-  Version: 1.0.3
+  Version: 1.0.4
   Author: leemon
   Text Domain: indexhibit2-importer
   License: GPLv2 or later
@@ -231,8 +231,6 @@ class Ix2_Import extends WP_Importer {
         if ( is_array( $exhibits ) ) {
             echo '<p>' . __( 'Importing exhibits...', 'indexhibit2-importer' ) . '</p>';
             foreach ( $exhibits as $exhibit ) {
-                $count++;
-
                 $post_author = get_current_user_id();
                 $post_title = $exhibit['title'];
                 $post_content = $exhibit['content'];
@@ -289,12 +287,15 @@ class Ix2_Import extends WP_Importer {
                     }
                     add_post_meta( $ret_id, 'ix2_exhibit_format', $post_format );
                 }
+
                 // Set front page
                 if ( !empty( $post_home ) ) {
                     update_option( 'page_on_front', $ret_id );
                     update_option( 'show_on_front', 'page' );
                 }
+
                 $ixexhibits2wpposts[$exhibit['id']] = $ret_id;
+                $count++;
             }
         }
 
@@ -409,7 +410,7 @@ class Ix2_Import extends WP_Importer {
         );
         if ( $imported ) {
             foreach ( $imported as $attachment ) {
-                if ( basename( $url ) == basename( $attachment->guid ) ) {
+                if ( sanitize_file_name( basename( $url ) ) == basename( $attachment->guid ) ) {
                     if ( $post['post_date_gmt'] == $attachment->post_date_gmt ) {
                         $remote_response = wp_safe_remote_get( $url );
                         $headers = wp_remote_retrieve_headers( $remote_response );

@@ -5,7 +5,7 @@ Tags: importer, indexhibit
 Requires at least: 4.0
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,7 @@ The `config.php` file can be found in the `/ndxzsite/config/` directory
 
 = I like the default theme in Indexhibit 2. Is there anything like it in WordPress? =
 There are similar themes available in the WordPress [theme repository](https://wordpress.org/themes/). Here are some examples:
+
 * [Blask](https://wordpress.org/themes/blask/)
 * [Cele](https://wordpress.org/themes/cele/)
 * [Fukasawa](https://wordpress.org/themes/fukasawa/)
@@ -45,6 +46,9 @@ There are similar themes available in the WordPress [theme repository](https://w
 2. Import media files
 
 == Changelog ==
+= 1.0.4 =
+* Sanitize filename in the file duplication check function
+
 = 1.0.3 =
 * Fix typos in database settings form
 
