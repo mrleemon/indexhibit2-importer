@@ -5,7 +5,7 @@ Tags: importer, indexhibit
 Requires at least: 4.0
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,11 @@ There are similar themes available in the WordPress [theme repository](https://w
 2. Import media files
 
 == Changelog ==
+= 1.0.5 =
+* Ignore content in page check function
+* Change database prefix placeholder text
+* Improve code comments
+
 = 1.0.4 =
 * Sanitize filename in the file duplication check function
 

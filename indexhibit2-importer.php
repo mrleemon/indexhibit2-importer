@@ -3,7 +3,7 @@
   Plugin Name: Indexhibit 2 Importer
   Plugin URI: http://wordpress.org/plugins/indexhibit2-importer/
   Description: Import exhibits and media files from an Indexhibit 2 site.
-  Version: 1.0.4
+  Version: 1.0.5
   Author: leemon
   Text Domain: indexhibit2-importer
   License: GPLv2 or later
@@ -42,7 +42,8 @@ class Ix2_Import extends WP_Importer {
     public function __construct() {}
 
     /**
-     * header
+     * Display header
+     * 
      */
     public function header() {
     ?>
@@ -52,7 +53,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * footer
+     * Display footer
+     * 
      */
     public function footer() {
     ?>
@@ -61,7 +63,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * greet
+     * Display introductory text and Indexhibit 2 settings form
+     * 
      */
     public function greet() {
     ?>
@@ -81,7 +84,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * db_form
+     * Display Indexhibit 2 settings form
+     * 
      */
     public function db_form() {
     ?>
@@ -124,7 +128,7 @@ class Ix2_Import extends WP_Importer {
         <tr>
             <th scope="row"><label for="dbprefix"><?php _e( 'Indexhibit 2 Table Prefix', 'indexhibit2-importer' ); ?></label></th>
             <td>
-            <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ix_" />
+            <input type="text" name="dbprefix" id="dbprefix" class="regular-text" required placeholder="ndxz_" />
             <p class="description" id="dbprefix-description"><?php _e( "The <code>xxxx</code> value in <code>define('PX', 'xxxx')</code> value", 'indexhibit2-importer' ); ?></p>
             </td>
         </tr>
@@ -133,7 +137,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * init_ix2db
+     * Setup connection to Indexhibit 2 database
+     * 
      */
     public function init_ix2db() {
         $options = get_option( 'ix2_options' );
@@ -146,7 +151,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * get_ix2_exhibits
+     * Get exhibits from Indexhibit 2 database
+     * 
      */
     public function get_ix2_exhibits() {
         $options = get_option( 'ix2_options' );
@@ -155,7 +161,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * get_ix2_media
+     * Get media files from Indexhibit 2 database
+     * 
      */
     public function get_ix2_media( $post_id ) {
         $options = get_option( 'ix2_options' );
@@ -166,7 +173,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * import_exhibits
+     * Import exhibits
+     * 
      */
     public function import_exhibits() {
         // Import exhibits
@@ -193,7 +201,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * import_media
+     * Import media files
+     * 
      */
     public function import_media() {
         $options = get_option( 'ix2_options' );
@@ -221,7 +230,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * exhibits2wp
+     * Perform import of exhibits
+     * 
      */
     public function exhibits2wp( $exhibits = '' ) {
         $options = get_option( 'ix2_options' );
@@ -248,8 +258,8 @@ class Ix2_Import extends WP_Importer {
 
                 $ret_id = 0;
 
-                // Import exhibit data into WordPress
-                if ( $pinfo = post_exists( $post_title, $post_content, $post_date ) ) {
+                // Check if the exhibit is already imported
+                if ( $pinfo = post_exists( $post_title, '', $post_date ) ) {
                     $ret_id = wp_insert_post( array(
                             'ID'                => $pinfo,
                             'post_author'       => $post_author,
@@ -308,7 +318,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * media2wp
+     * Perform import of media files
+     * 
      */
     public function media2wp( $files = '', $post_id ) {
         $count = 0;
@@ -327,7 +338,8 @@ class Ix2_Import extends WP_Importer {
     }
     
     /**
-     * process_attachment
+     * Create new attachments based on import information
+     * 
      */
     public function process_attachment( $file, $parent ) {
         $options = get_option( 'ix2_options' );
@@ -397,7 +409,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * pre_process_attachment
+     * Check if attachment already exist
+     * 
      */
     public function pre_process_attachment( $post, $url ) {
         global $wpdb;
@@ -425,7 +438,8 @@ class Ix2_Import extends WP_Importer {
     }
     
     /**
-     * fetch_remote_file
+     * Attempt to download a remote file attachment
+     * 
      */
     public function fetch_remote_file( $url, $post ) {
         // Extract the file name and extension from the url
@@ -468,14 +482,14 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * insert_attachments
+     * Insert attachments into posts content
+     * 
      */
     public function insert_attachments( $post_id ) {
         $attachments = get_attached_media( 'image', $post_id );
         if ( $attachments ) {
             $post = get_post( $post_id );
             $content = $post->post_content;
-            // Insert attachments into the post content
             foreach ( $attachments as $attachment ) {
                 $content .= wp_get_attachment_image( $attachment->ID, 'full' );
             }
@@ -483,20 +497,22 @@ class Ix2_Import extends WP_Importer {
                 'ID'           => $post_id,
                 'post_content' => $content,
             );
-            // Update the post into the database
+            // Update post
             wp_update_post( $updated_post );
         }
     }
 
     /**
-     * clean_options
+     * Perform cleanup of plugin options
+     * 
      */
     public function clean_options() {
         delete_option( 'ix2_options' );
     }
 
     /**
-     * tips
+     * Display post-import information
+     * 
      */
     public function tips() {
     ?>
@@ -515,7 +531,8 @@ class Ix2_Import extends WP_Importer {
     }
 
     /**
-     * dispatch
+     * Registered callback function for the importer
+     * 
      */
     public function dispatch() {
         $this->header();
@@ -605,7 +622,8 @@ class Ix2_Import extends WP_Importer {
 }
 
 /**
- * ix2_importer_init
+ * Register importer
+ * 
  */
 function ix2_importer_init() {
     load_plugin_textdomain( 'indexhibit2-importer' );
