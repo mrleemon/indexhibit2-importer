@@ -3,13 +3,12 @@
  * Plugin Name: Indexhibit 2 Importer
  * Plugin URI: http://wordpress.org/plugins/indexhibit2-importer/
  * Description: Import exhibits and media files from an Indexhibit 2 site.
- * Version: 1.0.5
+ * Version: 1.0.7
  * Author: leemon
  * Text Domain: indexhibit2-importer
  * License: GPLv2 or later
  *
- * @package WordPress
- * @subpackage Importer
+ * @package indexhibit2-importer
  */
 
 if ( ! defined( 'WP_LOAD_IMPORTERS' ) ) {
@@ -26,19 +25,23 @@ if ( ! class_exists( 'WP_Importer' ) ) {
 	}
 }
 
+/**
+ * Indexhibit 2 Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 if ( class_exists( 'WP_Importer' ) ) {
 
 	/**
-	 * Core class used to implement the importer.
-	 *
-	 * @see WP_Importer
+	 * Core class used to implement the plugin.
 	 */
 	class Ix2_Import extends WP_Importer {
 
 		/**
-		 * Holds the Indexhibit 2 database.
+		 * Database connection.
 		 *
-		 * @var string $ix2db
+		 * @var object $ix2db
 		 */
 		public $ix2db;
 
@@ -162,8 +165,6 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 		/**
 		 * Get media files from Indexhibit 2 database
-		 *
-		 * @param integer $post_id  The post ID.
 		 */
 		public function get_ix2_media( $post_id ) {
 			$options  = get_option( 'ix2_options' );
@@ -231,8 +232,6 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 		/**
 		 * Perform import of exhibits
-		 *
-		 * @param array $exhibits  An array of exhibit objects.
 		 */
 		public function exhibits2wp( $exhibits = '' ) {
 			$options            = get_option( 'ix2_options' );
@@ -310,7 +309,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 					}
 
 					$ixexhibits2wpposts[ $exhibit['id'] ] = $ret_id;
-					$count++;
+					++$count;
 				}
 			}
 
@@ -324,9 +323,6 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 		/**
 		 * Perform import of media files
-		 *
-		 * @param array   $files    An array of media files.
-		 * @param integer $post_id  The post ID.
 		 */
 		public function media2wp( $files = '', $post_id ) {
 			$count = 0;
@@ -334,20 +330,19 @@ if ( class_exists( 'WP_Importer' ) ) {
 			if ( is_array( $files ) ) {
 				echo '<p>' . sprintf( __( 'Importing media files from exhibit "%1$s"...', 'indexhibit2-importer' ), get_the_title( $post_id ) ) . '</p>';
 				foreach ( $files as $file ) {
-					$count++;
+					++$count;
 					$process = $this->process_attachment( $file, $post_id );
 				}
 			}
 
 			echo '<p>' . sprintf( __( 'Done! <strong>%1$s</strong> media files imported.', 'indexhibit2-importer' ), $count ) . '<br /><br /></p>';
 			return true;
-
 		}
 
 		/**
 		 * Create new attachments based on import information
 		 */
-		public function process_attachment( $file, $parent ) {
+		public function process_attachment( $file, $parent_post ) {
 			$options = get_option( 'ix2_options' );
 			$ixurl   = $options['ix2_url'];
 
@@ -360,7 +355,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 				'post_date'     => $file['media_udate'],
 				'post_date_gmt' => $file['media_udate'],
 				'menu_order'    => $file['media_order'],
-				'post_parent'   => $parent,
+				'post_parent'   => $parent_post,
 			);
 
 			$media_url = trailingslashit( $ixurl ) . 'files/gimgs/' . $media_file;
@@ -404,7 +399,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			}
 			$post['guid']        = $upload['url'];
 			$post['post_author'] = get_current_user_id();
-			// As per wp-admin/includes/upload.php
+			// As per wp-admin/includes/upload.php.
 			$post_id = wp_insert_attachment( $post, $upload['file'] );
 			wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
 			return array(
@@ -445,9 +440,6 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 		/**
 		 * Attempt to download a remote file attachment
-		 *
-		 * @param string  $url   The remote file URL.
-		 * @param WP_Post $post  The post object.
 		 */
 		public function fetch_remote_file( $url, $post ) {
 			// Extract the file name and extension from the url.
@@ -475,12 +467,12 @@ if ( class_exists( 'WP_Importer' ) ) {
 			}
 			// Make sure the fetch was successful.
 			$remote_response_code = wp_remote_retrieve_response_code( $remote_response );
-			if ( $remote_response_code != '200' ) {
+			if ( '200' != $remote_response_code ) {
 				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', sprintf( __( 'Remote server returned error response %1$d %2$s', 'indexhibit2-importer' ), esc_html( $remote_response_code ), get_status_header_desc( $remote_response_code ) ) );
 			}
 			$filesize = filesize( $upload['file'] );
-			if ( isset( $headers['content-length'] ) && $filesize !== $headers['content-length'] ) {
+			if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {
 				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', __( 'Remote file is incorrect size', 'indexhibit2-importer' ) );
 			}
@@ -493,8 +485,6 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 		/**
 		 * Insert attachments into posts content
-		 *
-		 * @param integer $post_id  The post ID.
 		 */
 		public function insert_attachments( $post_id ) {
 			$attachments = get_attached_media( 'image', $post_id );
@@ -502,7 +492,12 @@ if ( class_exists( 'WP_Importer' ) ) {
 				$post    = get_post( $post_id );
 				$content = $post->post_content;
 				foreach ( $attachments as $attachment ) {
-					$content .= wp_get_attachment_image( $attachment->ID, 'full' );
+					$content .= wp_get_attachment_image(
+						$attachment->ID,
+						'full',
+						false,
+						array( 'class' => 'attachment-full size-full ' . sprintf( 'wp-image-%d', $attachment->ID ) )
+					);
 				}
 				$updated_post = array(
 					'ID'           => $post_id,

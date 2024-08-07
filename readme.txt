@@ -3,9 +3,9 @@ Contributors: leemon
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=oscarciutat%40gmail%2ecom
 Tags: importer, indexhibit
 Requires at least: 4.0
-Tested up to: 5.2
+Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 1.0.5
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,14 @@ There are similar themes available in the WordPress [theme repository](https://w
 2. Import media files
 
 == Changelog ==
+= 1.0.7 =
+* Revert a couple of strict comparisons as they prevented files from being uploaded
+* Fix var name
+
+= 1.0.6 =
+* Add "wp-image-#" class to inserted images
+* Small fixes
+
 = 1.0.5 =
 * Ignore content in page check function
 * Change database prefix placeholder text
